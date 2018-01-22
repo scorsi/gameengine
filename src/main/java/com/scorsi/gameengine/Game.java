@@ -6,6 +6,7 @@ public class Game {
 
     private Mesh mesh;
     private ShaderProgram shaderProgram;
+    private Transform transform;
 
     public Game() {
         mesh = new Mesh();
@@ -14,10 +15,11 @@ public class Game {
                 new Vertex(new Vector3f(1f, -1f, 0f))};
         mesh.addVertices(data);
 
+        transform = new Transform();
+
         shaderProgram = new ShaderProgram();
         shaderProgram.attachShader(Shader.loadVertexShader("basicVertex.vert"));
         shaderProgram.attachShader(Shader.loadFragmentShader("basicVertex.frag"));
-        shaderProgram.bindFragmentDataLocation(0, "fragColor");
         shaderProgram.link();
         shaderProgram.use();
     }
@@ -29,11 +31,17 @@ public class Game {
 
     public void update() {
         tmp += Time.getDelta();
-        shaderProgram.setUniform("uniformFloat", (float) Math.abs(Math.sin(tmp)));
+
+        float sinTmp = (float) Math.sin(tmp);
+
+        transform.setTranslation(sinTmp, 0, 0);
+        transform.setRotation(0, 0, sinTmp * 180);
+        transform.setScale(sinTmp, sinTmp, sinTmp);
     }
 
     public void render() {
         shaderProgram.use();
+        shaderProgram.setUniform("transform", transform.getTransformation());
         mesh.draw();
     }
 

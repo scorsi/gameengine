@@ -18,7 +18,6 @@ public class Matrix4f {
      * Creates a 4x4 identity matrix.
      */
     public Matrix4f() {
-        setIdentity();
     }
 
     /**
@@ -54,24 +53,65 @@ public class Matrix4f {
     /**
      * Sets this matrix to the identity matrix.
      */
-    public final void setIdentity() {
-        m00 = 1f;
-        m11 = 1f;
-        m22 = 1f;
-        m33 = 1f;
+    public final Matrix4f initIdentity() {
+        m00 = 1f;   m01 = 0f;   m02 = 0f;   m03 = 0f;
+        m10 = 0f;   m11 = 1f;   m12 = 0f;   m13 = 0f;
+        m20 = 0f;   m21 = 0f;   m22 = 1f;   m23 = 0f;
+        m30 = 0f;   m31 = 0f;   m32 = 0f;   m33 = 1f;
 
-        m01 = 0f;
-        m02 = 0f;
-        m03 = 0f;
-        m10 = 0f;
-        m12 = 0f;
-        m13 = 0f;
-        m20 = 0f;
-        m21 = 0f;
-        m23 = 0f;
-        m30 = 0f;
-        m31 = 0f;
-        m32 = 0f;
+        return this;
+    }
+
+    public final Matrix4f initTranslation(float x, float y, float z) {
+        m00 = 1f;   m01 = 0f;   m02 = 0f;   m03 = x;
+        m10 = 0f;   m11 = 1f;   m12 = 0f;   m13 = y;
+        m20 = 0f;   m21 = 0f;   m22 = 1f;   m23 = z;
+        m30 = 0f;   m31 = 0f;   m32 = 0f;   m33 = 1f;
+
+        return this;
+    }
+
+    public final Matrix4f initRotation(float x, float y, float z) {
+        Matrix4f rx = new Matrix4f();
+        Matrix4f ry = new Matrix4f();
+        Matrix4f rz = new Matrix4f();
+
+        x = (float) Math.toRadians(x);
+        y = (float) Math.toRadians(y);
+        z = (float) Math.toRadians(z);
+
+        rz.m00 = (float) Math.cos(z);   rz.m01 = (float) -Math.sin(z);  rz.m02 = 0f;                    rz.m03 = 0f;
+        rz.m10 = (float) Math.sin(z);   rz.m11 = (float) Math.cos(z);   rz.m12 = 0f;                    rz.m13 = 0f;
+        rz.m20 = 0f;                    rz.m21 = 0f;                    rz.m22 = 1f;                    rz.m23 = 0f;
+        rz.m30 = 0f;                    rz.m31 = 0f;                    rz.m32 = 0f;                    rz.m33 = 1f;
+
+        rx.m00 = 1f;                    rx.m01 = 0f;                    rx.m02 = 0f;                    rx.m03 = 0f;
+        rx.m10 = 0f;                    rx.m11 = (float) Math.cos(x);   rx.m12 = (float) -Math.sin(x);  rx.m13 = 0f;
+        rx.m20 = 0f;                    rx.m21 = (float) Math.sin(x);   rx.m22 = (float) Math.cos(x);   rx.m23 = 0f;
+        rx.m30 = 0f;                    rx.m31 = 0f;                    rx.m32 = 0f;                    rx.m33 = 1f;
+
+        ry.m00 = (float) Math.cos(y);   ry.m01 = 0f;                    ry.m02 = (float) -Math.sin(y);  ry.m03 = 0f;
+        ry.m10 = 0f;                    ry.m11 = 1f;                    ry.m12 = 0f;                    ry.m13 = 0f;
+        ry.m20 = (float) Math.sin(y);   ry.m21 = 0f;                    ry.m22 = (float) Math.cos(y);   ry.m23 = 0f;
+        ry.m30 = 0f;                    ry.m31 = 0f;                    ry.m32 = 0f;                    ry.m33 = 1f;
+
+        Matrix4f res = rz.multiply(ry.multiply(rx));
+
+        m00 = res.m00;  m01 = res.m01;  m02 = res.m02;  m03 = res.m03;
+        m10 = res.m10;  m11 = res.m11;  m12 = res.m12;  m13 = res.m13;
+        m20 = res.m20;  m21 = res.m21;  m22 = res.m22;  m23 = res.m23;
+        m30 = res.m30;  m31 = res.m31;  m32 = res.m32;  m33 = res.m33;
+
+        return this;
+    }
+
+    public final Matrix4f initScale(float x, float y, float z) {
+        m00 = x;    m01 = 0f;   m02 = 0f;   m03 = 0f;
+        m10 = 0f;   m11 = y;    m12 = 0f;   m13 = 0f;
+        m20 = 0f;   m21 = 0f;   m22 = z;    m23 = 0f;
+        m30 = 0f;   m31 = 0f;   m32 = 0f;   m33 = 1f;
+
+        return this;
     }
 
     /**
