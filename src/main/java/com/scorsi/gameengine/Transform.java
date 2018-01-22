@@ -12,7 +12,7 @@ public class Transform {
     public Transform() {
         translation = new Vector3f();
         rotation = new Vector3f();
-        scale = new Vector3f();
+        scale = new Vector3f(1f, 1f, 1f);
     }
 
     public Matrix4f getTransformation() {

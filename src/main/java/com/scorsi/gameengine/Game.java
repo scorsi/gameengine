@@ -10,10 +10,19 @@ public class Game {
 
     public Game() {
         mesh = new Mesh();
-        Vertex[] data = new Vertex[]{new Vertex(new Vector3f(-1f, -1f, 0f)),
+
+        Vertex[] vertices = new Vertex[]{new Vertex(new Vector3f(-1f, -1f, 0f)),
                 new Vertex(new Vector3f(0f, 1f, 0f)),
-                new Vertex(new Vector3f(1f, -1f, 0f))};
-        mesh.addVertices(data);
+                new Vertex(new Vector3f(1f, -1f, 0f)),
+                new Vertex(new Vector3f(0f, -1f, 1f))};
+
+        int[] indices = new int[]{
+                0, 1, 3,
+                3, 1, 2,
+                2, 1, 0,
+                0, 2, 3};
+
+        mesh.addVertices(vertices, indices);
 
         transform = new Transform();
 
@@ -34,9 +43,9 @@ public class Game {
 
         float sinTmp = (float) Math.sin(tmp);
 
-        transform.setTranslation(sinTmp, 0, 0);
-        transform.setRotation(0, 0, sinTmp * 180);
-        transform.setScale(sinTmp, sinTmp, sinTmp);
+        //transform.setTranslation(sinTmp, 0, 0);
+        transform.setRotation(0, sinTmp * 180, 0);
+        //transform.setScale(sinTmp, sinTmp, sinTmp);
     }
 
     public void render() {
