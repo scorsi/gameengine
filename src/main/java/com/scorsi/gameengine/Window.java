@@ -51,20 +51,6 @@ public class Window {
 
         /* Reset and set window hints */
         glfwDefaultWindowHints();
-        if (caps.OpenGL32) {
-            /* Hints for OpenGL 3.2 core profile */
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-            glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
-        } else if (caps.OpenGL21) {
-            /* Hints for legacy OpenGL 2.1 */
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-        } else {
-            throw new RuntimeException("Neither OpenGL 3.2 nor OpenGL 2.1 is "
-                    + "supported, you may want to update your graphics driver.");
-        }
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
         /* Create window with specified OpenGL context */

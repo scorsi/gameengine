@@ -1,6 +1,6 @@
 package com.scorsi.gameengine;
 
-import com.scorsi.gameengine.utils.Vector2f;
+import com.scorsi.gameengine.math.Vector2f;
 import org.lwjgl.BufferUtils;
 
 import java.nio.DoubleBuffer;

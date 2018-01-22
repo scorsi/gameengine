@@ -18,8 +18,11 @@ public class MainComponent {
 
     public MainComponent() {
         window = new Window(WIDTH, HEIGHT, TITLE, true);
+        RenderUtil.initGraphics();
         game = new Game();
         input = new Input(window.id);
+
+        System.out.println(RenderUtil.getOpenGLVersion());
     }
 
     public void start() {
@@ -43,7 +46,7 @@ public class MainComponent {
         double unprocessedTime = 0;
 
         while (isRunning) {
-            boolean render = false;
+            boolean doRender = false;
 
             long startTime = Time.getTime();
             long passedTime = startTime - lastTime;
@@ -53,7 +56,7 @@ public class MainComponent {
             frameCounter += passedTime;
 
             while (unprocessedTime > frameTime) {
-                render = true;
+                doRender = true;
                 unprocessedTime -= frameTime;
 
                 Time.setDelta(frameTime);
@@ -69,8 +72,7 @@ public class MainComponent {
                 }
             }
 
-            if (render) {
-                game.render();
+            if (doRender) {
                 render();
                 ++frames;
             } else {
@@ -92,6 +94,8 @@ public class MainComponent {
     }
 
     private void render() {
+        RenderUtil.clear();
+        game.render();
         window.update();
     }
 
