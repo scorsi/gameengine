@@ -18,6 +18,8 @@ class Game {
         mesh = new Mesh()
         material = new Material(Texture.loadTexture("test.png"), new Vector3f(1f, 1f, 1f))
         camera = new Camera()
+        transform = new Transform()
+
         camera.position.z = -2
 
         Vertex[] vertices = [new Vertex(new Vector3f(-1, -1, 0), new Vector2f(0, 0)),
@@ -32,15 +34,14 @@ class Game {
 
         mesh.addVertices(vertices, indices)
 
-        transform = new Transform()
-        transform.setCamera(camera)
+        transform.camera = camera
         Transform.setProjection(70f, (float) MainComponent.WIDTH, (float) MainComponent.HEIGHT, 0.1f, 1000f)
 
         shaderProgram = new ShaderProgram()
-        shaderProgram.attachShader(Shader.loadVertexShader("basicVertex.vert"))
-        shaderProgram.attachShader(Shader.loadFragmentShader("basicVertex.frag"))
-        shaderProgram.link()
-        shaderProgram.use()
+                .attachShader(Shader.loadVertexShader("phongVertex.vert"))
+                .attachShader(Shader.loadFragmentShader("phongVertex.frag"))
+                .link()
+                .use()
     }
 
     void input(Input input) {
@@ -78,8 +79,9 @@ class Game {
 
     void render() {
         shaderProgram.use()
-        shaderProgram.setUniform("transform", transform.getProjectedTransformation())
-        shaderProgram.setUniform("color", material.color)
+                .setUniform("transform", transform.getProjectedTransformation())
+                .setUniform("baseColor", material.color)
+                .setUniform("ambientLight", new Vector3f(0.1f, 0.1f, 0.1f))
         material.bind()
         mesh.draw()
     }

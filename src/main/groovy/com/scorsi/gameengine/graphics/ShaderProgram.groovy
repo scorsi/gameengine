@@ -49,9 +49,10 @@ class ShaderProgram {
      *
      * @param shader Shader to get attached
      */
-    void attachShader(Shader shader) {
+    ShaderProgram attachShader(Shader shader) {
         glAttachShader(id, shader.getID())
         shaders.add(shader)
+        return this
     }
 
     /**
@@ -67,10 +68,11 @@ class ShaderProgram {
     /**
      * Link this program and check it's status afterwards.
      */
-    void link() {
+    ShaderProgram link() {
         glLinkProgram(id)
 
         checkStatus()
+        return this
     }
 
     /**
@@ -137,13 +139,14 @@ class ShaderProgram {
      * @param location Uniform location
      * @param value Value to set
      */
-    void setUniform(String location, int value) {
+    ShaderProgram setUniform(String location, int value) {
         if (uniforms.containsKey(location))
             glUniform1i(uniforms.get(location), value)
         else {
             addUniformLocation(location)
             glUniform1i(uniforms.get(location), value)
         }
+        return this
     }
 
     /**
@@ -152,13 +155,14 @@ class ShaderProgram {
      * @param location Uniform location
      * @param value Value to set
      */
-    void setUniform(String location, float value) {
+    ShaderProgram setUniform(String location, float value) {
         if (uniforms.containsKey(location))
             glUniform1f(uniforms.get(location), value)
         else {
             addUniformLocation(location)
             glUniform1f(uniforms.get(location), value)
         }
+        return this
     }
 
     /**
@@ -167,7 +171,7 @@ class ShaderProgram {
      * @param location Uniform location
      * @param value Value to set
      */
-    void setUniform(String location, Vector2f value) {
+    ShaderProgram setUniform(String location, Vector2f value) {
         MemoryStack.stackPush().withCloseable { stack ->
             FloatBuffer buffer = stack.mallocFloat(2)
             value.toBuffer(buffer)
@@ -179,6 +183,7 @@ class ShaderProgram {
                 glUniform2fv(uniforms.get(location), buffer)
             }
         }
+        return this
     }
 
     /**
@@ -187,7 +192,7 @@ class ShaderProgram {
      * @param location Uniform location
      * @param value Value to set
      */
-    void setUniform(String location, Vector3f value) {
+    ShaderProgram setUniform(String location, Vector3f value) {
         MemoryStack.stackPush().withCloseable { stack ->
             FloatBuffer buffer = stack.mallocFloat(3)
             value.toBuffer(buffer)
@@ -199,6 +204,7 @@ class ShaderProgram {
                 glUniform3fv(uniforms.get(location), buffer)
             }
         }
+        return this
     }
 
     /**
@@ -207,7 +213,7 @@ class ShaderProgram {
      * @param location Uniform location
      * @param value Value to set
      */
-    void setUniform(String location, Vector4f value) {
+    ShaderProgram setUniform(String location, Vector4f value) {
         MemoryStack.stackPush().withCloseable { stack ->
             FloatBuffer buffer = stack.mallocFloat(4)
             value.toBuffer(buffer)
@@ -219,6 +225,7 @@ class ShaderProgram {
                 glUniform4fv(uniforms.get(location), buffer)
             }
         }
+        return this
     }
 
     /**
@@ -227,7 +234,7 @@ class ShaderProgram {
      * @param location Uniform location
      * @param value Value to set
      */
-    void setUniform(String location, Matrix2f value) {
+    ShaderProgram setUniform(String location, Matrix2f value) {
         MemoryStack.stackPush().withCloseable { stack ->
             FloatBuffer buffer = stack.mallocFloat(2 * 2)
             value.toBuffer(buffer)
@@ -239,6 +246,7 @@ class ShaderProgram {
                 glUniformMatrix2fv(uniforms.get(location), false, buffer)
             }
         }
+        return this;
     }
 
     /**
@@ -247,7 +255,7 @@ class ShaderProgram {
      * @param location Uniform location
      * @param value Value to set
      */
-    void setUniform(String location, Matrix3f value) {
+    ShaderProgram setUniform(String location, Matrix3f value) {
         MemoryStack.stackPush().withCloseable { stack ->
             FloatBuffer buffer = stack.mallocFloat(3 * 3)
             value.toBuffer(buffer)
@@ -259,6 +267,7 @@ class ShaderProgram {
                 glUniformMatrix3fv(uniforms.get(location), false, buffer)
             }
         }
+        return this
     }
 
     /**
@@ -267,7 +276,7 @@ class ShaderProgram {
      * @param location Uniform location
      * @param value Value to set
      */
-    void setUniform(String location, Matrix4f value) {
+    ShaderProgram setUniform(String location, Matrix4f value) {
         MemoryStack.stackPush().withCloseable { stack ->
             FloatBuffer buffer = stack.mallocFloat(4 * 4)
             value.toBuffer(buffer)
@@ -279,13 +288,15 @@ class ShaderProgram {
                 glUniformMatrix4fv(uniforms.get(location), false, buffer)
             }
         }
+        return this
     }
 
     /**
      * Use this shader program.
      */
-    void use() {
+    ShaderProgram use() {
         glUseProgram(id)
+        return this
     }
 
     /**
