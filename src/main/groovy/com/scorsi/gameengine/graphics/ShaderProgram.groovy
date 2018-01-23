@@ -1,5 +1,7 @@
 package com.scorsi.gameengine.graphics
 
+import com.scorsi.gameengine.graphics.lights.BaseLight
+import com.scorsi.gameengine.graphics.lights.DirectionalLight
 import com.scorsi.gameengine.math.*
 import groovy.transform.CompileStatic
 import org.lwjgl.system.MemoryStack
@@ -118,12 +120,12 @@ class ShaderProgram {
     }
 
     /**
-     * Gets the location of an uniform variable with specified name.
+     * Add an uniform location.
      *
      * @param name Uniform name
      * @return Location of the uniform
      */
-    void addUniformLocation(String name) {
+    ShaderProgram addUniform(String name) {
         int uniformLocation = glGetUniformLocation(id, name)
         if (uniformLocation == 0xFFFFFFFF) {
             System.err.println("Error: Could not find uniform: " + name)
@@ -131,6 +133,40 @@ class ShaderProgram {
             System.exit(1)
         }
         uniforms.put(name, uniformLocation)
+        return this
+    }
+
+    /**
+     * Add multiples uniforms locations.
+     *
+     * @param name Uniform name
+     * @return Location of the uniform
+     */
+    ShaderProgram addUniform(String... names) {
+        names.each { addUniform(it) }
+        return this
+    }
+
+    /**
+     * Add an uniform location based on DirectionalLight.
+     *
+     * @param name Uniform name
+     * @return Location of the uniform
+     */
+    ShaderProgram addBaseLigthUniform(String name) {
+        return addUniform(name + ".color")
+                .addUniform(name + ".intensity")
+    }
+
+    /**
+     * Add an uniform location based on DirectionalLight.
+     *
+     * @param name Uniform name
+     * @return Location of the uniform
+     */
+    ShaderProgram addDirectionalLigthUniform(String name) {
+        return addBaseLigthUniform(name + ".base")
+                .addUniform(name + ".direction")
     }
 
     /**
@@ -140,12 +176,7 @@ class ShaderProgram {
      * @param value Value to set
      */
     ShaderProgram setUniform(String location, int value) {
-        if (uniforms.containsKey(location))
-            glUniform1i(uniforms.get(location), value)
-        else {
-            addUniformLocation(location)
-            glUniform1i(uniforms.get(location), value)
-        }
+        glUniform1i(uniforms[location], value)
         return this
     }
 
@@ -156,12 +187,7 @@ class ShaderProgram {
      * @param value Value to set
      */
     ShaderProgram setUniform(String location, float value) {
-        if (uniforms.containsKey(location))
-            glUniform1f(uniforms.get(location), value)
-        else {
-            addUniformLocation(location)
-            glUniform1f(uniforms.get(location), value)
-        }
+        glUniform1f(uniforms[location], value)
         return this
     }
 
@@ -176,12 +202,7 @@ class ShaderProgram {
             FloatBuffer buffer = stack.mallocFloat(2)
             value.toBuffer(buffer)
 
-            if (uniforms.containsKey(location))
-                glUniform2fv(uniforms.get(location), buffer)
-            else {
-                addUniformLocation(location)
-                glUniform2fv(uniforms.get(location), buffer)
-            }
+            glUniform2fv(uniforms[location], buffer)
         }
         return this
     }
@@ -197,12 +218,7 @@ class ShaderProgram {
             FloatBuffer buffer = stack.mallocFloat(3)
             value.toBuffer(buffer)
 
-            if (uniforms.containsKey(location))
-                glUniform3fv(uniforms.get(location), buffer)
-            else {
-                addUniformLocation(location)
-                glUniform3fv(uniforms.get(location), buffer)
-            }
+            glUniform3fv(uniforms[location], buffer)
         }
         return this
     }
@@ -218,12 +234,7 @@ class ShaderProgram {
             FloatBuffer buffer = stack.mallocFloat(4)
             value.toBuffer(buffer)
 
-            if (uniforms.containsKey(location))
-                glUniform4fv(uniforms.get(location), buffer)
-            else {
-                addUniformLocation(location)
-                glUniform4fv(uniforms.get(location), buffer)
-            }
+            glUniform4fv(uniforms[location], buffer)
         }
         return this
     }
@@ -239,12 +250,7 @@ class ShaderProgram {
             FloatBuffer buffer = stack.mallocFloat(2 * 2)
             value.toBuffer(buffer)
 
-            if (uniforms.containsKey(location))
-                glUniformMatrix2fv(uniforms.get(location), false, buffer)
-            else {
-                addUniformLocation(location)
-                glUniformMatrix2fv(uniforms.get(location), false, buffer)
-            }
+            glUniformMatrix2fv(uniforms[location], false, buffer)
         }
         return this;
     }
@@ -260,12 +266,7 @@ class ShaderProgram {
             FloatBuffer buffer = stack.mallocFloat(3 * 3)
             value.toBuffer(buffer)
 
-            if (uniforms.containsKey(location))
-                glUniformMatrix3fv(uniforms.get(location), false, buffer)
-            else {
-                addUniformLocation(location)
-                glUniformMatrix3fv(uniforms.get(location), false, buffer)
-            }
+            glUniformMatrix3fv(uniforms[location], false, buffer)
         }
         return this
     }
@@ -281,13 +282,20 @@ class ShaderProgram {
             FloatBuffer buffer = stack.mallocFloat(4 * 4)
             value.toBuffer(buffer)
 
-            if (uniforms.containsKey(location))
-                glUniformMatrix4fv(uniforms.get(location), false, buffer)
-            else {
-                addUniformLocation(location)
-                glUniformMatrix4fv(uniforms.get(location), false, buffer)
-            }
+            glUniformMatrix4fv(uniforms[location], false, buffer)
         }
+        return this
+    }
+
+    ShaderProgram setUniform(String location, BaseLight baseLight) {
+        setUniform(location + ".color", baseLight.color)
+        setUniform(location + ".intensity", baseLight.intensity)
+        return this
+    }
+
+    ShaderProgram setUniform(String location, DirectionalLight directionalLight) {
+        setUniform(location + ".base", directionalLight as BaseLight)
+        setUniform(location + ".direction", directionalLight.direction)
         return this
     }
 

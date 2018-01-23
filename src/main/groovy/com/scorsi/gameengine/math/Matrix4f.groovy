@@ -1,6 +1,7 @@
 package com.scorsi.gameengine.math
 
 import groovy.transform.CompileStatic
+import groovy.transform.ToString
 
 import java.nio.FloatBuffer
 
@@ -8,6 +9,7 @@ import java.nio.FloatBuffer
  * This class represents a 4x4-Matrix. GLSL equivalent to mat4.
  */
 @CompileStatic
+@ToString(includePackage = false, includeNames = true)
 class Matrix4f {
 
     private float m00, m01, m02, m03

@@ -1,6 +1,7 @@
 package com.scorsi.gameengine.math
 
 import groovy.transform.CompileStatic
+import groovy.transform.ToString
 
 import java.nio.FloatBuffer
 
@@ -8,6 +9,7 @@ import java.nio.FloatBuffer
  * This class represents a (x,y,z)-Vector. GLSL equivalent to vec3.
  */
 @CompileStatic
+@ToString(includePackage = false, includeNames = true)
 class Vector3f {
 
     float x

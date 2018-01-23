@@ -1,9 +1,13 @@
 package com.scorsi.gameengine
 
 import com.scorsi.gameengine.graphics.*
+import com.scorsi.gameengine.graphics.lights.DirectionalLight
 import com.scorsi.gameengine.math.Vector2f
 import com.scorsi.gameengine.math.Vector3f
+import com.scorsi.gameengine.math.Vertex
 import groovy.transform.CompileStatic
+
+import static com.scorsi.gameengine.Transform.*
 
 @CompileStatic
 class Game {
@@ -13,35 +17,42 @@ class Game {
     private ShaderProgram shaderProgram
     private Transform transform
     private Camera camera
+    private DirectionalLight directionalLight
+    private Vector3f ambientLight
 
     Game() {
         mesh = new Mesh()
         material = new Material(Texture.loadTexture("test.png"), new Vector3f(1f, 1f, 1f))
         camera = new Camera()
         transform = new Transform()
+        ambientLight = new Vector3f(0.1f, 0.1f, 0.1f)
+        directionalLight = new DirectionalLight(new Vector3f(1, 1, 1), 0.8f, new Vector3f(1, 1, 1))
 
         camera.position.z = -2
 
-        Vertex[] vertices = [new Vertex(new Vector3f(-1, -1, 0), new Vector2f(0, 0)),
-                             new Vertex(new Vector3f(0, 1, 0), new Vector2f(0.5f, 0)),
-                             new Vertex(new Vector3f(1, -1, 0), new Vector2f(1.0f, 0)),
-                             new Vertex(new Vector3f(0, -1, 1), new Vector2f(0.5f, 1.0f))]
+        Vertex[] vertices = [new Vertex(new Vector3f(-1.0f, -1.0f, 0.5773f), new Vector2f(0.0f, 0.0f)),
+                             new Vertex(new Vector3f(0.0f, -1.0f, -1.15475f), new Vector2f(0.5f, 0.0f)),
+                             new Vertex(new Vector3f(1.0f, -1.0f, 0.5773f), new Vector2f(1.0f, 0.0f)),
+                             new Vertex(new Vector3f(0.0f, 1.0f, 0.0f), new Vector2f(0.5f, 1.0f))];
 
-        int[] indices = [3, 1, 0,
-                         2, 1, 3,
-                         0, 1, 2,
-                         0, 2, 3]
+        int[] indices = [0, 3, 1,
+                         1, 3, 2,
+                         2, 3, 0,
+                         1, 2, 0]
 
-        mesh.addVertices(vertices, indices)
+        mesh.addVertices(vertices, indices, true)
 
         transform.camera = camera
-        Transform.setProjection(70f, (float) MainComponent.WIDTH, (float) MainComponent.HEIGHT, 0.1f, 1000f)
 
         shaderProgram = new ShaderProgram()
-                .attachShader(Shader.loadVertexShader("phongVertex.vert"))
-                .attachShader(Shader.loadFragmentShader("phongVertex.frag"))
+                .attachShader(Shader.loadVertexShader("phong.vert"))
+                .attachShader(Shader.loadFragmentShader("phong.frag"))
                 .link()
+                .addUniform("transformProjected", "transform", "baseColor", "ambientLight")
+                .addDirectionalLigthUniform("directionalLight")
                 .use()
+
+        setProjection(70f, MainComponent.WIDTH as float, MainComponent.HEIGHT as float, 0.1f, 1000f)
     }
 
     void input(Input input) {
@@ -74,14 +85,25 @@ class Game {
         }
     }
 
+    float temp = 0.0f
+
     void update() {
+        temp += Time.getDelta() as float
+
+        def sinTemp = Math.sin(temp) as float
+
+        transform.translation = new Vector3f(0f, 0f, 5f)
+        transform.rotation = new Vector3f(0f, (sinTemp * 180f) as float, 0f)
+        //transform.setScale(0.7f * sinTemp, 0.7f * sinTemp, 0.7f * sinTemp);
     }
 
     void render() {
         shaderProgram.use()
-                .setUniform("transform", transform.getProjectedTransformation())
+                .setUniform("transformProjected", transform.projectedTransformation)
+                .setUniform("transform", transform.transformation)
                 .setUniform("baseColor", material.color)
-                .setUniform("ambientLight", new Vector3f(0.1f, 0.1f, 0.1f))
+                .setUniform("ambientLight", ambientLight)
+                .setUniform("directionalLight", directionalLight)
         material.bind()
         mesh.draw()
     }

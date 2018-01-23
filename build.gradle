@@ -32,7 +32,7 @@ repositories {
 
 dependencies {
     compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
-    compile 'org.codehaus.groovy:groovy-all:2.5.0-beta-2'
+    compile 'org.codehaus.groovy:groovy-all:3.0.0-alpha-1'
 
     compile "org.lwjgl:lwjgl:$lwjglVersion"
     compile "org.lwjgl:lwjgl-assimp:$lwjglVersion"

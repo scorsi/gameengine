@@ -1,5 +1,6 @@
 package com.scorsi.gameengine
 
+import com.scorsi.gameengine.math.Vertex
 import groovy.transform.CompileStatic
 import org.lwjgl.BufferUtils
 
@@ -28,12 +29,15 @@ class Util {
     static FloatBuffer createFlippedBuffer(Vertex[] vertices) {
         FloatBuffer buffer = createFloatBuffer(vertices.length * Vertex.SIZE)
 
-        for (int i = 0; i < vertices.length; i++) {
-            buffer.put(vertices[i].position.x)
-            buffer.put(vertices[i].position.y)
-            buffer.put(vertices[i].position.z)
-            buffer.put(vertices[i].textureCoordinate.x)
-            buffer.put(vertices[i].textureCoordinate.y)
+        vertices.each { vertex ->
+            buffer.put(vertex.position.x)
+            buffer.put(vertex.position.y)
+            buffer.put(vertex.position.z)
+            buffer.put(vertex.textureCoordinate.x)
+            buffer.put(vertex.textureCoordinate.y)
+            buffer.put(vertex.normal.x)
+            buffer.put(vertex.normal.y)
+            buffer.put(vertex.normal.z)
         }
 
         buffer.flip()

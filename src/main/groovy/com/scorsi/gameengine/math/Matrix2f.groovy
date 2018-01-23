@@ -1,6 +1,7 @@
 package com.scorsi.gameengine.math
 
 import groovy.transform.CompileStatic
+import groovy.transform.ToString
 
 import java.nio.FloatBuffer
 
@@ -8,6 +9,7 @@ import java.nio.FloatBuffer
  * This class represents a 2x2-Matrix. GLSL equivalent to mat2.
  */
 @CompileStatic
+@ToString(includePackage = false, includeNames = true)
 class Matrix2f {
 
     private float m00, m01
