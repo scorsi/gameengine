@@ -1,21 +1,24 @@
-package com.scorsi.gameengine.math;
+package com.scorsi.gameengine.math
 
-import java.nio.FloatBuffer;
+import groovy.transform.CompileStatic
+
+import java.nio.FloatBuffer
 
 /**
  * This class represents a (x,y)-Vector. GLSL equivalent to vec2.
  */
-public class Vector2f {
+@CompileStatic
+class Vector2f {
 
-    public float x;
-    public float y;
+    float x
+    float y
 
     /**
      * Creates a default 2-tuple vector with all values set to 0.
      */
-    public Vector2f() {
-        this.x = 0f;
-        this.y = 0f;
+    Vector2f() {
+        this.x = 0f
+        this.y = 0f
     }
 
     /**
@@ -24,9 +27,9 @@ public class Vector2f {
      * @param x x value
      * @param y y value
      */
-    public Vector2f(float x, float y) {
-        this.x = x;
-        this.y = y;
+    Vector2f(float x, float y) {
+        this.x = x
+        this.y = y
     }
 
     /**
@@ -34,8 +37,8 @@ public class Vector2f {
      *
      * @return Squared length of this vector
      */
-    public float lengthSquared() {
-        return x * x + y * y;
+    float lengthSquared() {
+        return x * x + y * y
     }
 
     /**
@@ -43,8 +46,8 @@ public class Vector2f {
      *
      * @return Length of this vector
      */
-    public float length() {
-        return (float) Math.sqrt(lengthSquared());
+    float length() {
+        return Math.sqrt(lengthSquared())
     }
 
     /**
@@ -52,9 +55,8 @@ public class Vector2f {
      *
      * @return Normalized vector
      */
-    public Vector2f normalize() {
-        float length = length();
-        return divide(length);
+    Vector2f normalize() {
+        return divide(length())
     }
 
     /**
@@ -63,10 +65,10 @@ public class Vector2f {
      * @param other The other vector
      * @return Sum of this + other
      */
-    public Vector2f add(Vector2f other) {
-        float x = this.x + other.x;
-        float y = this.y + other.y;
-        return new Vector2f(x, y);
+    Vector2f add(Vector2f other) {
+        def x = this.x + other.x as float
+        def y = this.y + other.y as float
+        return new Vector2f(x, y)
     }
 
     /**
@@ -74,8 +76,8 @@ public class Vector2f {
      *
      * @return Negated vector
      */
-    public Vector2f negate() {
-        return scale(-1f);
+    Vector2f negate() {
+        return scale(-1f)
     }
 
     /**
@@ -84,8 +86,8 @@ public class Vector2f {
      * @param other The other vector
      * @return Difference of this - other
      */
-    public Vector2f subtract(Vector2f other) {
-        return this.add(other.negate());
+    Vector2f subtract(Vector2f other) {
+        return this.add(other.negate())
     }
 
     /**
@@ -94,10 +96,10 @@ public class Vector2f {
      * @param scalar Scalar to multiply
      * @return Scalar product of this * scalar
      */
-    public Vector2f scale(float scalar) {
-        float x = this.x * scalar;
-        float y = this.y * scalar;
-        return new Vector2f(x, y);
+    Vector2f scale(float scalar) {
+        def x = this.x * scalar as float
+        def y = this.y * scalar as float
+        return new Vector2f(x, y)
     }
 
     /**
@@ -106,8 +108,8 @@ public class Vector2f {
      * @param scalar Scalar to multiply
      * @return Scalar quotient of this / scalar
      */
-    public Vector2f divide(float scalar) {
-        return scale(1f / scalar);
+    Vector2f divide(float scalar) {
+        return scale(1f / scalar as float)
     }
 
     /**
@@ -116,8 +118,8 @@ public class Vector2f {
      * @param other The other vector
      * @return Dot product of this * other
      */
-    public float dot(Vector2f other) {
-        return this.x * other.x + this.y * other.y;
+    float dot(Vector2f other) {
+        return this.x * other.x + this.y * other.y
     }
 
     /**
@@ -128,8 +130,8 @@ public class Vector2f {
      * @param alpha The alpha value, must be between 0.0 and 1.0
      * @return Linear interpolated vector
      */
-    public Vector2f lerp(Vector2f other, float alpha) {
-        return this.scale(1f - alpha).add(other.scale(alpha));
+    Vector2f lerp(Vector2f other, float alpha) {
+        return this.scale(1f - alpha as float).add(other.scale(alpha))
     }
 
     /**
@@ -137,25 +139,9 @@ public class Vector2f {
      *
      * @param buffer The buffer to store the vector data
      */
-    public void toBuffer(FloatBuffer buffer) {
-        buffer.put(x).put(y);
-        buffer.flip();
-    }
-
-    public float getX() {
-        return x;
-    }
-
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
-    public void setY(float y) {
-        this.y = y;
+    void toBuffer(FloatBuffer buffer) {
+        buffer.put(x).put(y)
+        buffer.flip()
     }
 
 }

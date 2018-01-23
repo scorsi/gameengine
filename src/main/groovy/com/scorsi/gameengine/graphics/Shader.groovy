@@ -1,19 +1,23 @@
-package com.scorsi.gameengine;
+package com.scorsi.gameengine.graphics
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL32.*;
-import static org.lwjgl.system.MemoryUtil.NULL;
+import com.scorsi.gameengine.ResourceLoader
+import groovy.transform.CompileStatic
+
+import static org.lwjgl.opengl.GL11.*
+import static org.lwjgl.opengl.GL20.*
+import static org.lwjgl.opengl.GL32.*
+import static org.lwjgl.system.MemoryUtil.NULL
 
 /**
  * This class represents a shader.
  */
-public class Shader {
+@CompileStatic
+class Shader {
 
     /**
      * Stores the handle of the shader.
      */
-    private final int id;
+    private final int id
 
     /**
      * Creates a shader with specified type. The type in the tutorial should be
@@ -21,12 +25,12 @@ public class Shader {
      *
      * @param type Type of the shader
      */
-    public Shader(int type) {
-        id = glCreateShader(type);
+    Shader(int type) {
+        id = glCreateShader(type)
 
         if (id == NULL) {
-            System.err.println("Shader creation failed: Could not find valid memory location when adding shader");
-            System.exit(1);
+            System.err.println("Shader creation failed: Could not find valid memory location when adding shader")
+            System.exit(1)
         }
     }
 
@@ -35,34 +39,34 @@ public class Shader {
      *
      * @param source GLSL Source Code for the shader
      */
-    public void source(CharSequence source) {
-        glShaderSource(id, source);
+    void source(CharSequence source) {
+        glShaderSource(id, source)
     }
 
     /**
      * Compiles the shader and checks it's status afertwards.
      */
-    public void compile() {
-        glCompileShader(id);
+    void compile() {
+        glCompileShader(id)
 
-        checkStatus();
+        checkStatus()
     }
 
     /**
      * Checks if the shader was compiled successfully.
      */
     private void checkStatus() {
-        int status = glGetShaderi(id, GL_COMPILE_STATUS);
+        int status = glGetShaderi(id, GL_COMPILE_STATUS)
         if (status != GL_TRUE) {
-            throw new RuntimeException(glGetShaderInfoLog(id));
+            throw new RuntimeException(glGetShaderInfoLog(id))
         }
     }
 
     /**
      * Deletes the shader.
      */
-    public void delete() {
-        glDeleteShader(id);
+    void delete() {
+        glDeleteShader(id)
     }
 
     /**
@@ -70,8 +74,8 @@ public class Shader {
      *
      * @return Handle of this shader
      */
-    public int getID() {
-        return id;
+    int getID() {
+        return id
     }
 
     /**
@@ -81,12 +85,12 @@ public class Shader {
      * @param source Source of the shader
      * @return Compiled Shader from the specified source
      */
-    public static Shader createShader(int type, CharSequence source) {
-        Shader shader = new Shader(type);
-        shader.source(source);
-        shader.compile();
+    static Shader createShader(int type, CharSequence source) {
+        Shader shader = new Shader(type)
+        shader.source(source)
+        shader.compile()
 
-        return shader;
+        return shader
     }
 
     /**
@@ -95,8 +99,8 @@ public class Shader {
      * @param source Source of the shader
      * @return Compiled Fragment Shader from the specified source
      */
-    public static Shader createFragmentShader(CharSequence source) {
-        return createShader(GL_FRAGMENT_SHADER, source);
+    static Shader createFragmentShader(CharSequence source) {
+        return createShader(GL_FRAGMENT_SHADER, source)
     }
 
     /**
@@ -105,8 +109,8 @@ public class Shader {
      * @param source Source of the shader
      * @return Compiled Vertex Shader from the specified source
      */
-    public static Shader createVertexShader(CharSequence source) {
-        return createShader(GL_VERTEX_SHADER, source);
+    static Shader createVertexShader(CharSequence source) {
+        return createShader(GL_VERTEX_SHADER, source)
     }
 
     /**
@@ -115,8 +119,8 @@ public class Shader {
      * @param source Source of the shader
      * @return Compiled Geometry Shader from the specified source
      */
-    public static Shader createGeometryShader(CharSequence source) {
-        return createShader(GL_GEOMETRY_SHADER, source);
+    static Shader createGeometryShader(CharSequence source) {
+        return createShader(GL_GEOMETRY_SHADER, source)
     }
 
     /**
@@ -126,8 +130,8 @@ public class Shader {
      * @param path File path of the shader
      * @return Compiled Shader from specified file
      */
-    public static Shader loadShader(int type, String path) {
-        return createShader(type, ResourceLoader.loadShader(path));
+    static Shader loadShader(int type, String path) {
+        return createShader(type, ResourceLoader.loadShader(path))
     }
 
     /**
@@ -136,8 +140,8 @@ public class Shader {
      * @param path File path of the shader
      * @return Compiled Shader from specified file
      */
-    public static Shader loadVertexShader(String path) {
-        return createVertexShader(ResourceLoader.loadShader(path));
+    static Shader loadVertexShader(String path) {
+        return createVertexShader(ResourceLoader.loadShader(path))
     }
 
     /**
@@ -146,8 +150,8 @@ public class Shader {
      * @param path File path of the shader
      * @return Compiled Shader from specified file
      */
-    public static Shader loadFragmentShader(String path) {
-        return createFragmentShader(ResourceLoader.loadShader(path));
+    static Shader loadFragmentShader(String path) {
+        return createFragmentShader(ResourceLoader.loadShader(path))
     }
 
     /**
@@ -156,8 +160,8 @@ public class Shader {
      * @param path File path of the shader
      * @return Compiled Shader from specified file
      */
-    public static Shader loadGeometryShader(String path) {
-        return createGeometryShader(ResourceLoader.loadShader(path));
+    static Shader loadGeometryShader(String path) {
+        return createGeometryShader(ResourceLoader.loadShader(path))
     }
 
 }
