@@ -145,7 +145,7 @@ public class Input {
             MOUSE_BUTTON_RIGHT = GLFW_MOUSE_BUTTON_2,
             MOUSE_BUTTON_MIDDLE = GLFW_MOUSE_BUTTON_3;
 
-    private static final int NUM_KEYCODES = KEY_MENU;
+    private static final int NUM_KEYCODES = GLFW_KEY_LAST;
 
     private boolean[] currentKeys = new boolean[NUM_KEYCODES];
     private boolean[] downKeys = new boolean[NUM_KEYCODES];
