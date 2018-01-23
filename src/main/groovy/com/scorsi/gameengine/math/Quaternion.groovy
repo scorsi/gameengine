@@ -26,7 +26,7 @@ class Quaternion {
     }
 
     Quaternion normalize() {
-        return divide(length())
+        return div(length())
     }
 
     Quaternion conjugate() {
@@ -51,7 +51,7 @@ class Quaternion {
         return new Quaternion(x_, y_, z_, w_)
     }
 
-    Quaternion divide(float r) {
+    Quaternion div(float r) {
         return new Quaternion(x / r as float, y / r as float, z / r as float, w / r as float)
     }
 

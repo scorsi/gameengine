@@ -6,14 +6,14 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class Camera {
 
-    static final Vector3f yAxis = new Vector3f(0f, 1f, 0f);
+    static final Vector3f yAxis = new Vector3f(0f, 1f, 0f)
 
     Vector3f position
     Vector3f forward
     Vector3f up
 
     Camera() {
-        this(new Vector3f(0f, 0f, 0f), new Vector3f(0f, 0f, 1f), new Vector3f(0f, 1f, 0f));
+        this(new Vector3f(0f, 0f, 0f), new Vector3f(0f, 0f, 1f), new Vector3f(0f, 1f, 0f))
     }
 
     Camera(Vector3f position, Vector3f forward, Vector3f up) {
@@ -26,26 +26,26 @@ class Camera {
     }
 
     void move(Vector3f direction, float amount) {
-        position = position.add(direction.scale(amount));
+        position = position.plus(direction.scale(amount))
     }
 
     void rotateY(float angle) {
-        forward = forward.rotate(angle, yAxis).normalize();
-        up = forward.cross(yAxis.cross(forward).normalize()).normalize();
+        forward = forward.rotate(angle, yAxis).normalize()
+        up = forward.cross(yAxis.cross(forward).normalize()).normalize()
     }
 
     void rotateX(float angle) {
-        Vector3f hAxis = yAxis.cross(forward).normalize();
-        forward = forward.rotate(angle, hAxis).normalize();
-        up = forward.cross(hAxis).normalize();
+        Vector3f hAxis = yAxis.cross(forward).normalize()
+        forward = forward.rotate(angle, hAxis).normalize()
+        up = forward.cross(hAxis).normalize()
     }
 
     Vector3f getLeft() {
-        return up.cross(forward).normalize();
+        return up.cross(forward).normalize()
     }
 
     Vector3f getRight() {
-        return forward.cross(up).normalize();
+        return forward.cross(up).normalize()
     }
 
 }

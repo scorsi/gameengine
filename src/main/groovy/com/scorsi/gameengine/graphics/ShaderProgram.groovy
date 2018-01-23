@@ -88,7 +88,7 @@ class ShaderProgram {
      *
      * @param location Location of the vertex attribute
      */
-    void enableVertexAttribute(int location) {
+    static void enableVertexAttribute(int location) {
         glEnableVertexAttribArray(location)
     }
 
@@ -97,7 +97,7 @@ class ShaderProgram {
      *
      * @param location Location of the vertex attribute
      */
-    void disableVertexAttribute(int location) {
+    static void disableVertexAttribute(int location) {
         glDisableVertexAttribArray(location)
     }
 
@@ -111,7 +111,7 @@ class ShaderProgram {
      * @param offset Offset of the first component of the first generic vertex
      *                 attribute in bytes
      */
-    void pointVertexAttribute(int location, int size, int stride, int offset) {
+    static void pointVertexAttribute(int location, int size, int stride, int offset) {
         glVertexAttribPointer(location, size, GL_FLOAT, false, stride, offset)
     }
 

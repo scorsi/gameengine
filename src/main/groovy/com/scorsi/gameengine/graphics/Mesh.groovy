@@ -3,7 +3,6 @@ package com.scorsi.gameengine.graphics
 import com.scorsi.gameengine.Util
 import com.scorsi.gameengine.Vertex
 import groovy.transform.CompileStatic
-import org.lwjgl.opengl.GL15
 
 import static org.lwjgl.opengl.GL11.*
 import static org.lwjgl.opengl.GL15.*
@@ -26,7 +25,7 @@ class Mesh {
         size = indices.length
 
         glBindBuffer(GL_ARRAY_BUFFER, vbo)
-        GL15.glBufferData(GL_ARRAY_BUFFER, Util.createFlippedBuffer(vertices), GL_STATIC_DRAW)
+        glBufferData(GL_ARRAY_BUFFER, Util.createFlippedBuffer(vertices), GL_STATIC_DRAW)
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo)
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, Util.createFlippedBuffer(indices), GL_STATIC_DRAW)

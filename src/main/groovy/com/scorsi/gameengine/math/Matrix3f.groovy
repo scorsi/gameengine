@@ -64,7 +64,7 @@ class Matrix3f {
      * @param other The other matrix
      * @return Sum of this + other
      */
-    Matrix3f add(Matrix3f other) {
+    Matrix3f plus(Matrix3f other) {
         Matrix3f result = new Matrix3f()
 
         result.m00 = (this.m00 + other.m00) as float
@@ -97,8 +97,8 @@ class Matrix3f {
      * @param other The other matrix
      * @return Difference of this - other
      */
-    Matrix3f subtract(Matrix3f other) {
-        return this.add(other.negate())
+    Matrix3f minus(Matrix3f other) {
+        return this + other.negate()
     }
 
     /**

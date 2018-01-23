@@ -1,11 +1,10 @@
 package com.scorsi.gameengine
 
 import groovy.transform.CompileStatic
+import org.lwjgl.BufferUtils
 
 import java.nio.FloatBuffer
 import java.nio.IntBuffer
-
-import org.lwjgl.BufferUtils
 
 @CompileStatic
 class Util {
@@ -18,7 +17,7 @@ class Util {
         return BufferUtils.createIntBuffer(size)
     }
 
-    static IntBuffer createFlippedBuffer(int... values) {
+    static IntBuffer createFlippedBuffer(int ... values) {
         IntBuffer buffer = createIntBuffer(values.length)
         buffer.put(values)
         buffer.flip()

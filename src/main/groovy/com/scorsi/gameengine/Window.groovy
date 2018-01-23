@@ -1,8 +1,8 @@
 package com.scorsi.gameengine
 
 import groovy.transform.CompileStatic
-import org.lwjgl.glfw.GLFWVidMode
 import org.lwjgl.glfw.GLFWKeyCallback
+import org.lwjgl.glfw.GLFWVidMode
 import org.lwjgl.opengl.GL
 import org.lwjgl.opengl.GLCapabilities
 

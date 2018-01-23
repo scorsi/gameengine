@@ -1,10 +1,6 @@
 package com.scorsi.gameengine
 
-import com.scorsi.gameengine.graphics.Material
-import com.scorsi.gameengine.graphics.Mesh
-import com.scorsi.gameengine.graphics.Shader
-import com.scorsi.gameengine.graphics.ShaderProgram
-import com.scorsi.gameengine.graphics.Texture
+import com.scorsi.gameengine.graphics.*
 import com.scorsi.gameengine.math.Vector2f
 import com.scorsi.gameengine.math.Vector3f
 import groovy.transform.CompileStatic
@@ -48,8 +44,8 @@ class Game {
     }
 
     void input(Input input) {
-        final float moveAmount = (float) (10f * Time.getDelta())
-        final float rotateAmount = (float) (100f * Time.getDelta())
+        final def moveAmount = (10f * Time.getDelta()) as float
+        final def rotateAmount = (100f * Time.getDelta()) as float
 
         if (input.isKeyDownRepeated(Input.KEY_W)) {
             camera.move(camera.forward, moveAmount)
@@ -58,10 +54,10 @@ class Game {
             camera.move(camera.forward, -moveAmount)
         }
         if (input.isKeyDownRepeated(Input.KEY_A)) {
-            camera.move(camera.getRight(), moveAmount)
+            camera.move(camera.right, moveAmount)
         }
         if (input.isKeyDownRepeated(Input.KEY_D)) {
-            camera.move(camera.getLeft(), moveAmount)
+            camera.move(camera.left, moveAmount)
         }
         if (input.isKeyDownRepeated(Input.KEY_UP)) {
             camera.rotateX(-rotateAmount)

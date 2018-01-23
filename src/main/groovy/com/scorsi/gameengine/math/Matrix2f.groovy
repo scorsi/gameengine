@@ -51,7 +51,7 @@ class Matrix2f {
      * @param other The other matrix
      * @return Sum of this + other
      */
-    Matrix2f add(Matrix2f other) {
+    Matrix2f plus(Matrix2f other) {
         def result = new Matrix2f()
 
         result.m00 = (this.m00 + other.m00) as float
@@ -78,8 +78,8 @@ class Matrix2f {
      * @param other The other matrix
      * @return Difference of this - other
      */
-    Matrix2f subtract(Matrix2f other) {
-        return this.add(other.negate())
+    Matrix2f minus(Matrix2f other) {
+        return this + other.negate()
     }
 
     /**

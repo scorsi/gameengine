@@ -3,9 +3,9 @@ package com.scorsi.gameengine.graphics
 import com.scorsi.gameengine.ResourceLoader
 import groovy.transform.CompileStatic
 
-import static org.lwjgl.opengl.GL11.*
+import static org.lwjgl.opengl.GL11.GL_TRUE
 import static org.lwjgl.opengl.GL20.*
-import static org.lwjgl.opengl.GL32.*
+import static org.lwjgl.opengl.GL32.GL_GEOMETRY_SHADER
 import static org.lwjgl.system.MemoryUtil.NULL
 
 /**
@@ -81,7 +81,7 @@ class Shader {
     /**
      * Creates a shader with specified type and source and compiles it.
      *
-     * @param type   Type of the shader
+     * @param type Type of the shader
      * @param source Source of the shader
      * @return Compiled Shader from the specified source
      */

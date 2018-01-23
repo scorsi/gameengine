@@ -1,7 +1,6 @@
 package com.scorsi.gameengine
 
 import com.scorsi.gameengine.graphics.Mesh
-import com.scorsi.gameengine.graphics.Texture
 import com.scorsi.gameengine.math.Vector3f
 import groovy.transform.CompileStatic
 

@@ -7,7 +7,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class Transform {
 
-    private Camera camera
+    Camera camera
 
     private static float zNear
     private static float zFar
@@ -26,20 +26,20 @@ class Transform {
     }
 
     Matrix4f getTransformation() {
-        Matrix4f translationMatrix = new Matrix4f().initTranslation(translation.x, translation.y, translation.z)
-        Matrix4f rotationMatrix = new Matrix4f().initRotation(rotation.x, rotation.y, rotation.z)
-        Matrix4f scaleMatrix = new Matrix4f().initScale(scale.x, scale.y, scale.z)
+        def translationMatrix = Matrix4f.translate(translation.x, translation.y, translation.z)
+        def rotationMatrix = new Matrix4f().initRotation(rotation.x, rotation.y, rotation.z)
+        def scaleMatrix = Matrix4f.scale(scale.x, scale.y, scale.z)
 
-        return translationMatrix.multiply(rotationMatrix.multiply(scaleMatrix))
+        return translationMatrix * rotationMatrix * scaleMatrix
     }
 
     Matrix4f getProjectedTransformation() {
-        Matrix4f transformationMatrix = getTransformation()
-        Matrix4f projectionMatrix = new Matrix4f().initProjection(fov, width, height, zNear, zFar)
-        Matrix4f cameraRotationMatrix = new Matrix4f().initCamera(camera.forward, camera.up)
-        Matrix4f cameraTranslationMatrix = new Matrix4f().initTranslation(-camera.position.x, -camera.position.y, -camera.position.z)
+        def transformationMatrix = getTransformation()
+        def projectionMatrix = Matrix4f.perspective(fov, (width / height) as float, zNear, zFar)
+        def cameraRotationMatrix = new Matrix4f().initCamera(camera.forward, camera.up)
+        def cameraTranslationMatrix = Matrix4f.translate(-camera.position.x, -camera.position.y, -camera.position.z)
 
-        return projectionMatrix.multiply(cameraRotationMatrix.multiply(cameraTranslationMatrix.multiply(transformationMatrix)))
+        return projectionMatrix * cameraRotationMatrix * cameraTranslationMatrix * transformationMatrix
     }
 
     static void setProjection(float fov, float width, float height, float zNear, float zFar) {
@@ -48,50 +48,6 @@ class Transform {
         Transform.height = height
         Transform.zNear = zNear
         Transform.zFar = zFar
-    }
-
-    Vector3f getTranslation() {
-        return translation
-    }
-
-    void setTranslation(Vector3f translation) {
-        this.translation = translation
-    }
-
-    void setTranslation(float x, float y, float z) {
-        this.translation = new Vector3f(x, y, z)
-    }
-
-    Vector3f getRotation() {
-        return rotation
-    }
-
-    void setRotation(Vector3f rotation) {
-        this.rotation = rotation
-    }
-
-    void setRotation(float x, float y, float z) {
-        this.rotation = new Vector3f(x, y, z)
-    }
-
-    Vector3f getScale() {
-        return scale
-    }
-
-    void setScale(Vector3f scale) {
-        this.scale = scale
-    }
-
-    void setScale(float x, float y, float z) {
-        this.scale = new Vector3f(x, y, z)
-    }
-
-    Camera getCamera() {
-        return camera
-    }
-
-    void setCamera(Camera camera) {
-        this.camera = camera
     }
 
 }

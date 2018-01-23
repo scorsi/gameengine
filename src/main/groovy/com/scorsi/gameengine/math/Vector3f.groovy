@@ -69,7 +69,7 @@ class Vector3f {
      * @param other The other vector
      * @return Sum of this + other
      */
-    Vector3f add(Vector3f other) {
+    Vector3f plus(Vector3f other) {
         def x = (this.x + other.x) as float
         def y = (this.y + other.y) as float
         def z = (this.z + other.z) as float
@@ -91,8 +91,8 @@ class Vector3f {
      * @param other The other vector
      * @return Difference of this - other
      */
-    Vector3f subtract(Vector3f other) {
-        return this.add(other.negate())
+    Vector3f minus(Vector3f other) {
+        return this + other.negate()
     }
 
     /**
@@ -150,7 +150,7 @@ class Vector3f {
      * @return Linear interpolated vector
      */
     Vector3f lerp(Vector3f other, float alpha) {
-        return this.scale(1f - alpha as float).add(other.scale(alpha))
+        return this.scale(1f - alpha as float) + other.scale(alpha)
     }
 
     Vector3f rotate(float angle, Vector3f axis) {

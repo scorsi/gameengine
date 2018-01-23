@@ -19,6 +19,7 @@ class Matrix4f {
      * Creates a 4x4 identity matrix.
      */
     Matrix4f() {
+        setIdentity()
     }
 
     /**
@@ -54,25 +55,28 @@ class Matrix4f {
     /**
      * Sets this matrix to the identity matrix.
      */
-    final Matrix4f initIdentity() {
-        m00 = 1f;                       m01 = 0f;                       m02 = 0f;                       m03 = 0f
-        m10 = 0f;                       m11 = 1f;                       m12 = 0f;                       m13 = 0f
-        m20 = 0f;                       m21 = 0f;                       m22 = 1f;                       m23 = 0f
-        m30 = 0f;                       m31 = 0f;                       m32 = 0f;                       m33 = 1f
+    final Matrix4f setIdentity() {
+        m00 = 1f
+        m11 = 1f
+        m22 = 1f
+        m33 = 1f
 
+        m01 = 0f
+        m02 = 0f
+        m03 = 0f
+        m10 = 0f
+        m12 = 0f
+        m13 = 0f
+        m20 = 0f
+        m21 = 0f
+        m23 = 0f
+        m30 = 0f
+        m31 = 0f
+        m32 = 0f
         return this
     }
 
-    final Matrix4f initTranslation(float x, float y, float z) {
-        m00 = 1f;                       m01 = 0f;                       m02 = 0f;                       m03 = x
-        m10 = 0f;                       m11 = 1f;                       m12 = 0f;                       m13 = y
-        m20 = 0f;                       m21 = 0f;                       m22 = 1f;                       m23 = z
-        m30 = 0f;                       m31 = 0f;                       m32 = 0f;                       m33 = 1f
-
-        return this
-    }
-
-    final Matrix4f initRotation(float x, float y, float z) {
+    Matrix4f initRotation(float x, float y, float z) {
         def rx = new Matrix4f()
         def ry = new Matrix4f()
         def rz = new Matrix4f()
@@ -81,62 +85,40 @@ class Matrix4f {
         y = Math.toRadians(y) as float
         z = Math.toRadians(z) as float
 
-        rz.m00 = (float) Math.cos(z);   rz.m01 = (float) -Math.sin(z);  rz.m02 = 0f;                    rz.m03 = 0f
-        rz.m10 = (float) Math.sin(z);   rz.m11 = (float) Math.cos(z);   rz.m12 = 0f;                    rz.m13 = 0f
-        rz.m20 = 0f;                    rz.m21 = 0f;                    rz.m22 = 1f;                    rz.m23 = 0f
-        rz.m30 = 0f;                    rz.m31 = 0f;                    rz.m32 = 0f;                    rz.m33 = 1f
+        rz.m00 = (float) Math.cos(z); rz.m01 = (float) -Math.sin(z); rz.m02 = 0f; rz.m03 = 0f
+        rz.m10 = (float) Math.sin(z); rz.m11 = (float) Math.cos(z); rz.m12 = 0f; rz.m13 = 0f
+        rz.m20 = 0f; rz.m21 = 0f; rz.m22 = 1f; rz.m23 = 0f
+        rz.m30 = 0f; rz.m31 = 0f; rz.m32 = 0f; rz.m33 = 1f
 
-        rx.m00 = 1f;                    rx.m01 = 0f;                    rx.m02 = 0f;                    rx.m03 = 0f
-        rx.m10 = 0f;                    rx.m11 = (float) Math.cos(x);   rx.m12 = (float) -Math.sin(x);  rx.m13 = 0f
-        rx.m20 = 0f;                    rx.m21 = (float) Math.sin(x);   rx.m22 = (float) Math.cos(x);   rx.m23 = 0f
-        rx.m30 = 0f;                    rx.m31 = 0f;                    rx.m32 = 0f;                    rx.m33 = 1f
+        rx.m00 = 1f; rx.m01 = 0f; rx.m02 = 0f; rx.m03 = 0f
+        rx.m10 = 0f; rx.m11 = (float) Math.cos(x); rx.m12 = (float) -Math.sin(x); rx.m13 = 0f
+        rx.m20 = 0f; rx.m21 = (float) Math.sin(x); rx.m22 = (float) Math.cos(x); rx.m23 = 0f
+        rx.m30 = 0f; rx.m31 = 0f; rx.m32 = 0f; rx.m33 = 1f
 
-        ry.m00 = (float) Math.cos(y);   ry.m01 = 0f;                    ry.m02 = (float) -Math.sin(y);  ry.m03 = 0f
-        ry.m10 = 0f;                    ry.m11 = 1f;                    ry.m12 = 0f;                    ry.m13 = 0f
-        ry.m20 = (float) Math.sin(y);   ry.m21 = 0f;                    ry.m22 = (float) Math.cos(y);   ry.m23 = 0f
-        ry.m30 = 0f;                    ry.m31 = 0f;                    ry.m32 = 0f;                    ry.m33 = 1f
+        ry.m00 = (float) Math.cos(y); ry.m01 = 0f; ry.m02 = (float) -Math.sin(y); ry.m03 = 0f
+        ry.m10 = 0f; ry.m11 = 1f; ry.m12 = 0f; ry.m13 = 0f
+        ry.m20 = (float) Math.sin(y); ry.m21 = 0f; ry.m22 = (float) Math.cos(y); ry.m23 = 0f
+        ry.m30 = 0f; ry.m31 = 0f; ry.m32 = 0f; ry.m33 = 1f
 
         Matrix4f res = rz * ry * rx
 
-        m00 = res.m00;                  m01 = res.m01;                  m02 = res.m02;                  m03 = res.m03
-        m10 = res.m10;                  m11 = res.m11;                  m12 = res.m12;                  m13 = res.m13
-        m20 = res.m20;                  m21 = res.m21;                  m22 = res.m22;                  m23 = res.m23
-        m30 = res.m30;                  m31 = res.m31;                  m32 = res.m32;                  m33 = res.m33
+        m00 = res.m00; m01 = res.m01; m02 = res.m02; m03 = res.m03
+        m10 = res.m10; m11 = res.m11; m12 = res.m12; m13 = res.m13
+        m20 = res.m20; m21 = res.m21; m22 = res.m22; m23 = res.m23
+        m30 = res.m30; m31 = res.m31; m32 = res.m32; m33 = res.m33
 
         return this
     }
 
-    final Matrix4f initScale(float x, float y, float z) {
-        m00 = x;                        m01 = 0f;                       m02 = 0f;                       m03 = 0f
-        m10 = 0f;                       m11 = y;                        m12 = 0f;                       m13 = 0f
-        m20 = 0f;                       m21 = 0f;                       m22 = z;                        m23 = 0f
-        m30 = 0f;                       m31 = 0f;                       m32 = 0f;                       m33 = 1f
-
-        return this
-    }
-
-    final Matrix4f initProjection(float fov, float width, float height, float zNear, float zFar) {
-        def ar = width / height
-        def tanHalfFov = Math.tan(Math.toRadians(fov / 2 as double)) as float
-        def zRange = zNear - zFar
-
-        m00 = (float) (1f / (tanHalfFov * ar));   m01 = 0f;                       m02 = 0f;                       m03 = 0f
-        m10 = 0f;                       m11 = (float) (1f / tanHalfFov);          m12 = 0f;                       m13 = 0f
-        m20 = 0f;                       m21 = 0f;                       m22 = (float) ((-zNear - zFar) / zRange); m23 = (float) (2f * zFar * zNear / zRange)
-        m30 = 0f;                       m31 = 0f;                       m32 = 1f;                       m33 = 0f
-
-        return this
-    }
-
-    final Matrix4f initCamera(Vector3f forward, Vector3f up) {
+    Matrix4f initCamera(Vector3f forward, Vector3f up) {
         def f = forward.normalize()
         def r = up.normalize().cross(f)
         def u = f.cross(r)
 
-        m00 = r.x;                      m01 = r.y;                      m02 = r.z;                      m03 = 0f
-        m10 = u.x;                      m11 = u.y;                      m12 = u.z;                      m13 = 0f
-        m20 = f.x;                      m21 = f.y;                      m22 = f.z;                      m23 = 0f
-        m30 = 0f;                       m31 = 0f;                       m32 = 0f;                       m33 = 1f
+        m00 = r.x; m01 = r.y; m02 = r.z; m03 = 0f
+        m10 = u.x; m11 = u.y; m12 = u.z; m13 = 0f
+        m20 = f.x; m21 = f.y; m22 = f.z; m23 = 0f
+        m30 = 0f; m31 = 0f; m32 = 0f; m33 = 1f
 
         return this
     }
@@ -147,7 +129,7 @@ class Matrix4f {
      * @param other The other matrix
      * @return Sum of this + other
      */
-    Matrix4f add(Matrix4f other) {
+    Matrix4f plus(Matrix4f other) {
         Matrix4f result = new Matrix4f()
 
         result.m00 = (this.m00 + other.m00) as float
@@ -188,8 +170,8 @@ class Matrix4f {
      * @param other The other matrix
      * @return Difference of this - other
      */
-    Matrix4f subtract(Matrix4f other) {
-        return this.add(other.negate())
+    Matrix4f minus(Matrix4f other) {
+        return this + other.negate()
     }
 
     /**
@@ -314,16 +296,17 @@ class Matrix4f {
         buffer.flip()
     }
 
+    // TODO: test this function
     /**
      * Creates a orthographic projection matrix. Similar to
      * <code>glOrtho(left, right, bottom, top, near, far)</code>.
      *
-     * @param left   Coordinate for the left vertical clipping pane
-     * @param right  Coordinate for the right vertical clipping pane
+     * @param left Coordinate for the left vertical clipping pane
+     * @param right Coordinate for the right vertical clipping pane
      * @param bottom Coordinate for the bottom horizontal clipping pane
-     * @param top    Coordinate for the bottom horizontal clipping pane
-     * @param near   Coordinate for the near depth clipping pane
-     * @param far    Coordinate for the far depth clipping pane
+     * @param top Coordinate for the bottom horizontal clipping pane
+     * @param near Coordinate for the near depth clipping pane
+     * @param far Coordinate for the far depth clipping pane
      * @return Orthographic matrix
      */
     static Matrix4f orthographic(float left, float right, float bottom, float top, float near, float far) {
@@ -343,17 +326,18 @@ class Matrix4f {
         return ortho
     }
 
+    // TODO: test this function
     /**
      * Creates a perspective projection matrix. Similar to
      * <code>glFrustum(left, right, bottom, top, near, far)</code>.
      *
-     * @param left   Coordinate for the left vertical clipping pane
-     * @param right  Coordinate for the right vertical clipping pane
+     * @param left Coordinate for the left vertical clipping pane
+     * @param right Coordinate for the right vertical clipping pane
      * @param bottom Coordinate for the bottom horizontal clipping pane
-     * @param top    Coordinate for the bottom horizontal clipping pane
-     * @param near   Coordinate for the near depth clipping pane, must be
+     * @param top Coordinate for the bottom horizontal clipping pane
+     * @param near Coordinate for the near depth clipping pane, must be
      *               positive
-     * @param far    Coordinate for the far depth clipping pane, must be
+     * @param far Coordinate for the far depth clipping pane, must be
      *               positive
      * @return Perspective matrix
      */
@@ -381,24 +365,24 @@ class Matrix4f {
      * Creates a perspective projection matrix. Similar to
      * <code>gluPerspective(fovy, aspec, zNear, zFar)</code>.
      *
-     * @param fovy   Field of view angle in degrees
+     * @param fovy Field of view angle in degrees
      * @param aspect The aspect ratio is the ratio of width to height
-     * @param near   Distance from the viewer to the near clipping plane, must
+     * @param zNear Distance from the viewer to the near clipping plane, must
      *               be positive
-     * @param far    Distance from the viewer to the far clipping plane, must be
+     * @param zFar Distance from the viewer to the far clipping plane, must be
      *               positive
      * @return Perspective matrix
      */
-    static Matrix4f perspective(float fovy, float aspect, float near, float far) {
-        Matrix4f perspective = new Matrix4f()
+    static Matrix4f perspective(float fovy, float aspect, float zNear, float zFar) {
+        def perspective = new Matrix4f()
 
-        def f = (1f / Math.tan(Math.toRadians(fovy) / 2f)) as float
+        def f = Math.tan(Math.toRadians(fovy / 2d)) as float
 
-        perspective.m00 = f / aspect as float
-        perspective.m11 = f
-        perspective.m22 = ((far + near) / (near - far)) as float
-        perspective.m32 = -1f
-        perspective.m23 = ((2f * far * near) / (near - far)) as float
+        perspective.m00 = 1f / (f * aspect) as float
+        perspective.m11 = 1f / f as float
+        perspective.m22 = ((-zNear - zFar) / (zNear - zFar)) as float
+        perspective.m23 = ((2f * zFar * zNear) / (zNear - zFar)) as float
+        perspective.m32 = 1f;
         perspective.m33 = 0f
 
         return perspective
@@ -428,9 +412,9 @@ class Matrix4f {
      * <code>glRotate(angle, x, y, z)</code>.
      *
      * @param angle Angle of rotation in degrees
-     * @param x     x coordinate of the rotation vector
-     * @param y     y coordinate of the rotation vector
-     * @param z     z coordinate of the rotation vector
+     * @param x x coordinate of the rotation vector
+     * @param y y coordinate of the rotation vector
+     * @param z z coordinate of the rotation vector
      * @return Rotation matrix
      */
     static Matrix4f rotate(float angle, float x, float y, float z) {

@@ -3,7 +3,7 @@ package com.scorsi.gameengine
 import groovy.transform.CompileStatic
 
 import static org.lwjgl.opengl.GL11.*
-import static org.lwjgl.opengl.GL30.*
+import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER_SRGB
 
 @CompileStatic
 class RenderUtil {

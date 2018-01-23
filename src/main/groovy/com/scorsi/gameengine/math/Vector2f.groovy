@@ -65,7 +65,7 @@ class Vector2f {
      * @param other The other vector
      * @return Sum of this + other
      */
-    Vector2f add(Vector2f other) {
+    Vector2f plus(Vector2f other) {
         def x = this.x + other.x as float
         def y = this.y + other.y as float
         return new Vector2f(x, y)
@@ -86,8 +86,8 @@ class Vector2f {
      * @param other The other vector
      * @return Difference of this - other
      */
-    Vector2f subtract(Vector2f other) {
-        return this.add(other.negate())
+    Vector2f minus(Vector2f other) {
+        return this + other.negate()
     }
 
     /**
@@ -131,7 +131,7 @@ class Vector2f {
      * @return Linear interpolated vector
      */
     Vector2f lerp(Vector2f other, float alpha) {
-        return this.scale(1f - alpha as float).add(other.scale(alpha))
+        return this.scale(1f - alpha as float) + other.scale(alpha)
     }
 
     /**
