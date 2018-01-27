@@ -1,7 +1,9 @@
 package com.scorsi.gameengine
 
 import com.scorsi.gameengine.graphics.*
+import com.scorsi.gameengine.graphics.lights.Attenuation
 import com.scorsi.gameengine.graphics.lights.DirectionalLight
+import com.scorsi.gameengine.graphics.lights.PointLight
 import com.scorsi.gameengine.math.Vector2f
 import com.scorsi.gameengine.math.Vector3f
 import com.scorsi.gameengine.math.Vertex
@@ -12,24 +14,30 @@ import static com.scorsi.gameengine.Transform.*
 @CompileStatic
 class Game {
 
+    final int MAX_POINT_LIGHTS = 4
+
     private Mesh mesh
     private Material material
     private ShaderProgram shaderProgram
     private Transform transform
     private Camera camera
     private DirectionalLight directionalLight
+    private PointLight[] pointLights
     private Vector3f ambientLight
 
     Game() {
         mesh = new Mesh()
-        material = new Material(Texture.loadTexture("test.png"), new Vector3f(1f, 1f, 1f))
+        material = new Material(Texture.loadTexture("test.png"), new Vector3f(1f, 1f, 8f))
         camera = new Camera()
         transform = new Transform()
-        ambientLight = new Vector3f(0.1f, 0.1f, 0.1f)
-        directionalLight = new DirectionalLight(new Vector3f(1, 1, 1), 0.8f, new Vector3f(1, 1, 1))
+        ambientLight = new Vector3f(0.01f, 0.01f, 0.01f)
+        directionalLight = new DirectionalLight(new Vector3f(1f, 1f, 1f), 0.8f, new Vector3f(1f, 1f, 1f))
+        pointLights = [new PointLight(new Vector3f(1f, 0.5f, 0f), 0.8f, new Vector3f(-2f, 0f, 5f), new Attenuation(0f, 0f, 1f), 6f),
+                       new PointLight(new Vector3f(0f, 0.5f, 1f), 0.8f, new Vector3f(2f, 0f, 7f), new Attenuation(0f, 0f, 1f), 6f)]
 
         camera.position.z = -2
 
+        /*
         Vertex[] vertices = [new Vertex(new Vector3f(-1.0f, -1.0f, 0.5773f), new Vector2f(0.0f, 0.0f)),
                              new Vertex(new Vector3f(0.0f, -1.0f, -1.15475f), new Vector2f(0.5f, 0.0f)),
                              new Vertex(new Vector3f(1.0f, -1.0f, 0.5773f), new Vector2f(1.0f, 0.0f)),
@@ -39,6 +47,18 @@ class Game {
                          1, 3, 2,
                          2, 3, 0,
                          1, 2, 0]
+         */
+
+        float fieldDepth = 10.0f
+        float fieldWidth = 10.0f
+
+        Vertex[] vertices = [new Vertex(new Vector3f(-fieldWidth, 0.0f, -fieldDepth), new Vector2f(0.0f, 0.0f)),
+                             new Vertex(new Vector3f(-fieldWidth, 0.0f, fieldDepth * 3 as float), new Vector2f(0.0f, 1.0f)),
+                             new Vertex(new Vector3f(fieldWidth * 3f as float, 0.0f, -fieldDepth), new Vector2f(1.0f, 0.0f)),
+                             new Vertex(new Vector3f(fieldWidth * 3f as float, 0.0f, fieldDepth * 3 as float), new Vector2f(1.0f, 1.0f))];
+
+        int[] indices = [0, 1, 2,
+                         2, 1, 3]
 
         mesh.addVertices(vertices, indices, true)
 
@@ -50,7 +70,12 @@ class Game {
                 .link()
                 .addUniform("transformProjected", "transform", "baseColor", "ambientLight", "specularIntensity", "specularPower", "eyePos")
                 .addDirectionalLigthUniform("directionalLight")
-                .use()
+
+        for (int i in 0..pointLights.length - 1) {
+            shaderProgram.addPointLight("pointLights[" + i + "]")
+        }
+
+        shaderProgram.use()
 
         setProjection(70f, MainComponent.WIDTH as float, MainComponent.HEIGHT as float, 0.1f, 1000f)
     }
@@ -92,8 +117,12 @@ class Game {
 
         def sinTemp = Math.sin(temp) as float
 
-        transform.translation = new Vector3f(0f, 0f, 5f)
-        transform.rotation = new Vector3f(0f, (sinTemp * 180f) as float, 0f)
+        transform.setTranslation(new Vector3f(0, -1, 5))
+        //transform.setRotation(0, sinTemp * 180, 0);
+
+        pointLights[0].setPosition(new Vector3f(3, 0, 8.0f * (Math.sin(temp) + 1.0 / 2.0) + 10f as float))
+        pointLights[1].setPosition(new Vector3f(7, 0, 8.0f * (Math.cos(temp) + 1.0 / 2.0) + 10f as float))
+
         //transform.setScale(0.7f * sinTemp, 0.7f * sinTemp, 0.7f * sinTemp);
     }
 
@@ -103,10 +132,15 @@ class Game {
                 .setUniform("transform", transform.transformation)
                 .setUniform("baseColor", material.color)
                 .setUniform("ambientLight", ambientLight)
-                .setUniform("directionalLight", directionalLight)
+                //.setUniform("directionalLight", directionalLight)
                 .setUniform("specularIntensity", material.specularIntensity)
                 .setUniform("specularPower", material.specularPower)
                 .setUniform("eyePos", transform.camera.position)
+
+        for (int i in 0..pointLights.length - 1) {
+            shaderProgram.setUniform("pointLights[" + i + "]", pointLights[i])
+        }
+
         material.bind()
         mesh.draw()
     }

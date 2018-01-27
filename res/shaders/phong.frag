@@ -1,5 +1,7 @@
 #version 330
 
+const int MAX_POINT_LIGHTS = 4;
+
 struct BaseLight {
     vec3 color;
     float intensity;
@@ -8,6 +10,19 @@ struct BaseLight {
 struct DirectionalLight {
     BaseLight base;
     vec3 direction;
+};
+
+struct Attenuation {
+    float contant;
+    float linear;
+    float exponent;
+};
+
+struct PointLight {
+    BaseLight base;
+    Attenuation atten;
+    vec3 position;
+    float range;
 };
 
 in vec2 texCoord0;
@@ -21,6 +36,7 @@ uniform sampler2D sampler;
 uniform float specularIntensity;
 uniform float specularPower;
 uniform DirectionalLight directionalLight;
+uniform PointLight pointLights[MAX_POINT_LIGHTS];
 
 out vec4 fragColor;
 
@@ -50,6 +66,25 @@ vec4 calcDirectionLight(DirectionalLight directionalLight, vec3 normal) {
     return calcLight(directionalLight.base, -directionalLight.direction, normal);
 }
 
+vec4 calcPointLight(PointLight pointLight, vec3 normal) {
+    vec3 lightDirection = worldPos0 - pointLight.position;
+    float distanceToPoint = length(lightDirection);
+
+    if (distanceToPoint > pointLight.range)
+        return vec4(0, 0, 0, 0);
+
+    lightDirection = normalize(lightDirection);
+
+    vec4 color = calcLight(pointLight.base, lightDirection, normal);
+
+    float attenuation = pointLight.atten.contant +
+        pointLight.atten.linear * distanceToPoint +
+        pointLight.atten.exponent * distanceToPoint * distanceToPoint +
+        0.0001;
+
+    return color / attenuation;
+}
+
 void main() {
     vec4 textureColor = texture(sampler, texCoord0.xy);
 
@@ -63,6 +98,11 @@ void main() {
     vec3 normal = normalize(normal0);
 
     totalLight += calcDirectionLight(directionalLight, normal);
+
+    for (int i = 0; i < MAX_POINT_LIGHTS; i++) {
+        if (pointLights[i].base.intensity > 0)
+            totalLight += calcPointLight(pointLights[i], normal);
+    }
 
     fragColor = color * totalLight;
 }

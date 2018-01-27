@@ -3,7 +3,8 @@ package com.scorsi.gameengine
 import groovy.transform.CompileStatic
 
 import static org.lwjgl.opengl.GL11.*
-import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER_SRGB
+import static org.lwjgl.opengl.GL30.*
+import static org.lwjgl.opengl.GL32.*
 
 @CompileStatic
 class RenderUtil {
@@ -27,9 +28,9 @@ class RenderUtil {
         glEnable(GL_CULL_FACE)
         glEnable(GL_DEPTH_TEST)
 
-        // TODO: Depth clamp for later
+        glEnable(GL_DEPTH_CLAMP)
 
-        glEnable(GL_FRAMEBUFFER_SRGB)
+        setTexture(true)
     }
 
     static String getOpenGLVersion() {

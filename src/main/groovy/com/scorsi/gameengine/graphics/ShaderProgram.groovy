@@ -1,7 +1,9 @@
 package com.scorsi.gameengine.graphics
 
+import com.scorsi.gameengine.graphics.lights.Attenuation
 import com.scorsi.gameengine.graphics.lights.BaseLight
 import com.scorsi.gameengine.graphics.lights.DirectionalLight
+import com.scorsi.gameengine.graphics.lights.PointLight
 import com.scorsi.gameengine.math.*
 import groovy.transform.CompileStatic
 import org.lwjgl.system.MemoryStack
@@ -170,6 +172,31 @@ class ShaderProgram {
     }
 
     /**
+     * Add an uniform location based on Attenuation.
+     *
+     * @param name Uniform name
+     * @return Location of the uniform
+     */
+    ShaderProgram addAttenuation(String name) {
+        return addUniform(name + ".constant")
+                .addUniform(name + ".linear")
+                .addUniform(name + ".exponent")
+    }
+
+    /**
+     * Add an uniform location based on PointLight.
+     *
+     * @param name Uniform name
+     * @return Location of the uniform
+     */
+    ShaderProgram addPointLight(String name) {
+        return addBaseLigthUniform(name + ".base")
+                .addUniform(name + ".position")
+                .addAttenuation(name + ".atten")
+                .addUniform(name + ".range")
+    }
+
+    /**
      * Sets the uniform variable for specified location.
      *
      * @param location Uniform location
@@ -287,16 +314,53 @@ class ShaderProgram {
         return this
     }
 
+    /**
+     * Sets the uniform variable for specified location.
+     *
+     * @param location Uniform location
+     * @param value Value to set
+     */
     ShaderProgram setUniform(String location, BaseLight baseLight) {
         setUniform(location + ".color", baseLight.color)
         setUniform(location + ".intensity", baseLight.intensity)
         return this
     }
 
+    /**
+     * Sets the uniform variable for specified location.
+     *
+     * @param location Uniform location
+     * @param value Value to set
+     */
     ShaderProgram setUniform(String location, DirectionalLight directionalLight) {
         setUniform(location + ".base", directionalLight as BaseLight)
         setUniform(location + ".direction", directionalLight.direction)
         return this
+    }
+
+    /**
+     * Sets the uniform variable for specified location.
+     *
+     * @param location Uniform location
+     * @param value Value to set
+     */
+    ShaderProgram setUniform(String location, Attenuation attenuation) {
+        return setUniform(location + ".constant", attenuation.constant)
+                .setUniform(location + ".linear", attenuation.linear)
+                .setUniform(location + ".exponent", attenuation.exponent)
+    }
+
+    /**
+     * Sets the uniform variable for specified location.
+     *
+     * @param location Uniform location
+     * @param value Value to set
+     */
+    ShaderProgram setUniform(String location, PointLight pointLight) {
+        return setUniform(location + ".base", pointLight as BaseLight)
+                .setUniform(location + ".atten", pointLight.attenuation)
+                .setUniform(location + ".position", pointLight.position)
+                .setUniform(location + ".range", pointLight.range)
     }
 
     /**
