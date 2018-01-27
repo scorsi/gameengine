@@ -48,7 +48,7 @@ class Game {
                 .attachShader(Shader.loadVertexShader("phong.vert"))
                 .attachShader(Shader.loadFragmentShader("phong.frag"))
                 .link()
-                .addUniform("transformProjected", "transform", "baseColor", "ambientLight")
+                .addUniform("transformProjected", "transform", "baseColor", "ambientLight", "specularIntensity", "specularPower", "eyePos")
                 .addDirectionalLigthUniform("directionalLight")
                 .use()
 
@@ -104,6 +104,9 @@ class Game {
                 .setUniform("baseColor", material.color)
                 .setUniform("ambientLight", ambientLight)
                 .setUniform("directionalLight", directionalLight)
+                .setUniform("specularIntensity", material.specularIntensity)
+                .setUniform("specularPower", material.specularPower)
+                .setUniform("eyePos", transform.camera.position)
         material.bind()
         mesh.draw()
     }
