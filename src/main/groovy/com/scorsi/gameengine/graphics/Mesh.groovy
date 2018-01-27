@@ -2,15 +2,11 @@ package com.scorsi.gameengine.graphics
 
 import com.scorsi.gameengine.Util
 import com.scorsi.gameengine.math.Vertex
-import groovy.transform.CompileStatic
-
-import java.nio.FloatBuffer
 
 import static org.lwjgl.opengl.GL11.*
 import static org.lwjgl.opengl.GL15.*
 import static org.lwjgl.opengl.GL20.*
 
-@CompileStatic
 class Mesh {
 
     private int vbo

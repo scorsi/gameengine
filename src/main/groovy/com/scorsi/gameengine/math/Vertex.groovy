@@ -1,11 +1,7 @@
 package com.scorsi.gameengine.math
 
-import com.scorsi.gameengine.math.Vector2f
-import com.scorsi.gameengine.math.Vector3f
-import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
-@CompileStatic
 @ToString(includePackage = false, includeNames = true)
 class Vertex {
     static final int SIZE = 8

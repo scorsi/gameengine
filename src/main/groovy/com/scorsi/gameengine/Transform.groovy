@@ -2,9 +2,7 @@ package com.scorsi.gameengine
 
 import com.scorsi.gameengine.math.Matrix4f
 import com.scorsi.gameengine.math.Vector3f
-import groovy.transform.CompileStatic
 
-@CompileStatic
 class Transform {
 
     Camera camera

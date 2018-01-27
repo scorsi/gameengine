@@ -1,14 +1,12 @@
 package com.scorsi.gameengine
 
 import com.scorsi.gameengine.math.Vector2f
-import groovy.transform.CompileStatic
 import org.lwjgl.BufferUtils
 
 import java.nio.DoubleBuffer
 
 import static org.lwjgl.glfw.GLFW.*
 
-@CompileStatic
 class Input {
 
     public static final int KEY_SPACE = GLFW_KEY_SPACE,

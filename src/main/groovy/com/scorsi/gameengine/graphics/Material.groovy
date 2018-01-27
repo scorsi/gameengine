@@ -1,10 +1,8 @@
 package com.scorsi.gameengine.graphics
 
 import com.scorsi.gameengine.math.Vector3f
-import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
-@CompileStatic
 @ToString(includePackage = false, includeNames = true)
 class Material {
 

@@ -3,9 +3,7 @@ package com.scorsi.gameengine
 import com.scorsi.gameengine.graphics.Mesh
 import com.scorsi.gameengine.math.Vector3f
 import com.scorsi.gameengine.math.Vertex
-import groovy.transform.CompileStatic
 
-@CompileStatic
 class ResourceLoader {
 
     static String loadShader(String fileName) {

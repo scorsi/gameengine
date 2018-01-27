@@ -1,13 +1,11 @@
 package com.scorsi.gameengine
 
 import com.scorsi.gameengine.math.Vertex
-import groovy.transform.CompileStatic
 import org.lwjgl.BufferUtils
 
 import java.nio.FloatBuffer
 import java.nio.IntBuffer
 
-@CompileStatic
 class Util {
 
     static FloatBuffer createFloatBuffer(int size) {

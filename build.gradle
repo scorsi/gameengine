@@ -30,6 +30,10 @@ repositories {
     mavenCentral()
 }
 
+compileGroovy {
+    groovyOptions.configurationScript = file("configScript.groovy")
+}
+
 dependencies {
     compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
     compile 'org.codehaus.groovy:groovy-all:3.0.0-alpha-1'

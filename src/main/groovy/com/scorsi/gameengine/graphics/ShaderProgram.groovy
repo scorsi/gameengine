@@ -5,7 +5,6 @@ import com.scorsi.gameengine.graphics.lights.BaseLight
 import com.scorsi.gameengine.graphics.lights.DirectionalLight
 import com.scorsi.gameengine.graphics.lights.PointLight
 import com.scorsi.gameengine.math.*
-import groovy.transform.CompileStatic
 import org.lwjgl.system.MemoryStack
 
 import java.nio.FloatBuffer
@@ -21,7 +20,6 @@ import static org.lwjgl.system.MemoryUtil.NULL
  *
  * @author Heiko Brumme
  */
-@CompileStatic
 class ShaderProgram {
 
     /**

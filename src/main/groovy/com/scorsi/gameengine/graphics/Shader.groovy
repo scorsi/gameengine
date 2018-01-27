@@ -1,7 +1,6 @@
 package com.scorsi.gameengine.graphics
 
 import com.scorsi.gameengine.ResourceLoader
-import groovy.transform.CompileStatic
 
 import static org.lwjgl.opengl.GL11.GL_TRUE
 import static org.lwjgl.opengl.GL20.*
@@ -11,7 +10,6 @@ import static org.lwjgl.system.MemoryUtil.NULL
 /**
  * This class represents a shader.
  */
-@CompileStatic
 class Shader {
 
     /**
