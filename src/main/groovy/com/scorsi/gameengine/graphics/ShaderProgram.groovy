@@ -4,6 +4,7 @@ import com.scorsi.gameengine.graphics.lights.Attenuation
 import com.scorsi.gameengine.graphics.lights.BaseLight
 import com.scorsi.gameengine.graphics.lights.DirectionalLight
 import com.scorsi.gameengine.graphics.lights.PointLight
+import com.scorsi.gameengine.graphics.lights.SpotLight
 import com.scorsi.gameengine.math.*
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
@@ -157,7 +158,7 @@ class ShaderProgram {
      * @param name Uniform name
      * @return Location of the uniform
      */
-    ShaderProgram addBaseLigthUniform(String name) {
+    ShaderProgram addBaseLightUniform(String name) {
         return addUniform(name + ".color")
                 .addUniform(name + ".intensity")
     }
@@ -168,8 +169,8 @@ class ShaderProgram {
      * @param name Uniform name
      * @return Location of the uniform
      */
-    ShaderProgram addDirectionalLigthUniform(String name) {
-        return addBaseLigthUniform(name + ".base")
+    ShaderProgram addDirectionalLightUniform(String name) {
+        return addBaseLightUniform(name + ".base")
                 .addUniform(name + ".direction")
     }
 
@@ -179,7 +180,7 @@ class ShaderProgram {
      * @param name Uniform name
      * @return Location of the uniform
      */
-    ShaderProgram addAttenuation(String name) {
+    ShaderProgram addAttenuationUniform(String name) {
         return addUniform(name + ".constant")
                 .addUniform(name + ".linear")
                 .addUniform(name + ".exponent")
@@ -191,11 +192,23 @@ class ShaderProgram {
      * @param name Uniform name
      * @return Location of the uniform
      */
-    ShaderProgram addPointLight(String name) {
-        return addBaseLigthUniform(name + ".base")
+    ShaderProgram addPointLightUniform(String name) {
+        return addBaseLightUniform(name + ".base")
                 .addUniform(name + ".position")
-                .addAttenuation(name + ".atten")
+                .addAttenuationUniform(name + ".atten")
                 .addUniform(name + ".range")
+    }
+
+    /**
+     * Add an uniform location based on SpotLight.
+     *
+     * @param name Uniform name
+     * @return Location of the uniform
+     */
+    ShaderProgram addSpotLightUniform(String name) {
+        return addPointLightUniform(name + ".pointLight")
+                .addUniform(name + ".direction")
+                .addUniform(name + ".cutoff")
     }
 
     /**
@@ -363,6 +376,18 @@ class ShaderProgram {
                 .setUniform(location + ".atten", pointLight.attenuation)
                 .setUniform(location + ".position", pointLight.position)
                 .setUniform(location + ".range", pointLight.range)
+    }
+
+    /**
+     * Sets the uniform variable for specified location.
+     *
+     * @param location Uniform location
+     * @param value Value to set
+     */
+    ShaderProgram setUniform(String location, SpotLight spotLight) {
+        return setUniform(location + ".pointLight", spotLight as PointLight)
+                .setUniform(location + ".direction", spotLight.direction)
+                .setUniform(location + ".cutoff", spotLight.cutoff)
     }
 
     /**

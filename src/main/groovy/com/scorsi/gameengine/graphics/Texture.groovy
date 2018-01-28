@@ -121,9 +121,9 @@ class Texture {
         int width, height
         MemoryStack.stackPush().withCloseable { stack ->
             /* Prepare image buffers */
-            IntBuffer w = stack.mallocInt(1)
-            IntBuffer h = stack.mallocInt(1)
-            IntBuffer comp = stack.mallocInt(1)
+            def w = stack.mallocInt(1)
+            def h = stack.mallocInt(1)
+            def comp = stack.mallocInt(1)
 
             /* Load image */
             stbi_set_flip_vertically_on_load(true)

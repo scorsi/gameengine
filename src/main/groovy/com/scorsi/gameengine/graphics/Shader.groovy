@@ -1,6 +1,5 @@
 package com.scorsi.gameengine.graphics
 
-import com.scorsi.gameengine.ResourceLoader
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
@@ -87,7 +86,7 @@ class Shader {
      * @param source Source of the shader
      * @return Compiled Shader from the specified source
      */
-    static Shader createShader(int type, CharSequence source) {
+    private static Shader createShader(int type, CharSequence source) {
         Shader shader = new Shader(type)
         shader.source(source)
         shader.compile()
@@ -132,8 +131,26 @@ class Shader {
      * @param path File path of the shader
      * @return Compiled Shader from specified file
      */
-    static Shader loadShader(int type, String path) {
-        return createShader(type, ResourceLoader.loadShader(path))
+    private static String loadShader(String path) {
+        def shaderSource = new StringBuilder()
+        def shaderReader
+
+        try {
+            shaderReader = new BufferedReader(new FileReader("./res/shaders/" + path))
+            def line
+
+            while ((line = shaderReader.readLine()) != null) {
+                shaderSource.append(line).append("\n")
+            }
+
+            shaderReader.close()
+        } catch (Exception e) {
+            e.printStackTrace()
+            System.exit(1)
+        }
+
+
+        return shaderSource.toString()
     }
 
     /**
@@ -143,7 +160,7 @@ class Shader {
      * @return Compiled Shader from specified file
      */
     static Shader loadVertexShader(String path) {
-        return createVertexShader(ResourceLoader.loadShader(path))
+        return createVertexShader(loadShader(path))
     }
 
     /**
@@ -153,7 +170,7 @@ class Shader {
      * @return Compiled Shader from specified file
      */
     static Shader loadFragmentShader(String path) {
-        return createFragmentShader(ResourceLoader.loadShader(path))
+        return createFragmentShader(loadShader(path))
     }
 
     /**
@@ -163,7 +180,7 @@ class Shader {
      * @return Compiled Shader from specified file
      */
     static Shader loadGeometryShader(String path) {
-        return createGeometryShader(ResourceLoader.loadShader(path))
+        return createGeometryShader(loadShader(path))
     }
 
 }

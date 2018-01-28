@@ -28,14 +28,13 @@ class Game {
     private Vector3f ambientLight
 
     Game() {
-        mesh = new Mesh()
         material = new Material(Texture.loadTexture("test.png"), new Vector3f(1f, 1f, 1f), 1f, 8f)
         camera = new Camera()
         transform = new Transform()
         ambientLight = new Vector3f(0.01f, 0.01f, 0.01f)
         directionalLight = new DirectionalLight(new Vector3f(0.1f, 0.1f, 0.1f), 0.8f, new Vector3f(1f, 1f, 1f))
-        //pointLights = [new PointLight(new Vector3f(1f, 0.5f, 0f), 0.8f, new Vector3f(-2f, 0f, 5f), new Attenuation(0f, 0f, 1f), 6f),
-        //               new PointLight(new Vector3f(0f, 0.5f, 1f), 0.8f, new Vector3f(2f, 0f, 7f), new Attenuation(0f, 0f, 1f), 6f)]
+        pointLights = [new PointLight(new Vector3f(1f, 0.5f, 0f), 0.8f, new Vector3f(-2f, 0f, 5f), new Attenuation(0f, 0f, 1f), 6f),
+                       new PointLight(new Vector3f(0f, 0.5f, 1f), 0.8f, new Vector3f(2f, 0f, 7f), new Attenuation(0f, 0f, 1f), 6f)]
         spotLights = [new SpotLight(new Vector3f(1f, 0.5f, 0f), 0.8f, new Vector3f(-2f, 0f, 5f), new Attenuation(0f, 0f, 0.1f), 30f, new Vector3f(1, 1, 1), 0.7f)]
 
         camera.position.z = -2
@@ -63,7 +62,7 @@ class Game {
         int[] indices = [0, 1, 2,
                          2, 1, 3]
 
-        mesh.addVertices(vertices, indices, true)
+        mesh = new Mesh(vertices, indices, true)
 
         transform.camera = camera
 
@@ -127,8 +126,8 @@ class Game {
         transform.setTranslation(new Vector3f(0, -1, 5))
         //transform.setRotation(0, sinTemp * 180, 0);
 
-        //pointLights[0].setPosition(new Vector3f(3, 0, 8.0f * (Math.sin(temp) + 1.0 / 2.0) + 10f as float))
-        //pointLights[1].setPosition(new Vector3f(7, 0, 8.0f * (Math.cos(temp) + 1.0 / 2.0) + 10f as float))
+        pointLights[0].setPosition(new Vector3f(3, 0, 8.0f * (Math.sin(temp) + 1.0 / 2.0) + 10f as float))
+        pointLights[1].setPosition(new Vector3f(7, 0, 8.0f * (Math.cos(temp) + 1.0 / 2.0) + 10f as float))
 
         //transform.setScale(0.7f * sinTemp, 0.7f * sinTemp, 0.7f * sinTemp);
 
