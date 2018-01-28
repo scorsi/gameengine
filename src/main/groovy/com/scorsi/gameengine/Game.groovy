@@ -4,6 +4,7 @@ import com.scorsi.gameengine.graphics.*
 import com.scorsi.gameengine.graphics.lights.Attenuation
 import com.scorsi.gameengine.graphics.lights.DirectionalLight
 import com.scorsi.gameengine.graphics.lights.PointLight
+import com.scorsi.gameengine.graphics.lights.SpotLight
 import com.scorsi.gameengine.math.Vector2f
 import com.scorsi.gameengine.math.Vector3f
 import com.scorsi.gameengine.math.Vertex
@@ -16,26 +17,26 @@ import static com.scorsi.gameengine.Transform.*
 @ToString(includePackage = false, includeNames = true)
 class Game {
 
-    final int MAX_POINT_LIGHTS = 4
-
     private Mesh mesh
     private Material material
     private ShaderProgram shaderProgram
     private Transform transform
     private Camera camera
     private DirectionalLight directionalLight
-    private PointLight[] pointLights
+    private PointLight[] pointLights = []
+    private SpotLight[] spotLights = []
     private Vector3f ambientLight
 
     Game() {
         mesh = new Mesh()
-        material = new Material(Texture.loadTexture("test.png"), new Vector3f(1f, 1f, 8f))
+        material = new Material(Texture.loadTexture("test.png"), new Vector3f(1f, 1f, 1f), 1f, 8f)
         camera = new Camera()
         transform = new Transform()
         ambientLight = new Vector3f(0.01f, 0.01f, 0.01f)
-        directionalLight = new DirectionalLight(new Vector3f(1f, 1f, 1f), 0.8f, new Vector3f(1f, 1f, 1f))
-        pointLights = [new PointLight(new Vector3f(1f, 0.5f, 0f), 0.8f, new Vector3f(-2f, 0f, 5f), new Attenuation(0f, 0f, 1f), 6f),
-                       new PointLight(new Vector3f(0f, 0.5f, 1f), 0.8f, new Vector3f(2f, 0f, 7f), new Attenuation(0f, 0f, 1f), 6f)]
+        directionalLight = new DirectionalLight(new Vector3f(0.1f, 0.1f, 0.1f), 0.8f, new Vector3f(1f, 1f, 1f))
+        //pointLights = [new PointLight(new Vector3f(1f, 0.5f, 0f), 0.8f, new Vector3f(-2f, 0f, 5f), new Attenuation(0f, 0f, 1f), 6f),
+        //               new PointLight(new Vector3f(0f, 0.5f, 1f), 0.8f, new Vector3f(2f, 0f, 7f), new Attenuation(0f, 0f, 1f), 6f)]
+        spotLights = [new SpotLight(new Vector3f(1f, 0.5f, 0f), 0.8f, new Vector3f(-2f, 0f, 5f), new Attenuation(0f, 0f, 0.1f), 30f, new Vector3f(1, 1, 1), 0.7f)]
 
         camera.position.z = -2
 
@@ -71,10 +72,14 @@ class Game {
                 .attachShader(Shader.loadFragmentShader("phong.frag"))
                 .link()
                 .addUniform("transformProjected", "transform", "baseColor", "ambientLight", "specularIntensity", "specularPower", "eyePos")
-                .addDirectionalLigthUniform("directionalLight")
+                .addDirectionalLightUniform("directionalLight")
 
-        for (int i in 0..pointLights.length - 1) {
-            shaderProgram.addPointLight("pointLights[" + i + "]")
+        for (int i in pointLights.indices) {
+            shaderProgram.addPointLightUniform("pointLights[" + i + "]")
+        }
+
+        for (int i in spotLights.indices) {
+            shaderProgram.addSpotLightUniform("spotLights[" + i + "]")
         }
 
         shaderProgram.use()
@@ -122,10 +127,13 @@ class Game {
         transform.setTranslation(new Vector3f(0, -1, 5))
         //transform.setRotation(0, sinTemp * 180, 0);
 
-        pointLights[0].setPosition(new Vector3f(3, 0, 8.0f * (Math.sin(temp) + 1.0 / 2.0) + 10f as float))
-        pointLights[1].setPosition(new Vector3f(7, 0, 8.0f * (Math.cos(temp) + 1.0 / 2.0) + 10f as float))
+        //pointLights[0].setPosition(new Vector3f(3, 0, 8.0f * (Math.sin(temp) + 1.0 / 2.0) + 10f as float))
+        //pointLights[1].setPosition(new Vector3f(7, 0, 8.0f * (Math.cos(temp) + 1.0 / 2.0) + 10f as float))
 
         //transform.setScale(0.7f * sinTemp, 0.7f * sinTemp, 0.7f * sinTemp);
+
+        spotLights[0].position = camera.position
+        spotLights[0].direction = camera.forward
     }
 
     void render() {
@@ -134,13 +142,16 @@ class Game {
                 .setUniform("transform", transform.transformation)
                 .setUniform("baseColor", material.color)
                 .setUniform("ambientLight", ambientLight)
-                //.setUniform("directionalLight", directionalLight)
+                .setUniform("directionalLight", directionalLight)
                 .setUniform("specularIntensity", material.specularIntensity)
                 .setUniform("specularPower", material.specularPower)
                 .setUniform("eyePos", transform.camera.position)
 
-        for (int i in 0..pointLights.length - 1) {
-            shaderProgram.setUniform("pointLights[" + i + "]", pointLights[i])
+        pointLights.eachWithIndex { pointLight, index ->
+            shaderProgram.setUniform("pointLights[" + index + "]", pointLight)
+        }
+        spotLights.eachWithIndex { spotLight, index ->
+            shaderProgram.setUniform("spotLights[" + index + "]", spotLight)
         }
 
         material.bind()
