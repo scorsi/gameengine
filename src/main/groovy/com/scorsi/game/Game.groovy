@@ -1,6 +1,7 @@
 package com.scorsi.game
 
-import com.scorsi.engine.core.MainComponent
+import com.scorsi.engine.core.Engine
+import com.scorsi.engine.core.IGame
 import com.scorsi.engine.core.Input
 import com.scorsi.engine.core.Time
 import com.scorsi.engine.rendering.Material
@@ -24,7 +25,9 @@ import static Transform.*
 
 @CompileStatic
 @ToString(includePackage = false, includeNames = true)
-class Game {
+class Game implements IGame {
+
+    private Engine engine
 
     private Mesh mesh
     private Material material
@@ -36,7 +39,9 @@ class Game {
     private SpotLight[] spotLights = []
     private Vector3f ambientLight
 
-    Game() {
+    void initialize(Engine engine) {
+        this.engine = engine
+
         material = new Material(Texture.loadTexture("test.png"), new Vector3f(1f, 1f, 1f), 1f, 8f)
         camera = new Camera()
         transform = new Transform()
@@ -92,7 +97,7 @@ class Game {
 
         shaderProgram.use()
 
-        setProjection(70f, MainComponent.WIDTH as float, MainComponent.HEIGHT as float, 0.1f, 1000f)
+        setProjection(70f, engine.window.width as float, engine.window.height as float, 0.1f, 1000f)
     }
 
     void input(Input input) {
@@ -164,6 +169,10 @@ class Game {
 
         material.bind()
         mesh.draw()
+    }
+
+    void shutdown() {
+
     }
 
 }

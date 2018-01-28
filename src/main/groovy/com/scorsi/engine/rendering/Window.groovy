@@ -32,6 +32,9 @@ class Window {
      */
     private boolean vsync
 
+    float width
+    float height
+
     /**
      * Creates a GLFW window and its OpenGL context with the specified width,
      * height and title.
@@ -42,6 +45,8 @@ class Window {
      * @param vsync Set to true, if you want v-sync
      */
     Window(int width, int height, CharSequence title, boolean vsync) {
+        this.width = width as float
+        this.height = height as float
         this.vsync = vsync
 
         /* Creating a temporary window for getting the available OpenGL version */
@@ -50,7 +55,6 @@ class Window {
         long temp = glfwCreateWindow(1, 1, "", NULL, NULL)
         glfwMakeContextCurrent(temp)
         GL.createCapabilities()
-        GLCapabilities caps = GL.getCapabilities()
         glfwDestroyWindow(temp)
 
         /* Reset and set window hints */

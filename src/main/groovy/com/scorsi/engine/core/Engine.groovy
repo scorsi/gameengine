@@ -11,30 +11,37 @@ import static org.lwjgl.glfw.GLFW.glfwTerminate
 
 @CompileStatic
 @ToString(includePackage = false, includeNames = true)
-class MainComponent {
+class Engine {
 
-    public static final int WIDTH = 800
-    public static final int HEIGHT = 600
-    public static final String TITLE = "3D Engine"
-    public static final double FRAME_CAP = 5000.0
+    private double framerate = 60
+    private double frametime = 1f / 60f
+    private IGame game
 
-    public Window window
-    public Game game
-    public Input input
+    Window window
+    Input input
 
-    public boolean isRunning
+    boolean isRunning
 
-    MainComponent() {
-        window = new Window(WIDTH, HEIGHT, TITLE, true)
+    Engine(IGame game) {
+        glfwInit()
+        this.game = game
+    }
+
+    void createWindow(int width, int height, String title) {
+        if (window != null) return
+        window = new Window(width, height, title, true)
         RenderUtil.initGraphics()
-        game = new Game()
         input = new Input(window.id)
+    }
 
-        System.out.println(RenderUtil.getOpenGLVersion())
+    void setFramerate(double framerate) {
+        this.framerate = framerate
+        this.frametime = 1f / framerate
     }
 
     void start() {
         if (isRunning) return
+        game.initialize(this)
         run()
     }
 
@@ -43,10 +50,14 @@ class MainComponent {
         isRunning = false
     }
 
+    void dispose() {
+        game.shutdown()
+        clean()
+        glfwTerminate()
+    }
+
     private void run() {
         isRunning = true
-
-        final double frameTime = 1.0 / FRAME_CAP
         int frames = 0
         int frameCounter = 0
 
@@ -63,26 +74,27 @@ class MainComponent {
             unprocessedTime += passedTime / (double) Time.SECOND
             frameCounter += passedTime as int
 
-            while (unprocessedTime > frameTime) {
-                doRender = true
-                unprocessedTime -= frameTime
+            if (frameCounter >= Time.SECOND) {
+                System.out.println("Frames: " + frames)
+                frameCounter = 0
+                frames = 0
+            }
 
-                Time.delta = frameTime
+            while (unprocessedTime > frametime) {
+                doRender = true
+
+                unprocessedTime -= frametime
+
+                Time.delta = frametime
 
                 input.update()
                 game.input(input)
                 game.update()
-
-                if (frameCounter >= Time.SECOND) {
-                    System.out.println("Frames: " + frames)
-                    frameCounter = 0
-                    frames = 0
-                }
             }
 
             if (doRender) {
                 render()
-                ++frames
+                frames++
             } else {
                 try {
                     Thread.sleep(1)
@@ -93,8 +105,6 @@ class MainComponent {
 
             if (window.isClosing()) stop()
         }
-
-        clean()
     }
 
     private void clean() {
@@ -105,12 +115,6 @@ class MainComponent {
         RenderUtil.clear()
         game.render()
         window.update()
-    }
-
-    static void main(String[] args) {
-        glfwInit()
-        new MainComponent().start()
-        glfwTerminate()
     }
 
 }
