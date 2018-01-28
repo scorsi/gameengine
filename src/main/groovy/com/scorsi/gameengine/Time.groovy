@@ -1,5 +1,10 @@
 package com.scorsi.gameengine
 
+import groovy.transform.CompileStatic
+import groovy.transform.ToString
+
+@CompileStatic
+@ToString(includePackage = false, includeNames = true)
 class Time {
 
     public static final long SECOND = 1000000000L

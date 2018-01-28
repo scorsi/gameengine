@@ -7,9 +7,13 @@ import com.scorsi.gameengine.graphics.lights.PointLight
 import com.scorsi.gameengine.math.Vector2f
 import com.scorsi.gameengine.math.Vector3f
 import com.scorsi.gameengine.math.Vertex
+import groovy.transform.CompileStatic
+import groovy.transform.ToString
 
 import static com.scorsi.gameengine.Transform.*
 
+@CompileStatic
+@ToString(includePackage = false, includeNames = true)
 class Game {
 
     final int MAX_POINT_LIGHTS = 4

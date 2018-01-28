@@ -1,7 +1,11 @@
 package com.scorsi.gameengine
 
 import com.scorsi.gameengine.math.Vector3f
+import groovy.transform.CompileStatic
+import groovy.transform.ToString
 
+@CompileStatic
+@ToString(includePackage = false, includeNames = true)
 class Camera {
 
     static final Vector3f yAxis = new Vector3f(0f, 1f, 0f)

@@ -1,8 +1,13 @@
 package com.scorsi.gameengine
 
+import groovy.transform.CompileStatic
+import groovy.transform.ToString
+
 import static org.lwjgl.opengl.GL11.*
 import static org.lwjgl.opengl.GL32.*
 
+@CompileStatic
+@ToString(includePackage = false, includeNames = true)
 class RenderUtil {
     static void clear() {
         // TODO: Stencil buffer

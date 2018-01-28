@@ -1,5 +1,8 @@
 package com.scorsi.gameengine.graphics
 
+import groovy.transform.CompileStatic
+import groovy.transform.ToString
+
 import java.nio.ByteBuffer
 import java.nio.IntBuffer
 import org.lwjgl.system.MemoryStack
@@ -11,6 +14,8 @@ import static org.lwjgl.stb.STBImage.*
 /**
  * This class represents a texture.
  */
+@CompileStatic
+@ToString(includePackage = false, includeNames = true)
 class Texture {
 
     /**

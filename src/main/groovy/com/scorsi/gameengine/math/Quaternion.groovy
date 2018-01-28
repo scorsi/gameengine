@@ -1,7 +1,9 @@
 package com.scorsi.gameengine.math
 
+import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
+@CompileStatic
 @ToString(includePackage = false, includeNames = true)
 class Quaternion {
 

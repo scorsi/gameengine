@@ -1,8 +1,13 @@
 package com.scorsi.gameengine
 
+import groovy.transform.CompileStatic
+import groovy.transform.ToString
+
 import static org.lwjgl.glfw.GLFW.glfwInit
 import static org.lwjgl.glfw.GLFW.glfwTerminate
 
+@CompileStatic
+@ToString(includePackage = false, includeNames = true)
 class MainComponent {
 
     public static final int WIDTH = 800
