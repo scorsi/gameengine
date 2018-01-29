@@ -17,12 +17,12 @@ abstract class Game {
 
     }
 
-    void input(Input input) {
-        root.input(input)
+    void input(float delta, Input input) {
+        root.input(delta, input)
     }
 
-    void update() {
-        root.update()
+    void update(float delta) {
+        root.update(delta)
     }
 
     void shutdown() {}

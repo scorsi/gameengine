@@ -146,4 +146,7 @@ class Vector2f {
         buffer.flip()
     }
 
+    boolean equals(Vector2f r) {
+        return x == r.x && y == r.y
+    }
 }

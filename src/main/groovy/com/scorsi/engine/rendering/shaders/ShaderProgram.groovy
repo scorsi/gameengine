@@ -9,6 +9,9 @@ import com.scorsi.engine.rendering.lights.DirectionalLight
 import com.scorsi.engine.rendering.lights.PointLight
 import com.scorsi.engine.rendering.lights.SpotLight
 import com.scorsi.engine.core.math.*
+import deleted.Matrix2f
+import deleted.Matrix3f
+import deleted.Vector4f
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 import org.lwjgl.system.MemoryStack

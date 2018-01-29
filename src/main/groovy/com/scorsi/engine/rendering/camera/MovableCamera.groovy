@@ -1,7 +1,6 @@
 package com.scorsi.engine.rendering.camera
 
 import com.scorsi.engine.core.Input
-import com.scorsi.engine.core.Time
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
@@ -13,9 +12,9 @@ class MovableCamera extends Camera {
         super(fov, aspect, zNear, zFar)
     }
 
-    void input(Input input) {
-        final def moveAmount = (10f * Time.getDelta()) as float
-        final def rotateAmount = (100f * Time.getDelta()) as float
+    void input(float delta, Input input) {
+        final def moveAmount = (10f * delta) as float
+        final def rotateAmount = (100f * delta) as float
 
         if (input.isKeyDownRepeated(Input.KEY_W)) {
             move(forward, moveAmount)

@@ -15,9 +15,9 @@ abstract class GameComponent {
         this.object = object
     }
 
-    void input(Input input) {}
+    void input(float delta, Input input) {}
 
-    void update() {}
+    void update(float delta) {}
 
     void render(ShaderProgram shader) {}
 

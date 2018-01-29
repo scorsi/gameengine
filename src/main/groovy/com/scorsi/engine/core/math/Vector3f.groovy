@@ -166,14 +166,41 @@ class Vector3f {
         return new Vector3f(w.x, w.y, w.z)
     }
 
+    Vector2f getXY() {
+        return new Vector2f(x, y)
+    }
+
+    Vector2f getYZ() {
+        return new Vector2f(y, z)
+    }
+
+    Vector2f getZX() {
+        return new Vector2f(z, x)
+    }
+
+    Vector2f getYX() {
+        return new Vector2f(y, x)
+    }
+
+    Vector2f getZY() {
+        return new Vector2f(z, y)
+    }
+
+    Vector2f getXZ() {
+        return new Vector2f(x, z)
+    }
+
     /**
      * Stores the vector in a given Buffer.
      *
      * @param buffer The buffer to store the vector data
      */
     void toBuffer(FloatBuffer buffer) {
-        buffer.put(x).put(y).put(z)
-        buffer.flip()
+        buffer.put(x).put(y).put(z).flip()
+    }
+
+    boolean equals(Vector3f r) {
+        return x == r.x && y == r.y && z == r.z
     }
 
 }

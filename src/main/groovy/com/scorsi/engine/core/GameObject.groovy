@@ -13,21 +13,21 @@ class GameObject {
     ArrayList<GameComponent> components = new ArrayList<>()
     Transform transform = new Transform()
 
-    void input(Input input) {
+    void input(float delta, Input input) {
         components.each {
-            it.input(input)
+            it.input(delta, input)
         }
         children.each {
-            it.input(input)
+            it.input(delta, input)
         }
     }
 
-    void update() {
+    void update(float delta) {
         components.each {
-            it.update()
+            it.update(delta)
         }
         children.each {
-            it.update()
+            it.update(delta)
         }
     }
 

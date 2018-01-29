@@ -1,5 +1,6 @@
 package com.scorsi.engine.rendering
 
+import com.scorsi.engine.core.math.Vector2f
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 import org.lwjgl.glfw.GLFWKeyCallback
@@ -151,6 +152,10 @@ class Window {
      */
     boolean isVSyncEnabled() {
         return this.vsync
+    }
+
+    Vector2f getCenter() {
+        return new Vector2f(width / 2f as float, height / 2 as float)
     }
 
 }

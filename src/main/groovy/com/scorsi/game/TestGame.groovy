@@ -37,8 +37,4 @@ class TestGame extends Game {
         root.children.add(planeObject)
     }
 
-    void input(Input input) {
-        super.input(input)
-    }
-
 }

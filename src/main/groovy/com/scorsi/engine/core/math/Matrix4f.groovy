@@ -1,5 +1,6 @@
 package com.scorsi.engine.core.math
 
+import deleted.Vector4f
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
@@ -316,16 +317,16 @@ class Matrix4f {
     static Matrix4f orthographic(float left, float right, float bottom, float top, float near, float far) {
         Matrix4f ortho = new Matrix4f()
 
-        def tx = (-(right + left) / (right - left)) as float
-        def ty = (-(top + bottom) / (top - bottom)) as float
-        def tz = (-(far + near) / (far - near)) as float
+        def width = right - left as float
+        def height = top - bottom as float
+        def depth = far - near as float
 
-        ortho.m00 = (2f / (right - left)) as float
-        ortho.m11 = (2f / (top - bottom)) as float
-        ortho.m22 = (-2f / (far - near)) as float
-        ortho.m03 = tx
-        ortho.m13 = ty
-        ortho.m23 = tz
+        ortho.m00 = 2f / width as float
+        ortho.m11 = 2f / height as float
+        ortho.m22 = -2f / depth as float
+        ortho.m03 = -(right + left) / width as float
+        ortho.m13 = -(top + bottom) / height as float
+        ortho.m23 = -(far + near) / depth as float
 
         return ortho
     }

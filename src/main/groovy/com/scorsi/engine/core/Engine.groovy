@@ -61,20 +61,20 @@ class Engine {
         int frames = 0
         int frameCounter = 0
 
-        long lastTime = Time.getTime()
+        double lastTime = Time.actualTime
         double unprocessedTime = 0
 
         while (isRunning) {
             boolean doRender = false
 
-            long startTime = Time.getTime()
-            long passedTime = startTime - lastTime
+            double startTime = Time.actualTime
+            double passedTime = startTime - lastTime
             lastTime = startTime
 
-            unprocessedTime += passedTime / (double) Time.SECOND
+            unprocessedTime += passedTime
             frameCounter += passedTime as int
 
-            if (frameCounter >= Time.SECOND) {
+            if (frameCounter >= 1) {
                 System.out.println("Frames: " + frames)
                 frameCounter = 0
                 frames = 0
@@ -85,11 +85,9 @@ class Engine {
 
                 unprocessedTime -= frametime
 
-                Time.delta = frametime
-
                 input.update()
-                game.input(input)
-                game.update()
+                game.input(frametime as float, input)
+                game.update(frametime as float)
             }
 
             if (doRender) {
