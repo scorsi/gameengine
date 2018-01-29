@@ -128,6 +128,21 @@ class Matrix4f {
         return this
     }
 
+    Matrix4f initRotation(Vector3f forward, Vector3f up, Vector3f right)
+    {
+        m00 = right.x
+        m01 = right.y
+        m02 = right.z
+        m10 = up.x
+        m11 = up.y
+        m12 = up.z
+        m20 = forward.x
+        m21 = forward.y
+        m22 = forward.z
+
+        return this
+    }
+
     /**
      * Adds this matrix to another matrix.
      *
@@ -387,7 +402,7 @@ class Matrix4f {
         perspective.m11 = 1f / f as float
         perspective.m22 = ((-zNear - zFar) / (zNear - zFar)) as float
         perspective.m23 = ((2f * zFar * zNear) / (zNear - zFar)) as float
-        perspective.m32 = 1f;
+        perspective.m32 = 1f
         perspective.m33 = 0f
 
         return perspective

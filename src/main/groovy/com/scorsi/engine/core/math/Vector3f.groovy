@@ -152,14 +152,11 @@ class Vector3f {
      * @return Linear interpolated vector
      */
     Vector3f lerp(Vector3f other, float alpha) {
-        return this.multiply(1f - alpha as float) + other.multiply(alpha)
+        return this * (1f - alpha as float) + other * alpha
     }
 
-    Vector3f rotate(float angle, Vector3f axis) {
-        def sinHalfRadian = Math.sin(Math.toRadians(angle / 2 as double)) as float
-        def cosHalfRadian = Math.cos(Math.toRadians(angle / 2 as double)) as float
-
-        Quaternion rotation = new Quaternion(axis.x * sinHalfRadian as float, axis.y * sinHalfRadian as float, axis.z * sinHalfRadian as float, cosHalfRadian)
+    Vector3f rotate(Vector3f axis, float angle) {
+        Quaternion rotation = new Quaternion().initRotation(axis, angle)
         Quaternion conjugate = rotation.conjugate()
         Quaternion w = rotation * this * conjugate
 

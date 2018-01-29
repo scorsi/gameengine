@@ -36,13 +36,13 @@ class Camera extends GameObject {
     }
 
     void rotateY(float angle) {
-        forward = forward.rotate(angle, yAxis).normalize()
+        forward = forward.rotate(yAxis, angle).normalize()
         up = forward.cross(yAxis.cross(forward).normalize()).normalize()
     }
 
     void rotateX(float angle) {
         Vector3f hAxis = yAxis.cross(forward).normalize()
-        forward = forward.rotate(angle, hAxis).normalize()
+        forward = forward.rotate(hAxis, angle).normalize()
         up = forward.cross(hAxis).normalize()
     }
 

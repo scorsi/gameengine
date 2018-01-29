@@ -9,15 +9,17 @@ import groovy.transform.ToString
 @ToString(includePackage = false, includeNames = true)
 class SpotLight extends PointLight {
 
-    Vector3f direction
     float cutoff
 
-    SpotLight(Vector3f color, float intensity, Vector3f attenuation, Vector3f direction, float cutoff) {
+    SpotLight(Vector3f color, float intensity, Vector3f attenuation, float cutoff) {
         super(color, intensity, attenuation)
-        this.direction = direction.normalize()
         this.cutoff = cutoff
 
         this.shader = ForwardSpotShader.instance
+    }
+
+    Vector3f getDirection() {
+        parent.transform.rotation.forward
     }
 
 }

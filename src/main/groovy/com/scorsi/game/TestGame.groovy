@@ -6,6 +6,7 @@ import com.scorsi.engine.components.PointLight
 import com.scorsi.engine.components.SpotLight
 import com.scorsi.engine.core.Game
 import com.scorsi.engine.core.GameObject
+import com.scorsi.engine.core.math.Quaternion
 import com.scorsi.engine.core.math.Vector2f
 import com.scorsi.engine.core.math.Vector3f
 import com.scorsi.engine.core.math.Vertex
@@ -47,11 +48,12 @@ class TestGame extends Game {
 
         def spotLightObject = new GameObject()
         spotLightObject.addComponent(new SpotLight(new Vector3f(0, 1, 1), 0.4f,
-                new Vector3f(0, 0, 0.1f),
-                new Vector3f(1, 0, 0), 0.7f))
+                new Vector3f(0, 0, 0.1f), 0.7f))
 
         spotLightObject.transform.translation.x = 5
         spotLightObject.transform.translation.z = 5
+
+        spotLightObject.transform.rotation = new Quaternion().initRotation(new Vector3f(0, 1, 0), -90.0f)
 
         root.addChildren(planeObject, directionalLightObject, pointLightObject, spotLightObject)
     }
