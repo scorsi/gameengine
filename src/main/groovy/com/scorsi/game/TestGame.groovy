@@ -29,7 +29,6 @@ class TestGame extends Game {
                          2, 1, 3]
 
         planeObject.transform.translation.y = -1
-        planeObject.transform.translation.z = 5
         planeObject.components.add(new MeshRenderer(planeObject,
                 new Mesh(vertices, indices, true),
                 new Material(Texture.loadTexture("test.png"), new Vector3f(1f, 1f, 1f), 1f, 8f)))
