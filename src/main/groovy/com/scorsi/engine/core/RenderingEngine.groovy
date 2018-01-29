@@ -2,27 +2,13 @@ package com.scorsi.engine.core
 
 import com.scorsi.engine.core.math.Vector3f
 import com.scorsi.engine.rendering.camera.Camera
-import com.scorsi.engine.rendering.shaders.BasicShader
+import com.scorsi.engine.rendering.lights.DirectionalLight
 import com.scorsi.engine.rendering.shaders.ForwardAmbientShader
+import com.scorsi.engine.rendering.shaders.ForwardDirectionalShader
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
-import static org.lwjgl.opengl.GL11.GL_BACK
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT
-import static org.lwjgl.opengl.GL11.GL_CULL_FACE
-import static org.lwjgl.opengl.GL11.GL_CW
-import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT
-import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D
-import static org.lwjgl.opengl.GL11.GL_VERSION
-import static org.lwjgl.opengl.GL11.glBindTexture
-import static org.lwjgl.opengl.GL11.glClear
-import static org.lwjgl.opengl.GL11.glClearColor
-import static org.lwjgl.opengl.GL11.glCullFace
-import static org.lwjgl.opengl.GL11.glDisable
-import static org.lwjgl.opengl.GL11.glEnable
-import static org.lwjgl.opengl.GL11.glFrontFace
-import static org.lwjgl.opengl.GL11.glGetString
+import static org.lwjgl.opengl.GL11.*
 import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP
 
 @CompileStatic
@@ -30,14 +16,20 @@ import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP
 class RenderingEngine {
 
     Camera mainCamera
-    Vector3f ambientLight = new Vector3f(0.2f, 0.2f, 0.2f)
+    Vector3f ambientLight
+    DirectionalLight directionalLight
+    DirectionalLight directionalLight2
 
     RenderingEngine() {
         initGraphics()
+
+        ambientLight = new Vector3f(0.2f, 0.2f, 0.2f)
+        directionalLight = new DirectionalLight(new Vector3f(0, 0, 1), 0.4f, new Vector3f(1, 1, 1))
+        directionalLight2 = new DirectionalLight(new Vector3f(1, 0, 0), 0.4f, new Vector3f(-1, 1, -1))
     }
 
-    private void initGraphics() {
-        glClearColor(0f, 0f, 0f, 0f)
+    private static final void initGraphics() {
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f)
 
         glFrontFace(GL_CW)
         glCullFace(GL_BACK)
@@ -46,14 +38,7 @@ class RenderingEngine {
 
         glEnable(GL_DEPTH_CLAMP)
 
-        setTexture(true)
-    }
-
-    void render(GameObject object) {
-        def forwardAmbient = ForwardAmbientShader.instance
-        forwardAmbient.renderingEngine = this
-        clear()
-        object.render(forwardAmbient)
+        glEnable(GL_TEXTURE_2D)
     }
 
     private void clear() {
@@ -61,15 +46,30 @@ class RenderingEngine {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     }
 
-    private void setTexture(boolean enabled) {
-        if (enabled)
-            glEnable(GL_TEXTURE_2D)
-        else
-            glDisable(GL_TEXTURE_2D)
-    }
+    void render(GameObject object) {
+        clear()
 
-    private void unbindTextures() {
-        glBindTexture(GL_TEXTURE_2D, 0)
+        def forwardAmbient = ForwardAmbientShader.instance
+        def forwardDirectional = ForwardDirectionalShader.instance
+        forwardAmbient.renderingEngine = this
+        forwardDirectional.renderingEngine = this
+
+        object.render(forwardAmbient)
+
+        glEnable(GL_BLEND)
+        glBlendFunc(GL_ONE, GL_ONE)
+        glDepthMask(false)
+        glDepthFunc(GL_EQUAL)
+
+        forwardDirectional.directionalLight = directionalLight
+        object.render(forwardDirectional)
+
+        forwardDirectional.directionalLight = directionalLight2
+        object.render(forwardDirectional)
+
+        glDepthFunc(GL_LESS)
+        glDepthMask(true)
+        glDisable(GL_BLEND)
     }
 
     static String getOpenGLVersion() {

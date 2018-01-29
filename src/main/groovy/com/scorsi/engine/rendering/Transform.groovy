@@ -28,8 +28,4 @@ class Transform {
         return translationMatrix * rotationMatrix * scaleMatrix
     }
 
-    Matrix4f getProjectedTransformation(Camera camera) {
-        return camera.viewProjection * transformation
-    }
-
 }

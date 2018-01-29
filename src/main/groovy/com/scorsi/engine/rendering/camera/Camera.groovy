@@ -25,14 +25,14 @@ class Camera extends GameObject {
     }
 
     Matrix4f getViewProjection() {
-        def cameraRotationMatrix = new Matrix4f().initRotation(forward, up)
-        def cameraTranslationMatrix = Matrix4f.translate(-position.x, -position.y, -position.z)
+        def cameraRotation = new Matrix4f().initRotation(forward, up)
+        def cameraTranslation = Matrix4f.translate(-position.x, -position.y, -position.z)
 
-        return projection * cameraRotationMatrix * cameraTranslationMatrix
+        return projection * cameraRotation * cameraTranslation
     }
 
     void move(Vector3f direction, float amount) {
-        position = position + direction.scale(amount)
+        position = position + direction * amount
     }
 
     void rotateY(float angle) {

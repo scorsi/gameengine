@@ -16,7 +16,7 @@ class BasicShader extends ShaderProgram {
 
         attachShader(Shader.loadVertexShader("basic.vert"))
         attachShader(Shader.loadFragmentShader("basic.frag"))
-        link()
+        compile()
 
         addUniform("transform")
         addUniform("color")

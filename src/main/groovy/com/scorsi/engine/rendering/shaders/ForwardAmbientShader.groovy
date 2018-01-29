@@ -16,10 +16,11 @@ class ForwardAmbientShader extends ShaderProgram {
 
         attachShader(Shader.loadVertexShader("forward-ambient.vert"))
         attachShader(Shader.loadFragmentShader("forward-ambient.frag"))
-        link()
 
         bindAttributeLocation(0, "position")
         bindAttributeLocation(1, "texCoord")
+
+        compile()
 
         addUniform("MVP")
         addUniform("ambientIntensity")
@@ -28,8 +29,11 @@ class ForwardAmbientShader extends ShaderProgram {
     ShaderProgram updateUniforms(Transform transform, Material material) {
         def projectedMatrix = renderingEngine.mainCamera.viewProjection * transform.transformation
         material.bind()
-        return setUniform("MVP", projectedMatrix)
-                .setUniform("ambientIntensity", renderingEngine.ambientLight)
+
+        setUniform("MVP", projectedMatrix)
+        setUniform("ambientIntensity", renderingEngine.ambientLight)
+
+        return this
     }
 
 }

@@ -84,7 +84,7 @@ class Vector3f {
      * @return Negated vector
      */
     Vector3f negate() {
-        return scale(-1f)
+        return multiply(-1f)
     }
 
     /**
@@ -103,7 +103,7 @@ class Vector3f {
      * @param scalar Scalar to multiply
      * @return Scalar product of this * scalar
      */
-    Vector3f scale(float scalar) {
+    Vector3f multiply(float scalar) {
         def x = (this.x * scalar) as float
         def y = (this.y * scalar) as float
         def z = (this.z * scalar) as float
@@ -117,7 +117,7 @@ class Vector3f {
      * @return Scalar quotient of this / scalar
      */
     Vector3f divide(float scalar) {
-        return scale(1f / scalar as float)
+        return multiply(1f / scalar as float)
     }
 
     /**
@@ -152,7 +152,7 @@ class Vector3f {
      * @return Linear interpolated vector
      */
     Vector3f lerp(Vector3f other, float alpha) {
-        return this.scale(1f - alpha as float) + other.scale(alpha)
+        return this.multiply(1f - alpha as float) + other.multiply(alpha)
     }
 
     Vector3f rotate(float angle, Vector3f axis) {

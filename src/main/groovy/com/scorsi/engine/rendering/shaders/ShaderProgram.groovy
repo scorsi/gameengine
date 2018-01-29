@@ -87,10 +87,20 @@ class ShaderProgram {
     /**
      * Link this program and check it's status afterwards.
      */
-    ShaderProgram link() {
+    ShaderProgram compile() {
         glLinkProgram(id)
 
-        checkStatus()
+        if (glGetProgrami(id, GL_LINK_STATUS) == 0) {
+            System.err.println(glGetProgramInfoLog(id, 1024))
+            System.exit(1)
+        }
+
+        glValidateProgram(id)
+
+        if (glGetProgrami(id, GL_VALIDATE_STATUS) == 0) {
+            System.err.println(glGetProgramInfoLog(id, 1024))
+            System.exit(1)
+        }
         return this
     }
 
@@ -306,7 +316,7 @@ class ShaderProgram {
 
             glUniformMatrix2fv(uniforms[location], false, buffer)
         }
-        return this;
+        return this
     }
 
     /**
