@@ -80,6 +80,10 @@ class ShaderProgram {
         glBindFragDataLocation(id, number, name)
     }
 
+    void bindAttributeLocation(int location, CharSequence name) {
+        glBindAttribLocation(id, location, name)
+    }
+
     /**
      * Link this program and check it's status afterwards.
      */

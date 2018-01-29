@@ -1,7 +1,9 @@
 package com.scorsi.engine.core
 
+import com.scorsi.engine.core.math.Vector3f
 import com.scorsi.engine.rendering.camera.Camera
 import com.scorsi.engine.rendering.shaders.BasicShader
+import com.scorsi.engine.rendering.shaders.ForwardAmbientShader
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
@@ -27,8 +29,8 @@ import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP
 @ToString(includePackage = false, includeNames = true)
 class RenderingEngine {
 
-    Engine engine
     Camera mainCamera
+    Vector3f ambientLight = new Vector3f(0.2f, 0.2f, 0.2f)
 
     RenderingEngine() {
         initGraphics()
@@ -48,10 +50,10 @@ class RenderingEngine {
     }
 
     void render(GameObject object) {
-        def shader = BasicShader.instance
-        shader.renderingEngine = this
+        def forwardAmbient = ForwardAmbientShader.instance
+        forwardAmbient.renderingEngine = this
         clear()
-        object.render(shader)
+        object.render(forwardAmbient)
     }
 
     private void clear() {

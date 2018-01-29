@@ -26,7 +26,7 @@ class BasicShader extends ShaderProgram {
         def projectedMatrix = renderingEngine.mainCamera.viewProjection * transform.transformation
         material.bind()
         return setUniform("transform", projectedMatrix)
-                .setUniform("color", material.getColor())
+                .setUniform("color", material.color)
     }
 
 }
