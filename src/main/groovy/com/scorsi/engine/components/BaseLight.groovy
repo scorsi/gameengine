@@ -1,7 +1,6 @@
 package com.scorsi.engine.components
 
 import com.scorsi.engine.core.GameComponent
-import com.scorsi.engine.core.GameObject
 import com.scorsi.engine.core.RenderingEngine
 import com.scorsi.engine.core.math.Vector3f
 import com.scorsi.engine.rendering.shaders.ShaderProgram
@@ -16,8 +15,7 @@ class BaseLight extends GameComponent {
     Vector3f color
     float intensity
 
-    BaseLight(GameObject object, Vector3f color, float intensity) {
-        super(object)
+    BaseLight(Vector3f color, float intensity) {
         this.color = color
         this.intensity = intensity
     }

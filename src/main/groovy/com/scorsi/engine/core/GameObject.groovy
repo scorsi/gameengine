@@ -6,8 +6,11 @@ import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
 @CompileStatic
-@ToString(includePackage = false, includeNames = true)
+@ToString(includePackage = false, includeNames = true, excludes = "parent")
+// excludes fix recursive toString call
 class GameObject {
+
+    GameObject parent
 
     ArrayList<GameObject> children = new ArrayList<>()
     ArrayList<GameComponent> components = new ArrayList<>()
@@ -52,6 +55,7 @@ class GameObject {
 
     GameObject addComponent(GameComponent component) {
         components.add(component)
+        component.parent = this
         return this
     }
 
@@ -62,6 +66,7 @@ class GameObject {
 
     GameObject addChild(GameObject child) {
         children.add(child)
+        child.parent = this
         return this
     }
 

@@ -136,6 +136,10 @@ class Vector2f {
         return this.scale(1f - alpha as float) + other.scale(alpha)
     }
 
+    float max() {
+        return Math.max(x, y)
+    }
+
     /**
      * Stores the vector in a given Buffer.
      *

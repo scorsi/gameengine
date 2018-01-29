@@ -387,7 +387,7 @@ class ShaderProgram {
                 .setUniform(location + ".atten.constant", pointLight.constant)
                 .setUniform(location + ".atten.linear", pointLight.linear)
                 .setUniform(location + ".atten.exponent", pointLight.exponent)
-                .setUniform(location + ".position", pointLight.position)
+                .setUniform(location + ".position", pointLight.parent.transform.translation)
                 .setUniform(location + ".range", pointLight.range)
     }
 

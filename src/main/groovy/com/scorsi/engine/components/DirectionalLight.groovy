@@ -1,6 +1,5 @@
 package com.scorsi.engine.components
 
-import com.scorsi.engine.core.GameObject
 import com.scorsi.engine.core.math.Vector3f
 import com.scorsi.engine.rendering.shaders.ForwardDirectionalShader
 import groovy.transform.CompileStatic
@@ -12,8 +11,8 @@ class DirectionalLight extends BaseLight {
 
     Vector3f direction
 
-    DirectionalLight(GameObject object, Vector3f color, float intensity, Vector3f direction) {
-        super(object, color, intensity)
+    DirectionalLight(Vector3f color, float intensity, Vector3f direction) {
+        super(color, intensity)
         this.direction = direction.normalize()
 
         this.shader = ForwardDirectionalShader.instance

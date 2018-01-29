@@ -166,6 +166,10 @@ class Vector3f {
         return new Vector3f(w.x, w.y, w.z)
     }
 
+    float max() {
+        return Math.max(x, Math.max(y, z))
+    }
+
     Vector2f getXY() {
         return new Vector2f(x, y)
     }

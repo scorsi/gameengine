@@ -1,7 +1,6 @@
 package com.scorsi.engine.components
 
 import com.scorsi.engine.core.GameComponent
-import com.scorsi.engine.core.GameObject
 import com.scorsi.engine.rendering.Material
 import com.scorsi.engine.rendering.Mesh
 import com.scorsi.engine.rendering.shaders.ShaderProgram
@@ -15,14 +14,13 @@ class MeshRenderer extends GameComponent {
     Mesh mesh
     Material material
 
-    MeshRenderer(GameObject object, Mesh mesh, Material material) {
-        super(object)
+    MeshRenderer(Mesh mesh, Material material) {
         this.mesh = mesh
         this.material = material
     }
 
     void render(ShaderProgram shader) {
-        shader.use().updateUniforms(object.transform, material)
+        shader.use().updateUniforms(parent.transform, material)
         mesh.draw()
     }
 
