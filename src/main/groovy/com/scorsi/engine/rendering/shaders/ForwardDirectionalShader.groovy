@@ -1,8 +1,8 @@
 package com.scorsi.engine.rendering.shaders
 
+import com.scorsi.engine.components.DirectionalLight
 import com.scorsi.engine.rendering.Material
 import com.scorsi.engine.rendering.Transform
-import com.scorsi.engine.components.DirectionalLight
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
@@ -11,7 +11,6 @@ import groovy.transform.ToString
 class ForwardDirectionalShader extends ShaderProgram {
 
     static final ForwardDirectionalShader instance = new ForwardDirectionalShader()
-    DirectionalLight directionalLight
 
     private ForwardDirectionalShader() {
         super()
@@ -47,7 +46,7 @@ class ForwardDirectionalShader extends ShaderProgram {
         setUniform("specularPower", material.specularPower)
 
         setUniform("eyePos", renderingEngine.mainCamera.position)
-        setUniform("directionalLight", directionalLight)
+        setUniform("directionalLight", renderingEngine.activeLight as DirectionalLight)
 
         return this
     }

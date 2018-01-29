@@ -1,8 +1,8 @@
 package com.scorsi.engine.rendering.shaders
 
+import com.scorsi.engine.components.PointLight
 import com.scorsi.engine.rendering.Material
 import com.scorsi.engine.rendering.Transform
-import com.scorsi.engine.components.PointLight
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
@@ -11,7 +11,6 @@ import groovy.transform.ToString
 class ForwardPointShader extends ShaderProgram {
 
     static final ForwardPointShader instance = new ForwardPointShader()
-    PointLight pointLight
 
     private ForwardPointShader() {
         super()
@@ -47,7 +46,7 @@ class ForwardPointShader extends ShaderProgram {
         setUniform("specularPower", material.specularPower)
 
         setUniform("eyePos", renderingEngine.mainCamera.position)
-        setUniform("pointLight", pointLight)
+        setUniform("pointLight", renderingEngine.activeLight as PointLight)
 
         return this
     }

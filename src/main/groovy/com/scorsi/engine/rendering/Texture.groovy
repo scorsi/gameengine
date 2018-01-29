@@ -2,10 +2,9 @@ package com.scorsi.engine.rendering
 
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
+import org.lwjgl.system.MemoryStack
 
 import java.nio.ByteBuffer
-
-import org.lwjgl.system.MemoryStack
 
 import static org.lwjgl.opengl.GL11.*
 import static org.lwjgl.opengl.GL13.GL_CLAMP_TO_BORDER

@@ -1,11 +1,8 @@
 package com.scorsi.engine.core
 
+import com.scorsi.engine.components.BaseLight
 import com.scorsi.engine.core.math.Vector3f
 import com.scorsi.engine.rendering.camera.Camera
-import com.scorsi.engine.rendering.lights.Attenuation
-import com.scorsi.engine.components.DirectionalLight
-import com.scorsi.engine.components.PointLight
-import com.scorsi.engine.components.SpotLight
 import com.scorsi.engine.rendering.shaders.ForwardAmbientShader
 import com.scorsi.engine.rendering.shaders.ForwardDirectionalShader
 import com.scorsi.engine.rendering.shaders.ForwardPointShader
@@ -23,9 +20,8 @@ class RenderingEngine {
     Camera mainCamera
     Vector3f ambientLight = new Vector3f(0.2f, 0.2f, 0.2f)
 
-    ArrayList<DirectionalLight> directionalLights = new ArrayList<>()
-    ArrayList<SpotLight> spotLights = new ArrayList<>()
-    ArrayList<PointLight> pointLights = new ArrayList<>()
+    ArrayList<BaseLight> lights = new ArrayList<>()
+    BaseLight activeLight
 
     RenderingEngine() {
         initGraphics()
@@ -47,14 +43,11 @@ class RenderingEngine {
     private void clear() {
         // TODO: Stencil buffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-
-        directionalLights.clear()
-        spotLights.clear()
-        pointLights.clear()
     }
 
     void render(GameObject object) {
         clear()
+        lights.clear()
 
         object.addToRenderingEngine(this)
 
@@ -74,19 +67,10 @@ class RenderingEngine {
         glDepthMask(false)
         glDepthFunc(GL_EQUAL)
 
-        directionalLights.each { directionalLight ->
-            forwardDirectional.directionalLight = directionalLight
-            object.render(forwardDirectional)
-        }
-
-        pointLights.each { pointLight ->
-            forwardPoint.pointLight = pointLight
-            object.render(forwardPoint)
-        }
-
-        spotLights.each { spotLight ->
-            forwardSpot.spotLight = spotLight
-            object.render(forwardSpot)
+        lights.each { light ->
+            light.shader.renderingEngine = this
+            activeLight = light
+            object.render(light.shader)
         }
 
         glDepthFunc(GL_LESS)

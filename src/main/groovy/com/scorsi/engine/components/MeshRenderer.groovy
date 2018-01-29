@@ -4,7 +4,6 @@ import com.scorsi.engine.core.GameComponent
 import com.scorsi.engine.core.GameObject
 import com.scorsi.engine.rendering.Material
 import com.scorsi.engine.rendering.Mesh
-import com.scorsi.engine.rendering.shaders.BasicShader
 import com.scorsi.engine.rendering.shaders.ShaderProgram
 import groovy.transform.CompileStatic
 import groovy.transform.ToString

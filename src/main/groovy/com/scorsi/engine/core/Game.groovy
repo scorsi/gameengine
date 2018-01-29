@@ -1,6 +1,5 @@
 package com.scorsi.engine.core
 
-import com.scorsi.engine.rendering.shaders.ShaderProgram
 import groovy.transform.CompileStatic
 
 @CompileStatic

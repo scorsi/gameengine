@@ -6,7 +6,6 @@ import groovy.transform.ToString
 import org.lwjgl.glfw.GLFWKeyCallback
 import org.lwjgl.glfw.GLFWVidMode
 import org.lwjgl.opengl.GL
-import org.lwjgl.opengl.GLCapabilities
 
 import static org.lwjgl.glfw.GLFW.*
 import static org.lwjgl.system.MemoryUtil.NULL

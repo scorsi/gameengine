@@ -2,7 +2,6 @@ package com.scorsi.engine.rendering
 
 import com.scorsi.engine.core.math.Matrix4f
 import com.scorsi.engine.core.math.Vector3f
-import com.scorsi.engine.rendering.camera.Camera
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 

@@ -1,37 +1,30 @@
 package com.scorsi.engine.components
 
-import com.scorsi.engine.core.GameComponent
 import com.scorsi.engine.core.GameObject
-import com.scorsi.engine.core.RenderingEngine
 import com.scorsi.engine.core.math.Vector3f
-import com.scorsi.engine.rendering.lights.Attenuation
-import com.scorsi.engine.rendering.lights.BaseLight
+import com.scorsi.engine.rendering.shaders.ForwardPointShader
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
 @CompileStatic
 @ToString(includePackage = false, includeNames = true)
-class PointLight extends GameComponent {
+class PointLight extends BaseLight {
 
-    BaseLight baseLight
     Vector3f position
-    Attenuation attenuation
+    float constant
+    float linear
+    float exponent
     float range
 
-    PointLight(GameObject object, Vector3f color, float intensity, Vector3f position, Attenuation attenuation, float range) {
-        this(object, new BaseLight(color, intensity), position, attenuation, range)
-    }
-
-    PointLight(GameObject object, BaseLight baseLight, Vector3f position, Attenuation attenuation, float range) {
-        super(object)
-        this.baseLight = baseLight
+    PointLight(GameObject object, Vector3f color, float intensity, Vector3f position, float constant, float linear, float exponent, float range) {
+        super(object, color, intensity)
         this.position = position
-        this.attenuation = attenuation
+        this.constant = constant
+        this.linear = linear
+        this.exponent = exponent
         this.range = range
-    }
 
-    void addToRenderingEngine(RenderingEngine renderingEngine) {
-        renderingEngine.pointLights.add(this)
+        this.shader = ForwardPointShader.instance
     }
 
 }

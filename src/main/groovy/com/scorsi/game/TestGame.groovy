@@ -3,14 +3,16 @@ package com.scorsi.game
 import com.scorsi.engine.components.DirectionalLight
 import com.scorsi.engine.components.MeshRenderer
 import com.scorsi.engine.components.PointLight
-import com.scorsi.engine.core.*
+import com.scorsi.engine.components.SpotLight
+import com.scorsi.engine.core.Game
+import com.scorsi.engine.core.GameObject
 import com.scorsi.engine.core.math.Vector2f
 import com.scorsi.engine.core.math.Vector3f
 import com.scorsi.engine.core.math.Vertex
-import com.scorsi.engine.rendering.*
+import com.scorsi.engine.rendering.Material
+import com.scorsi.engine.rendering.Mesh
+import com.scorsi.engine.rendering.Texture
 import com.scorsi.engine.rendering.camera.MovableCamera
-import com.scorsi.engine.rendering.lights.Attenuation
-import com.scorsi.engine.rendering.lights.BaseLight
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
@@ -39,12 +41,17 @@ class TestGame extends Game {
                 new Material(Texture.loadTexture("test.png"), new Vector3f(1f, 1f, 1f), 1f, 8f)))
 
         def directionalLightObject = new GameObject()
-        directionalLightObject.addComponent(new DirectionalLight(directionalLightObject, new BaseLight(new Vector3f(0, 0, 1), 0.4f), new Vector3f(1, 1, 1)))
+        directionalLightObject.addComponent(new DirectionalLight(directionalLightObject, new Vector3f(0, 0, 1), 0.4f, new Vector3f(1, 1, 1)))
 
         def pointLightObject = new GameObject()
-        pointLightObject.addComponent(new PointLight(pointLightObject, new BaseLight(new Vector3f(0, 1, 0), 0.4f), new Vector3f(5, 0, 5), new Attenuation(0, 0, 1), 100))
+        pointLightObject.addComponent(new PointLight(pointLightObject, new Vector3f(0, 1, 0), 0.4f, new Vector3f(5, 0, 5), 0, 0, 1, 100))
 
-        root.addChildren(planeObject, directionalLightObject, pointLightObject)
+        def spotLightObject = new GameObject()
+        spotLightObject.addComponent(new SpotLight(spotLightObject, new Vector3f(0, 1, 1), 0.4f,
+                new Vector3f(5, 0, 5), 0, 0, 0.1f, 100,
+                new Vector3f(1, 0, 0), 0.7f))
+
+        root.addChildren(planeObject, directionalLightObject, pointLightObject, spotLightObject)
     }
 
 }

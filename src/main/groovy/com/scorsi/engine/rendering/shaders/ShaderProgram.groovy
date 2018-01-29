@@ -1,14 +1,15 @@
 package com.scorsi.engine.rendering.shaders
 
-import com.scorsi.engine.core.RenderingEngine
-import com.scorsi.engine.rendering.Material
-import com.scorsi.engine.rendering.Transform
-import com.scorsi.engine.rendering.lights.Attenuation
-import com.scorsi.engine.rendering.lights.BaseLight
+import com.scorsi.engine.components.BaseLight
 import com.scorsi.engine.components.DirectionalLight
 import com.scorsi.engine.components.PointLight
 import com.scorsi.engine.components.SpotLight
-import com.scorsi.engine.core.math.*
+import com.scorsi.engine.core.RenderingEngine
+import com.scorsi.engine.core.math.Matrix4f
+import com.scorsi.engine.core.math.Vector2f
+import com.scorsi.engine.core.math.Vector3f
+import com.scorsi.engine.rendering.Material
+import com.scorsi.engine.rendering.Transform
 import deleted.Matrix2f
 import deleted.Matrix3f
 import deleted.Vector4f
@@ -370,7 +371,7 @@ class ShaderProgram {
      * @param value Value to set
      */
     ShaderProgram setUniform(String location, DirectionalLight directionalLight) {
-        setUniform(location + ".base", directionalLight.baseLight)
+        setUniform(location + ".base", directionalLight as BaseLight)
         setUniform(location + ".direction", directionalLight.direction)
         return this
     }
@@ -381,21 +382,11 @@ class ShaderProgram {
      * @param location Uniform location
      * @param value Value to set
      */
-    ShaderProgram setUniform(String location, Attenuation attenuation) {
-        return setUniform(location + ".constant", attenuation.constant)
-                .setUniform(location + ".linear", attenuation.linear)
-                .setUniform(location + ".exponent", attenuation.exponent)
-    }
-
-    /**
-     * Sets the uniform variable for specified location.
-     *
-     * @param location Uniform location
-     * @param value Value to set
-     */
     ShaderProgram setUniform(String location, PointLight pointLight) {
-        return setUniform(location + ".base", pointLight.baseLight)
-                .setUniform(location + ".atten", pointLight.attenuation)
+        return setUniform(location + ".base", pointLight as BaseLight)
+                .setUniform(location + ".atten.constant", pointLight.constant)
+                .setUniform(location + ".atten.linear", pointLight.linear)
+                .setUniform(location + ".atten.exponent", pointLight.exponent)
                 .setUniform(location + ".position", pointLight.position)
                 .setUniform(location + ".range", pointLight.range)
     }
@@ -407,7 +398,7 @@ class ShaderProgram {
      * @param value Value to set
      */
     ShaderProgram setUniform(String location, SpotLight spotLight) {
-        return setUniform(location + ".pointLight", spotLight.pointLight)
+        return setUniform(location + ".pointLight", spotLight as PointLight)
                 .setUniform(location + ".direction", spotLight.direction)
                 .setUniform(location + ".cutoff", spotLight.cutoff)
     }
