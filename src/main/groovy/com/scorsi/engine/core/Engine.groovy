@@ -91,7 +91,7 @@ class Engine {
             }
 
             if (doRender) {
-                renderingEngine.render(game.root)
+                game.render(renderingEngine)
                 window.update()
                 frames++
             } else {

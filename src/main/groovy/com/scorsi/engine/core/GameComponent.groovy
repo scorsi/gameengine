@@ -15,7 +15,7 @@ abstract class GameComponent {
 
     void update(float delta) {}
 
-    void render(ShaderProgram shader) {}
+    void render(RenderingEngine renderingEngine, ShaderProgram shader) {}
 
     void addToRenderingEngine(RenderingEngine renderingEngine) {}
 

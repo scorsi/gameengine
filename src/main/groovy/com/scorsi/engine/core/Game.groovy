@@ -6,7 +6,7 @@ import groovy.transform.CompileStatic
 abstract class Game {
 
     Engine engine
-    GameObject root
+    private GameObject root
 
     Game() {
         this.root = new GameObject()
@@ -20,10 +20,24 @@ abstract class Game {
         root.input(delta, input)
     }
 
+    void render(RenderingEngine renderingEngine) {
+        renderingEngine.render(root)
+    }
+
     void update(float delta) {
         root.update(delta)
     }
 
     void shutdown() {}
+
+    Game addGameObject(GameObject object) {
+        root.addChild(object)
+        return this
+    }
+
+    Game addGameObjects(GameObject... objects) {
+        objects.each { addGameObject(it) }
+        return this
+    }
 
 }

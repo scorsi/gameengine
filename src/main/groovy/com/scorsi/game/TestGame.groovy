@@ -42,9 +42,14 @@ class TestGame extends Game {
         int[] indices2 = [0, 1, 2,
                           2, 1, 3]
 
-        Mesh mesh2 = new Mesh(vertices2, indices2, true)
-        Mesh mesh = new Mesh(vertices, indices, true)
-        Material material = new Material(Texture.loadTexture("test.png"), new Vector3f(1, 1, 1), 1, 8)
+        def mesh2 = new Mesh(vertices2, indices2, true)
+        def mesh = new Mesh(vertices, indices, true)
+        def material = new Material()
+        material.textures["diffuse"] = Texture.loadTexture("test.png")
+        material.floats["specularIntensity"] = 1f
+        material.floats["specularPower"] = 8f
+
+//        Material material = new Material(Texture.loadTexture("test.png"), new Vector3f(1, 1, 1), 1, 8)
 
         def planeObject = new GameObject().addComponent(new MeshRenderer(mesh, material))
         planeObject.transform.translation.y = -1
@@ -74,7 +79,7 @@ class TestGame extends Game {
 
         spotLightObject.transform.rotation = new Quaternion(new Vector3f(0, 1, 0), -90.0f)
 
-        root.addChildren(mainCamera, planeObject, testMesh1, directionalLightObject, pointLightObject, spotLightObject)
+        addGameObjects(mainCamera, planeObject, testMesh1, directionalLightObject, pointLightObject, spotLightObject)
         testMesh1.addChildren(testMesh2)
     }
 

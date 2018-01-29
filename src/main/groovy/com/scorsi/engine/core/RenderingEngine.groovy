@@ -1,12 +1,9 @@
 package com.scorsi.engine.core
 
 import com.scorsi.engine.components.BaseLight
-import com.scorsi.engine.core.math.Vector3f
 import com.scorsi.engine.components.Camera
+import com.scorsi.engine.core.math.Vector3f
 import com.scorsi.engine.rendering.shaders.ForwardAmbientShader
-import com.scorsi.engine.rendering.shaders.ForwardDirectionalShader
-import com.scorsi.engine.rendering.shaders.ForwardPointShader
-import com.scorsi.engine.rendering.shaders.ForwardSpotShader
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
@@ -51,16 +48,7 @@ class RenderingEngine {
 
         object.addToRenderingEngine(this)
 
-        def forwardAmbient = ForwardAmbientShader.instance
-        def forwardDirectional = ForwardDirectionalShader.instance
-        def forwardPoint = ForwardPointShader.instance
-        def forwardSpot = ForwardSpotShader.instance
-        forwardAmbient.renderingEngine = this
-        forwardDirectional.renderingEngine = this
-        forwardPoint.renderingEngine = this
-        forwardSpot.renderingEngine = this
-
-        object.render(forwardAmbient)
+        object.render(this, ForwardAmbientShader.instance)
 
         glEnable(GL_BLEND)
         glBlendFunc(GL_ONE, GL_ONE)
@@ -68,9 +56,8 @@ class RenderingEngine {
         glDepthFunc(GL_EQUAL)
 
         lights.each { light ->
-            light.shader.renderingEngine = this
             activeLight = light
-            object.render(light.shader)
+            object.render(this, light.shader)
         }
 
         glDepthFunc(GL_LESS)

@@ -34,12 +34,12 @@ class GameObject {
         }
     }
 
-    void render(ShaderProgram shader) {
+    void render(RenderingEngine renderingEngine, ShaderProgram shader) {
         components.each {
-            it.render(shader)
+            it.render(renderingEngine, shader)
         }
         children.each {
-            it.render(shader)
+            it.render(renderingEngine, shader)
         }
     }
 
