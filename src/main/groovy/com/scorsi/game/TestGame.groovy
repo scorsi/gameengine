@@ -1,12 +1,16 @@
 package com.scorsi.game
 
+import com.scorsi.engine.components.DirectionalLight
 import com.scorsi.engine.components.MeshRenderer
+import com.scorsi.engine.components.PointLight
 import com.scorsi.engine.core.*
 import com.scorsi.engine.core.math.Vector2f
 import com.scorsi.engine.core.math.Vector3f
 import com.scorsi.engine.core.math.Vertex
 import com.scorsi.engine.rendering.*
 import com.scorsi.engine.rendering.camera.MovableCamera
+import com.scorsi.engine.rendering.lights.Attenuation
+import com.scorsi.engine.rendering.lights.BaseLight
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
@@ -30,11 +34,17 @@ class TestGame extends Game {
                          2, 1, 3]
 
         planeObject.transform.translation.y = -1
-        planeObject.components.add(new MeshRenderer(planeObject,
+        planeObject.addComponent(new MeshRenderer(planeObject,
                 new Mesh(vertices, indices, true),
                 new Material(Texture.loadTexture("test.png"), new Vector3f(1f, 1f, 1f), 1f, 8f)))
 
-        root.children.add(planeObject)
+        def directionalLightObject = new GameObject()
+        directionalLightObject.addComponent(new DirectionalLight(directionalLightObject, new BaseLight(new Vector3f(0, 0, 1), 0.4f), new Vector3f(1, 1, 1)))
+
+        def pointLightObject = new GameObject()
+        pointLightObject.addComponent(new PointLight(pointLightObject, new BaseLight(new Vector3f(0, 1, 0), 0.4f), new Vector3f(5, 0, 5), new Attenuation(0, 0, 1), 100))
+
+        root.addChildren(planeObject, directionalLightObject, pointLightObject)
     }
 
 }

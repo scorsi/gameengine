@@ -21,41 +21,14 @@ import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP
 class RenderingEngine {
 
     Camera mainCamera
-    Vector3f ambientLight
-    DirectionalLight directionalLight
-    DirectionalLight directionalLight2
-    PointLight[] pointLights
-    SpotLight[] spotLights
+    Vector3f ambientLight = new Vector3f(0.2f, 0.2f, 0.2f)
+
+    ArrayList<DirectionalLight> directionalLights = new ArrayList<>()
+    ArrayList<SpotLight> spotLights = new ArrayList<>()
+    ArrayList<PointLight> pointLights = new ArrayList<>()
 
     RenderingEngine() {
         initGraphics()
-
-        ambientLight = new Vector3f(0.2f, 0.2f, 0.2f)
-        directionalLight = new DirectionalLight(new Vector3f(0, 0, 1), 0.4f, new Vector3f(1, 1, 1))
-        directionalLight2 = new DirectionalLight(new Vector3f(1, 0, 0), 0.4f, new Vector3f(-1, 1, -1))
-
-        int lightFieldWidth = 5
-        int lightFieldDepth = 5
-
-        float lightFieldStartX = 0
-        float lightFieldStartY = 0
-        float lightFieldStepX = 7
-        float lightFieldStepY = 7
-
-        pointLights = new PointLight[lightFieldWidth * lightFieldDepth]
-
-        for (int i = 0; i < lightFieldWidth; i++) {
-            for (int j = 0; j < lightFieldDepth; j++) {
-                pointLights[i * lightFieldWidth + j] = new PointLight(new Vector3f(0, 1, 0), 0.4f,
-                        new Vector3f(lightFieldStartX + lightFieldStepX * i as float, 0f, lightFieldStartY + lightFieldStepY * j as float),
-                        new Attenuation(0, 0, 1), 100)
-            }
-        }
-
-        spotLights = [new SpotLight(new Vector3f(0,1,1), 0.4f,
-                new Vector3f(lightFieldStartX,0,lightFieldStartY),
-                new Attenuation(0,0,0.1f), 100,
-                new Vector3f(1,0,0), 0.7f)]
     }
 
     private static final void initGraphics() {
@@ -74,10 +47,16 @@ class RenderingEngine {
     private void clear() {
         // TODO: Stencil buffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+
+        directionalLights.clear()
+        spotLights.clear()
+        pointLights.clear()
     }
 
     void render(GameObject object) {
         clear()
+
+        object.addToRenderingEngine(this)
 
         def forwardAmbient = ForwardAmbientShader.instance
         def forwardDirectional = ForwardDirectionalShader.instance
@@ -95,11 +74,10 @@ class RenderingEngine {
         glDepthMask(false)
         glDepthFunc(GL_EQUAL)
 
-        forwardDirectional.directionalLight = directionalLight
-        object.render(forwardDirectional)
-
-        forwardDirectional.directionalLight = directionalLight2
-        object.render(forwardDirectional)
+        directionalLights.each { directionalLight ->
+            forwardDirectional.directionalLight = directionalLight
+            object.render(forwardDirectional)
+        }
 
         pointLights.each { pointLight ->
             forwardPoint.pointLight = pointLight

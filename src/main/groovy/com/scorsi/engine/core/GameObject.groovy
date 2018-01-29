@@ -40,4 +40,34 @@ class GameObject {
         }
     }
 
+    GameObject addToRenderingEngine(RenderingEngine renderingEngine) {
+        components.each {
+            it.addToRenderingEngine(renderingEngine)
+        }
+        children.each {
+            it.addToRenderingEngine(renderingEngine)
+        }
+        return this
+    }
+
+    GameObject addComponent(GameComponent component) {
+        components.add(component)
+        return this
+    }
+
+    GameObject addComponents(GameComponent... components) {
+        components.each { addComponent(it) }
+        return this
+    }
+
+    GameObject addChild(GameObject child) {
+        children.add(child)
+        return this
+    }
+
+    GameObject addChildren(GameObject... children) {
+        children.each { addChild(it) }
+        return this
+    }
+
 }
