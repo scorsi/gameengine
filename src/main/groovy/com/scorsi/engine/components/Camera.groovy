@@ -20,8 +20,9 @@ class Camera extends GameComponent {
     }
 
     Matrix4f getViewProjection() {
-        def cameraRotation = parent.transform.rotation.toRotationMatrix()
-        def cameraTranslation = Matrix4f.translate(-parent.transform.translation.x, -parent.transform.translation.y, -parent.transform.translation.z)
+        def cameraRotation = parent.transform.transformedRotation.conjugate().toRotationMatrix()
+        def translation_ = parent.transform.transformedTranslation * -1
+        def cameraTranslation = Matrix4f.translate(translation_.x, translation_.y, translation_.z)
 
         return projection * cameraRotation * cameraTranslation
     }

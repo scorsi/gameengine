@@ -128,8 +128,7 @@ class Matrix4f {
         return this
     }
 
-    Matrix4f initRotation(Vector3f forward, Vector3f up, Vector3f right)
-    {
+    Matrix4f initRotation(Vector3f forward, Vector3f up, Vector3f right) {
         m00 = right.x
         m01 = right.y
         m02 = right.z
@@ -141,6 +140,12 @@ class Matrix4f {
         m22 = forward.z
 
         return this
+    }
+
+    Vector3f transform(Vector3f r) {
+        return new Vector3f(m00 * r.getX() + m01 * r.getY() + m02 * r.getZ() + m03 as float,
+                m10 * r.getX() + m11 * r.getY() + m12 * r.getZ() + m13 as float,
+                m20 * r.getX() + m21 * r.getY() + m22 * r.getZ() + m23 as float)
     }
 
     /**

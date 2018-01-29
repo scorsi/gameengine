@@ -17,22 +17,47 @@ import groovy.transform.ToString
 @ToString(includePackage = false, includeNames = true)
 class TestGame extends Game {
 
+    GameObject testMesh1
+    GameObject testMesh2
+
     void initialize() {
         def mainCamera = new GameObject().addComponent(new MovableCamera(70f, (engine.window.width / engine.window.height) as float, 0.1f, 1000f))
 
         float fieldDepth = 10.0f
         float fieldWidth = 10.0f
+
         Vertex[] vertices = [new Vertex(new Vector3f(-fieldWidth, 0.0f, -fieldDepth), new Vector2f(0.0f, 0.0f)),
-                             new Vertex(new Vector3f(-fieldWidth, 0.0f, fieldDepth * 3 as float), new Vector2f(0.0f, 1.0f)),
-                             new Vertex(new Vector3f(fieldWidth * 3f as float, 0.0f, -fieldDepth), new Vector2f(1.0f, 0.0f)),
-                             new Vertex(new Vector3f(fieldWidth * 3f as float, 0.0f, fieldDepth * 3 as float), new Vector2f(1.0f, 1.0f))]
+                             new Vertex(new Vector3f(-fieldWidth, 0.0f as float, fieldDepth * 3 as float), new Vector2f(0.0f, 1.0f)),
+                             new Vertex(new Vector3f(fieldWidth * 3 as float, 0.0f as float, -fieldDepth as float), new Vector2f(1.0f, 0.0f)),
+                             new Vertex(new Vector3f(fieldWidth * 3 as float, 0.0f as float, fieldDepth * 3 as float), new Vector2f(1.0f, 1.0f))]
+
         int[] indices = [0, 1, 2,
                          2, 1, 3]
 
-        def planeObject = new GameObject()
-                .addComponent(new MeshRenderer(new Mesh(vertices, indices, true),
-                new Material(Texture.loadTexture("test.png"), new Vector3f(1f, 1f, 1f), 1f, 8f)))
+        Vertex[] vertices2 = [new Vertex(new Vector3f(-fieldWidth / 10 as float, 0.0f, -fieldDepth / 10 as float), new Vector2f(0.0f, 0.0f)),
+                              new Vertex(new Vector3f(-fieldWidth / 10 as float, 0.0f, fieldDepth / 10 * 3 as float), new Vector2f(0.0f, 1.0f)),
+                              new Vertex(new Vector3f(fieldWidth / 10 * 3 as float, 0.0f, -fieldDepth / 10 as float), new Vector2f(1.0f, 0.0f)),
+                              new Vertex(new Vector3f(fieldWidth / 10 * 3 as float, 0.0f, fieldDepth / 10 * 3 as float), new Vector2f(1.0f, 1.0f))]
+
+        int[] indices2 = [0, 1, 2,
+                          2, 1, 3]
+
+        Mesh mesh2 = new Mesh(vertices2, indices2, true)
+        Mesh mesh = new Mesh(vertices, indices, true)
+        Material material = new Material(Texture.loadTexture("test.png"), new Vector3f(1, 1, 1), 1, 8)
+
+        def planeObject = new GameObject().addComponent(new MeshRenderer(mesh, material))
         planeObject.transform.translation.y = -1
+
+        testMesh1 = new GameObject().addComponent(new MeshRenderer(mesh2, material))
+        testMesh2 = new GameObject().addComponent(new MeshRenderer(mesh2, material))
+
+        testMesh1.transform.translation.z = 5
+//        testMesh1.transform.rotation = new Quaternion(new Vector3f(0, 1, 0), 30)
+
+        testMesh2.transform.translation.z = 5
+        testMesh2.transform.translation.y = 1
+        testMesh2.transform.rotation = new Quaternion(new Vector3f(0, 1, 0), 90)
 
         def directionalLightObject = new GameObject()
                 .addComponent(new DirectionalLight(new Vector3f(0, 0, 1), 0.4f, new Vector3f(1, 1, 1)))
@@ -47,9 +72,18 @@ class TestGame extends Game {
         spotLightObject.transform.translation.x = 5
         spotLightObject.transform.translation.z = 5
 
-        spotLightObject.transform.rotation = new Quaternion().initRotation(new Vector3f(0, 1, 0), -90.0f)
+        spotLightObject.transform.rotation = new Quaternion(new Vector3f(0, 1, 0), -90.0f)
 
-        root.addChildren(mainCamera, planeObject, directionalLightObject, pointLightObject, spotLightObject)
+        root.addChildren(mainCamera, planeObject, testMesh1, directionalLightObject, pointLightObject, spotLightObject)
+        testMesh1.addChildren(testMesh2)
     }
 
+    float angle = 0
+
+    @Override
+    void update(float delta) {
+        angle += (delta / 5) as float
+        if (angle > 360) angle = 0
+        testMesh1.transform.rotate(new Vector3f(0, 1, 0), angle)
+    }
 }

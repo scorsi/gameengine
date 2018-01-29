@@ -72,10 +72,10 @@ class Vector3f {
      * @return Sum of this + other
      */
     Vector3f plus(Vector3f other) {
-        def x = (this.x + other.x) as float
-        def y = (this.y + other.y) as float
-        def z = (this.z + other.z) as float
-        return new Vector3f(x, y, z)
+        def x_ = (x + other.x) as float
+        def y_ = (y + other.y) as float
+        def z_ = (z + other.z) as float
+        return new Vector3f(x_, y_, z_)
     }
 
     /**
@@ -104,10 +104,10 @@ class Vector3f {
      * @return Scalar product of this * scalar
      */
     Vector3f multiply(float scalar) {
-        def x = (this.x * scalar) as float
-        def y = (this.y * scalar) as float
-        def z = (this.z * scalar) as float
-        return new Vector3f(x, y, z)
+        def x_ = (x * scalar) as float
+        def y_ = (y * scalar) as float
+        def z_ = (z * scalar) as float
+        return new Vector3f(x_, y_, z_)
     }
 
     /**
@@ -127,7 +127,7 @@ class Vector3f {
      * @return Dot product of this * other
      */
     float dot(Vector3f other) {
-        return this.x * other.x + this.y * other.y + this.z * other.z
+        return x * other.x + y * other.y + z * other.z
     }
 
     /**
@@ -137,10 +137,10 @@ class Vector3f {
      * @return Cross product of this x other
      */
     Vector3f cross(Vector3f other) {
-        def x = (this.y * other.z - this.z * other.y) as float
-        def y = (this.z * other.x - this.x * other.z) as float
-        def z = (this.x * other.y - this.y * other.x) as float
-        return new Vector3f(x, y, z)
+        def x_ = (y * other.z - z * other.y) as float
+        def y_ = (z * other.x - x * other.z) as float
+        def z_ = (x * other.y - y * other.x) as float
+        return new Vector3f(x_, y_, z_)
     }
 
     /**
@@ -163,8 +163,7 @@ class Vector3f {
     }
 
     Vector3f rotate(Quaternion rotation) {
-        Quaternion conjugate = rotation.conjugate()
-        Quaternion w = rotation * this * conjugate
+        Quaternion w = rotation * this * rotation.conjugate()
 
         return new Vector3f(w.x, w.y, w.z)
     }
@@ -195,6 +194,20 @@ class Vector3f {
 
     Vector2f getXZ() {
         return new Vector2f(x, z)
+    }
+
+    Vector3f set(float x, float y, float z) {
+        this.x = x
+        this.y = y
+        this.z = z
+        return this
+    }
+
+    Vector3f set(Vector3f r) {
+        this.x = r.x
+        this.y = r.y
+        this.z = r.z
+        return this
     }
 
     /**

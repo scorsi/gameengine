@@ -43,13 +43,13 @@ class MovableCamera extends Camera {
         if (mouseLocked) {
             Vector2f deltaPos = input.getMousePosition() - centerPosition
 
-            boolean rotY = deltaPos.getX() != 0
-            boolean rotX = deltaPos.getY() != 0
+            boolean rotY = deltaPos.x != 0
+            boolean rotX = deltaPos.y != 0
 
             if (rotY)
-                parent.transform.rotation = (parent.transform.rotation * new Quaternion().initRotation(yAxis, deltaPos.x * sensitivity as float)).normalize()
+                parent.transform.rotate(yAxis, -deltaPos.x * sensitivity as float)
             if (rotX)
-                parent.transform.rotation = (parent.transform.rotation * new Quaternion().initRotation(parent.transform.rotation.right, deltaPos.y * sensitivity as float)).normalize()
+                parent.transform.rotate(parent.transform.rotation.right, -deltaPos.y * sensitivity as float)
 
             if (rotY || rotX)
                 input.setMousePosition(centerPosition)

@@ -140,6 +140,18 @@ class Vector2f {
         return Math.max(x, y)
     }
 
+    Vector2f set(float x, float y) {
+        this.x = x
+        this.y = y
+        return this
+    }
+
+    Vector2f set(Vector2f r) {
+        this.x = r.x
+        this.y = r.y
+        return this
+    }
+
     /**
      * Stores the vector in a given Buffer.
      *

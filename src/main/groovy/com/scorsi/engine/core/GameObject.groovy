@@ -67,6 +67,7 @@ class GameObject {
     GameObject addChild(GameObject child) {
         children.add(child)
         child.parent = this
+        child.transform.parent = transform
         return this
     }
 
