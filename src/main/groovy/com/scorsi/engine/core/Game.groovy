@@ -1,18 +1,30 @@
 package com.scorsi.engine.core
 
+import com.scorsi.engine.rendering.shaders.ShaderProgram
 import groovy.transform.CompileStatic
 
 @CompileStatic
-interface Game {
+abstract class Game {
 
-    void initialize(Engine engine)
+    Engine engine
+    GameObject root
 
-    void input(Input input)
+    Game() {
+        this.root = new GameObject()
+    }
 
-    void update()
+    void initialize() {
 
-    void render()
+    }
 
-    void shutdown()
+    void input(Input input) {
+        root.input(input)
+    }
+
+    void update() {
+        root.update()
+    }
+
+    void shutdown() {}
 
 }

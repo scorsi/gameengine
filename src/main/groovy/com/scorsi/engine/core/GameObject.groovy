@@ -1,6 +1,7 @@
 package com.scorsi.engine.core
 
 import com.scorsi.engine.rendering.Transform
+import com.scorsi.engine.rendering.shaders.ShaderProgram
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
@@ -30,12 +31,12 @@ class GameObject {
         }
     }
 
-    void render() {
+    void render(ShaderProgram shader) {
         components.each {
-            it.render()
+            it.render(shader)
         }
         children.each {
-            it.render()
+            it.render(shader)
         }
     }
 

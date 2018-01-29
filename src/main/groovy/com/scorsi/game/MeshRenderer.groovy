@@ -5,6 +5,7 @@ import com.scorsi.engine.core.GameObject
 import com.scorsi.engine.rendering.Material
 import com.scorsi.engine.rendering.Mesh
 import com.scorsi.engine.rendering.shaders.BasicShader
+import com.scorsi.engine.rendering.shaders.ShaderProgram
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
@@ -21,9 +22,8 @@ class MeshRenderer extends GameComponent {
         this.material = material
     }
 
-    void render() {
-        BasicShader.instance
-                .updateUniforms(object.transform.transformation, object.transform.projectedTransformation, material)
+    void render(ShaderProgram shader) {
+        shader.updateUniforms(object.transform.transformation, object.transform.projectedTransformation, material)
                 .use()
         mesh.draw()
     }

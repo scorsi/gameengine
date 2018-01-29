@@ -1,5 +1,6 @@
 package com.scorsi.engine.core
 
+import com.scorsi.engine.rendering.shaders.ShaderProgram
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
@@ -18,6 +19,6 @@ abstract class GameComponent {
 
     void update() {}
 
-    void render() {}
+    void render(ShaderProgram shader) {}
 
 }

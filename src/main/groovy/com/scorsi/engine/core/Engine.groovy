@@ -1,6 +1,5 @@
 package com.scorsi.engine.core
 
-import com.scorsi.engine.rendering.RenderUtil
 import com.scorsi.engine.rendering.Window
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
@@ -15,6 +14,7 @@ class Engine {
     private double framerate = 60
     private double frametime = 1f / 60f
     private Game game
+    private RenderingEngine renderingEngine
 
     Window window
     Input input
@@ -29,8 +29,8 @@ class Engine {
     void createWindow(int width, int height, String title) {
         if (window != null) return
         window = new Window(width, height, title, true)
-        RenderUtil.initGraphics()
         input = new Input(window.id)
+        renderingEngine = new RenderingEngine()
     }
 
     void setFramerate(double framerate) {
@@ -40,7 +40,8 @@ class Engine {
 
     void start() {
         if (isRunning) return
-        game.initialize(this)
+        game.engine = this
+        game.initialize()
         run()
     }
 
@@ -92,7 +93,8 @@ class Engine {
             }
 
             if (doRender) {
-                render()
+                renderingEngine.render(game.root)
+                window.update()
                 frames++
             } else {
                 try {
@@ -108,12 +110,6 @@ class Engine {
 
     private void clean() {
         window.destroy()
-    }
-
-    private void render() {
-        RenderUtil.clear()
-        game.render()
-        window.update()
     }
 
 }

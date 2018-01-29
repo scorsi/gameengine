@@ -391,6 +391,11 @@ class ShaderProgram {
                 .setUniform(location + ".cutoff", spotLight.cutoff)
     }
 
+    ShaderProgram updateUniforms(Matrix4f worldMatrix, Matrix4f projectedMatrix, Material material) {
+        material.bind()
+        return this
+    }
+
     /**
      * Use this shader program.
      */

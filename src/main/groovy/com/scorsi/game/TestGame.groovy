@@ -10,22 +10,17 @@ import groovy.transform.ToString
 
 @CompileStatic
 @ToString(includePackage = false, includeNames = true)
-class TestGame implements Game {
-
-    private Engine engine
+class TestGame extends Game {
 
     private Camera camera
-    private GameObject root
 
-    void initialize(Engine engine) {
-        this.engine = engine
-
+    void initialize() {
         camera = new Camera()
         camera.position.z = -2
         Transform.camera = camera
         Transform.setProjection(70f, engine.window.width as float, engine.window.height as float, 0.1f, 1000f)
 
-        root = new GameObject()
+        def planeObject = new GameObject()
 
         float fieldDepth = 10.0f
         float fieldWidth = 10.0f
@@ -36,14 +31,18 @@ class TestGame implements Game {
         int[] indices = [0, 1, 2,
                          2, 1, 3]
 
-        root.transform.translation.y = -1
-        root.transform.translation.z = 5
-        root.components.add(new MeshRenderer(root,
+        planeObject.transform.translation.y = -1
+        planeObject.transform.translation.z = 5
+        planeObject.components.add(new MeshRenderer(planeObject,
                 new Mesh(vertices, indices, true),
                 new Material(Texture.loadTexture("test.png"), new Vector3f(1f, 1f, 1f), 1f, 8f)))
+
+        root.children.add(planeObject)
     }
 
     void input(Input input) {
+        super.input(input)
+
         final def moveAmount = (10f * Time.getDelta()) as float
         final def rotateAmount = (100f * Time.getDelta()) as float
 
@@ -71,20 +70,6 @@ class TestGame implements Game {
         if (input.isKeyDownRepeated(Input.KEY_RIGHT)) {
             camera.rotateY(rotateAmount)
         }
-
-        root.input(input)
-    }
-
-    void update() {
-        root.update()
-    }
-
-    void render() {
-        root.render()
-    }
-
-    void shutdown() {
-
     }
 
 }
