@@ -156,7 +156,13 @@ class Vector3f {
     }
 
     Vector3f rotate(Vector3f axis, float angle) {
-        Quaternion rotation = new Quaternion().initRotation(axis, angle)
+        float sinAngle = Math.sin(Math.toRadians(-angle)) as float
+        float cosAngle = Math.cos(Math.toRadians(-angle)) as float
+
+        return this.cross(axis * sinAngle) + this * cosAngle + axis * this.dot(axis * ((1 - cosAngle) as float))
+    }
+
+    Vector3f rotate(Quaternion rotation) {
         Quaternion conjugate = rotation.conjugate()
         Quaternion w = rotation * this * conjugate
 

@@ -102,7 +102,7 @@ class Quaternion {
     }
 
     Vector3f getRight() {
-        return new Vector3f(1, 0, 0)//.rotate(this)
+        return new Vector3f(1.0f - 2.0f * (y * y + z * z) as float, 2.0f * (x * y - w * z) as float, 2.0f * (x * z + w * y) as float)
     }
 
     Vector3f getLeft() {

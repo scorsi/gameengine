@@ -45,7 +45,7 @@ class ForwardPointShader extends ShaderProgram {
         setUniform("specularIntensity", material.specularIntensity)
         setUniform("specularPower", material.specularPower)
 
-        setUniform("eyePos", renderingEngine.mainCamera.position)
+        setUniform("eyePos", renderingEngine.mainCamera.parent.transform.translation)
         setUniform("pointLight", renderingEngine.activeLight as PointLight)
 
         return this

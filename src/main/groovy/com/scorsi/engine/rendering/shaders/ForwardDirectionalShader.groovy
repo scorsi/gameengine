@@ -45,7 +45,7 @@ class ForwardDirectionalShader extends ShaderProgram {
         setUniform("specularIntensity", material.specularIntensity)
         setUniform("specularPower", material.specularPower)
 
-        setUniform("eyePos", renderingEngine.mainCamera.position)
+        setUniform("eyePos", renderingEngine.mainCamera.parent.transform.translation)
         setUniform("directionalLight", renderingEngine.activeLight as DirectionalLight)
 
         return this

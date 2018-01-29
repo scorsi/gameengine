@@ -2,7 +2,7 @@ package com.scorsi.engine.core
 
 import com.scorsi.engine.components.BaseLight
 import com.scorsi.engine.core.math.Vector3f
-import com.scorsi.engine.rendering.camera.Camera
+import com.scorsi.engine.components.Camera
 import com.scorsi.engine.rendering.shaders.ForwardAmbientShader
 import com.scorsi.engine.rendering.shaders.ForwardDirectionalShader
 import com.scorsi.engine.rendering.shaders.ForwardPointShader

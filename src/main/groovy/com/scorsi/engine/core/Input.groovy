@@ -240,12 +240,23 @@ class Input {
         }
     }
 
+    void setCursor(boolean active) {
+        if (active)
+            glfwSetInputMode(windowId, GLFW_CURSOR, GLFW_CURSOR_NORMAL)
+        else
+            glfwSetInputMode(windowId, GLFW_CURSOR, GLFW_CURSOR_HIDDEN)
+    }
+
+    void setMousePosition(Vector2f position) {
+        glfwSetCursorPos(windowId, position.x, position.y)
+    }
+
     Vector2f getMousePosition() {
         DoubleBuffer xpos = BufferUtils.createDoubleBuffer(1)
         DoubleBuffer ypos = BufferUtils.createDoubleBuffer(1)
         glfwGetCursorPos(windowId, xpos, ypos)
         xpos.rewind()
         ypos.rewind()
-        return new Vector2f((float) xpos.get(), (float) ypos.get())
+        return new Vector2f(xpos.get() as float, ypos.get() as float)
     }
 }
