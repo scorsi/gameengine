@@ -5,6 +5,7 @@ import com.scorsi.engine.core.math.Vector2f
 import com.scorsi.engine.core.math.Vector3f
 import com.scorsi.engine.core.math.Vertex
 import com.scorsi.engine.rendering.*
+import com.scorsi.engine.rendering.camera.MovableCamera
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
@@ -12,14 +13,10 @@ import groovy.transform.ToString
 @ToString(includePackage = false, includeNames = true)
 class TestGame extends Game {
 
-    private Camera camera
-
     void initialize() {
-        camera = new Camera()
-        camera.position.z = -2
-        Transform.camera = camera
-        Transform.setProjection(70f, engine.window.width as float, engine.window.height as float, 0.1f, 1000f)
-
+        def mainCamera = new MovableCamera(70f, (engine.window.width / engine.window.height) as float, 0.1f, 1000f)
+        root.children.add(mainCamera)
+        engine.renderingEngine.mainCamera = mainCamera
         def planeObject = new GameObject()
 
         float fieldDepth = 10.0f
@@ -42,34 +39,6 @@ class TestGame extends Game {
 
     void input(Input input) {
         super.input(input)
-
-        final def moveAmount = (10f * Time.getDelta()) as float
-        final def rotateAmount = (100f * Time.getDelta()) as float
-
-        if (input.isKeyDownRepeated(Input.KEY_W)) {
-            camera.move(camera.forward, moveAmount)
-        }
-        if (input.isKeyDownRepeated(Input.KEY_S)) {
-            camera.move(camera.forward, -moveAmount)
-        }
-        if (input.isKeyDownRepeated(Input.KEY_A)) {
-            camera.move(camera.right, moveAmount)
-        }
-        if (input.isKeyDownRepeated(Input.KEY_D)) {
-            camera.move(camera.left, moveAmount)
-        }
-        if (input.isKeyDownRepeated(Input.KEY_UP)) {
-            camera.rotateX(-rotateAmount)
-        }
-        if (input.isKeyDownRepeated(Input.KEY_DOWN)) {
-            camera.rotateX(rotateAmount)
-        }
-        if (input.isKeyDownRepeated(Input.KEY_LEFT)) {
-            camera.rotateY(-rotateAmount)
-        }
-        if (input.isKeyDownRepeated(Input.KEY_RIGHT)) {
-            camera.rotateY(rotateAmount)
-        }
     }
 
 }

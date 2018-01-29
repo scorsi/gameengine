@@ -1,5 +1,6 @@
 package com.scorsi.engine.core
 
+import com.scorsi.engine.rendering.camera.Camera
 import com.scorsi.engine.rendering.shaders.BasicShader
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
@@ -11,17 +12,12 @@ import static org.lwjgl.opengl.GL11.GL_CW
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT
 import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D
 import static org.lwjgl.opengl.GL11.GL_VERSION
 import static org.lwjgl.opengl.GL11.glBindTexture
 import static org.lwjgl.opengl.GL11.glClear
 import static org.lwjgl.opengl.GL11.glClearColor
 import static org.lwjgl.opengl.GL11.glCullFace
 import static org.lwjgl.opengl.GL11.glDisable
-import static org.lwjgl.opengl.GL11.glEnable
-import static org.lwjgl.opengl.GL11.glEnable
-import static org.lwjgl.opengl.GL11.glEnable
 import static org.lwjgl.opengl.GL11.glEnable
 import static org.lwjgl.opengl.GL11.glFrontFace
 import static org.lwjgl.opengl.GL11.glGetString
@@ -31,7 +27,14 @@ import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP
 @ToString(includePackage = false, includeNames = true)
 class RenderingEngine {
 
+    Engine engine
+    Camera mainCamera
+
     RenderingEngine() {
+        initGraphics()
+    }
+
+    private void initGraphics() {
         glClearColor(0f, 0f, 0f, 0f)
 
         glFrontFace(GL_CW)
@@ -45,8 +48,10 @@ class RenderingEngine {
     }
 
     void render(GameObject object) {
+        def shader = BasicShader.instance
+        shader.renderingEngine = this
         clear()
-        object.render(BasicShader.instance)
+        object.render(shader)
     }
 
     private void clear() {

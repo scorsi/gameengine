@@ -23,7 +23,7 @@ class MeshRenderer extends GameComponent {
     }
 
     void render(ShaderProgram shader) {
-        shader.updateUniforms(object.transform.transformation, object.transform.projectedTransformation, material)
+        shader.updateUniforms(object.transform, material)
                 .use()
         mesh.draw()
     }

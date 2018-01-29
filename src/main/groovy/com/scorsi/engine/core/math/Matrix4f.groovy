@@ -114,7 +114,7 @@ class Matrix4f {
     }
 
     // TODO: remove this method for a static one
-    Matrix4f initCamera(Vector3f forward, Vector3f up) {
+    Matrix4f initRotation(Vector3f forward, Vector3f up) {
         def f = forward.normalize()
         def r = up.normalize().cross(f)
         def u = f.cross(r)
@@ -369,7 +369,7 @@ class Matrix4f {
      * Creates a perspective projection matrix. Similar to
      * <code>gluPerspective(fovy, aspec, zNear, zFar)</code>.
      *
-     * @param fovy Field of view angle in degrees
+     * @param fov Field of view angle in degrees
      * @param aspect The aspect ratio is the ratio of width to height
      * @param zNear Distance from the viewer to the near clipping plane, must
      *               be positive
@@ -377,10 +377,10 @@ class Matrix4f {
      *               positive
      * @return Perspective matrix
      */
-    static Matrix4f perspective(float fovy, float aspect, float zNear, float zFar) {
+    static Matrix4f perspective(float fov, float aspect, float zNear, float zFar) {
         def perspective = new Matrix4f()
 
-        def f = Math.tan(Math.toRadians(fovy / 2d)) as float
+        def f = Math.tan(Math.toRadians(fov / 2d)) as float
 
         perspective.m00 = 1f / (f * aspect) as float
         perspective.m11 = 1f / f as float

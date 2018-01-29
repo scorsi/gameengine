@@ -2,20 +2,13 @@ package com.scorsi.engine.rendering
 
 import com.scorsi.engine.core.math.Matrix4f
 import com.scorsi.engine.core.math.Vector3f
+import com.scorsi.engine.rendering.camera.Camera
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
 @CompileStatic
 @ToString(includePackage = false, includeNames = true)
 class Transform {
-
-    static Camera camera
-
-    private static float zNear
-    private static float zFar
-    private static float width
-    private static float height
-    private static float fov
 
     Vector3f translation
     Vector3f rotation
@@ -35,21 +28,8 @@ class Transform {
         return translationMatrix * rotationMatrix * scaleMatrix
     }
 
-    Matrix4f getProjectedTransformation() {
-        def transformationMatrix = getTransformation()
-        def projectionMatrix = Matrix4f.perspective(fov, (width / height) as float, zNear, zFar)
-        def cameraRotationMatrix = new Matrix4f().initCamera(camera.forward, camera.up)
-        def cameraTranslationMatrix = Matrix4f.translate(-camera.position.x, -camera.position.y, -camera.position.z)
-
-        return projectionMatrix * cameraRotationMatrix * cameraTranslationMatrix * transformationMatrix
-    }
-
-    static void setProjection(float fov, float width, float height, float zNear, float zFar) {
-        Transform.fov = fov
-        Transform.width = width
-        Transform.height = height
-        Transform.zNear = zNear
-        Transform.zFar = zFar
+    Matrix4f getProjectedTransformation(Camera camera) {
+        return camera.viewProjection * transformation
     }
 
 }

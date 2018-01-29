@@ -1,6 +1,8 @@
 package com.scorsi.engine.rendering.shaders
 
+import com.scorsi.engine.core.RenderingEngine
 import com.scorsi.engine.rendering.Material
+import com.scorsi.engine.rendering.Transform
 import com.scorsi.engine.rendering.lights.Attenuation
 import com.scorsi.engine.rendering.lights.BaseLight
 import com.scorsi.engine.rendering.lights.DirectionalLight
@@ -36,6 +38,8 @@ class ShaderProgram {
     private ArrayList<Shader> shaders
 
     private HashMap<String, Integer> uniforms
+
+    RenderingEngine renderingEngine
 
     /**
      * Creates a shader program.
@@ -391,8 +395,7 @@ class ShaderProgram {
                 .setUniform(location + ".cutoff", spotLight.cutoff)
     }
 
-    ShaderProgram updateUniforms(Matrix4f worldMatrix, Matrix4f projectedMatrix, Material material) {
-        material.bind()
+    ShaderProgram updateUniforms(Transform transform, Material material) {
         return this
     }
 

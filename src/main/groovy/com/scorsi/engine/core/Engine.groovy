@@ -14,7 +14,7 @@ class Engine {
     private double framerate = 60
     private double frametime = 1f / 60f
     private Game game
-    private RenderingEngine renderingEngine
+    RenderingEngine renderingEngine
 
     Window window
     Input input

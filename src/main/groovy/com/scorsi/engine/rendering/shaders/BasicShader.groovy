@@ -1,7 +1,7 @@
 package com.scorsi.engine.rendering.shaders
 
-import com.scorsi.engine.core.math.Matrix4f
 import com.scorsi.engine.rendering.Material
+import com.scorsi.engine.rendering.Transform
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
@@ -22,8 +22,9 @@ class BasicShader extends ShaderProgram {
         addUniform("color")
     }
 
-    ShaderProgram updateUniforms(Matrix4f worldMatrix, Matrix4f projectedMatrix, Material material) {
-        super.updateUniforms(worldMatrix, projectedMatrix, material)
+    ShaderProgram updateUniforms(Transform transform, Material material) {
+        def projectedMatrix = renderingEngine.mainCamera.viewProjection * transform.transformation
+        material.bind()
         return setUniform("transform", projectedMatrix)
                 .setUniform("color", material.getColor())
     }
