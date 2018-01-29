@@ -21,6 +21,10 @@ class RenderUtil {
             glDisable(GL_TEXTURE_2D)
     }
 
+    static void unbindTextures() {
+        glBindTexture(GL_TEXTURE_2D, 0)
+    }
+
     static void initGraphics() {
         glClearColor(0f, 0f, 0f, 0f)
 

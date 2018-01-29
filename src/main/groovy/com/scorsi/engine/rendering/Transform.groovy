@@ -9,7 +9,7 @@ import groovy.transform.ToString
 @ToString(includePackage = false, includeNames = true)
 class Transform {
 
-    Camera camera
+    static Camera camera
 
     private static float zNear
     private static float zFar

@@ -1,5 +1,6 @@
-package com.scorsi.engine.rendering
+package com.scorsi.engine.rendering.shaders
 
+import com.scorsi.engine.rendering.Material
 import com.scorsi.engine.rendering.lights.Attenuation
 import com.scorsi.engine.rendering.lights.BaseLight
 import com.scorsi.engine.rendering.lights.DirectionalLight

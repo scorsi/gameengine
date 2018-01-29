@@ -1,4 +1,4 @@
-package com.scorsi.engine.rendering
+package com.scorsi.engine.rendering.shaders
 
 import groovy.transform.CompileStatic
 import groovy.transform.ToString

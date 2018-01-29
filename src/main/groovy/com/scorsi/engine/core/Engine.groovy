@@ -1,6 +1,5 @@
 package com.scorsi.engine.core
 
-import com.scorsi.game.Game
 import com.scorsi.engine.rendering.RenderUtil
 import com.scorsi.engine.rendering.Window
 import groovy.transform.CompileStatic
@@ -15,14 +14,14 @@ class Engine {
 
     private double framerate = 60
     private double frametime = 1f / 60f
-    private IGame game
+    private Game game
 
     Window window
     Input input
 
     boolean isRunning
 
-    Engine(IGame game) {
+    Engine(Game game) {
         glfwInit()
         this.game = game
     }

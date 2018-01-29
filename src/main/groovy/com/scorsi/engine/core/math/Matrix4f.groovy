@@ -78,6 +78,7 @@ class Matrix4f {
         return this
     }
 
+    // TODO: remove this method for a static one
     Matrix4f initRotation(float x, float y, float z) {
         def rx = new Matrix4f()
         def ry = new Matrix4f()
@@ -112,6 +113,7 @@ class Matrix4f {
         return this
     }
 
+    // TODO: remove this method for a static one
     Matrix4f initCamera(Vector3f forward, Vector3f up) {
         def f = forward.normalize()
         def r = up.normalize().cross(f)
