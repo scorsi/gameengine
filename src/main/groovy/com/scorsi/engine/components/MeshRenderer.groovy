@@ -1,4 +1,4 @@
-package com.scorsi.game
+package com.scorsi.engine.components
 
 import com.scorsi.engine.core.GameComponent
 import com.scorsi.engine.core.GameObject

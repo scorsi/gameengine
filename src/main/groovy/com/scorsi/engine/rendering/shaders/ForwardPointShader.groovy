@@ -2,8 +2,7 @@ package com.scorsi.engine.rendering.shaders
 
 import com.scorsi.engine.rendering.Material
 import com.scorsi.engine.rendering.Transform
-import com.scorsi.engine.rendering.lights.DirectionalLight
-import com.scorsi.engine.rendering.lights.PointLight
+import com.scorsi.engine.components.PointLight
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 

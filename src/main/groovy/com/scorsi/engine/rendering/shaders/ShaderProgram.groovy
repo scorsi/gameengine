@@ -5,9 +5,9 @@ import com.scorsi.engine.rendering.Material
 import com.scorsi.engine.rendering.Transform
 import com.scorsi.engine.rendering.lights.Attenuation
 import com.scorsi.engine.rendering.lights.BaseLight
-import com.scorsi.engine.rendering.lights.DirectionalLight
-import com.scorsi.engine.rendering.lights.PointLight
-import com.scorsi.engine.rendering.lights.SpotLight
+import com.scorsi.engine.components.DirectionalLight
+import com.scorsi.engine.components.PointLight
+import com.scorsi.engine.components.SpotLight
 import com.scorsi.engine.core.math.*
 import deleted.Matrix2f
 import deleted.Matrix3f
@@ -370,7 +370,7 @@ class ShaderProgram {
      * @param value Value to set
      */
     ShaderProgram setUniform(String location, DirectionalLight directionalLight) {
-        setUniform(location + ".base", directionalLight as BaseLight)
+        setUniform(location + ".base", directionalLight.baseLight)
         setUniform(location + ".direction", directionalLight.direction)
         return this
     }
@@ -394,7 +394,7 @@ class ShaderProgram {
      * @param value Value to set
      */
     ShaderProgram setUniform(String location, PointLight pointLight) {
-        return setUniform(location + ".base", pointLight as BaseLight)
+        return setUniform(location + ".base", pointLight.baseLight)
                 .setUniform(location + ".atten", pointLight.attenuation)
                 .setUniform(location + ".position", pointLight.position)
                 .setUniform(location + ".range", pointLight.range)
@@ -407,7 +407,7 @@ class ShaderProgram {
      * @param value Value to set
      */
     ShaderProgram setUniform(String location, SpotLight spotLight) {
-        return setUniform(location + ".pointLight", spotLight as PointLight)
+        return setUniform(location + ".pointLight", spotLight.pointLight)
                 .setUniform(location + ".direction", spotLight.direction)
                 .setUniform(location + ".cutoff", spotLight.cutoff)
     }

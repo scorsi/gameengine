@@ -21,4 +21,6 @@ abstract class GameComponent {
 
     void render(ShaderProgram shader) {}
 
+    void addToRenderingEngine(RenderingEngine renderingEngine) {}
+
 }

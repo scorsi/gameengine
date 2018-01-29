@@ -1,5 +1,6 @@
 package com.scorsi.game
 
+import com.scorsi.engine.components.MeshRenderer
 import com.scorsi.engine.core.*
 import com.scorsi.engine.core.math.Vector2f
 import com.scorsi.engine.core.math.Vector3f

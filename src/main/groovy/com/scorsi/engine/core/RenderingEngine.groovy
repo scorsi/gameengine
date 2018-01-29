@@ -3,9 +3,9 @@ package com.scorsi.engine.core
 import com.scorsi.engine.core.math.Vector3f
 import com.scorsi.engine.rendering.camera.Camera
 import com.scorsi.engine.rendering.lights.Attenuation
-import com.scorsi.engine.rendering.lights.DirectionalLight
-import com.scorsi.engine.rendering.lights.PointLight
-import com.scorsi.engine.rendering.lights.SpotLight
+import com.scorsi.engine.components.DirectionalLight
+import com.scorsi.engine.components.PointLight
+import com.scorsi.engine.components.SpotLight
 import com.scorsi.engine.rendering.shaders.ForwardAmbientShader
 import com.scorsi.engine.rendering.shaders.ForwardDirectionalShader
 import com.scorsi.engine.rendering.shaders.ForwardPointShader
