@@ -1,6 +1,7 @@
 package com.scorsi.engine.rendering.shaders
 
 import com.scorsi.engine.components.PointLight
+import com.scorsi.engine.core.RenderingEngine
 import com.scorsi.engine.rendering.Material
 import com.scorsi.engine.rendering.Transform
 import groovy.transform.CompileStatic
@@ -34,16 +35,16 @@ class ForwardPointShader extends ShaderProgram {
         addPointLightUniform("pointLight")
     }
 
-    ShaderProgram updateUniforms(Transform transform, Material material) {
+    ShaderProgram updateUniforms(RenderingEngine renderingEngine, Transform transform, Material material) {
         def worldMatrix = transform.transformation
         def projectedMatrix = renderingEngine.mainCamera.viewProjection * worldMatrix
-        material.bind()
+        material.getSafeTexture("diffuse").bind()
 
         setUniform("model", worldMatrix)
         setUniform("MVP", projectedMatrix)
 
-        setUniform("specularIntensity", material.specularIntensity)
-        setUniform("specularPower", material.specularPower)
+        setUniform("specularIntensity", material.getSafeFloat("specularIntensity"))
+        setUniform("specularPower", material.getSafeFloat("specularPower"))
 
         setUniform("eyePos", renderingEngine.mainCamera.parent.transform.translation)
         setUniform("pointLight", renderingEngine.activeLight as PointLight)

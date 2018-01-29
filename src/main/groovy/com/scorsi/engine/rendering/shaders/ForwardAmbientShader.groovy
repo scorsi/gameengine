@@ -1,5 +1,6 @@
 package com.scorsi.engine.rendering.shaders
 
+import com.scorsi.engine.core.RenderingEngine
 import com.scorsi.engine.rendering.Material
 import com.scorsi.engine.rendering.Transform
 import groovy.transform.CompileStatic
@@ -26,9 +27,9 @@ class ForwardAmbientShader extends ShaderProgram {
         addUniform("ambientIntensity")
     }
 
-    ShaderProgram updateUniforms(Transform transform, Material material) {
+    ShaderProgram updateUniforms(RenderingEngine renderingEngine, Transform transform, Material material) {
         def projectedMatrix = renderingEngine.mainCamera.viewProjection * transform.transformation
-        material.bind()
+        material.getSafeTexture("diffuse").bind()
 
         setUniform("MVP", projectedMatrix)
         setUniform("ambientIntensity", renderingEngine.ambientLight)

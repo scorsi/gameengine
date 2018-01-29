@@ -43,8 +43,6 @@ class ShaderProgram {
 
     private HashMap<String, Integer> uniforms
 
-    RenderingEngine renderingEngine
-
     /**
      * Creates a shader program.
      */
@@ -403,7 +401,7 @@ class ShaderProgram {
                 .setUniform(location + ".cutoff", spotLight.cutoff)
     }
 
-    ShaderProgram updateUniforms(Transform transform, Material material) {
+    ShaderProgram updateUniforms(RenderingEngine renderingEngine, Transform transform, Material material) {
         return this
     }
 

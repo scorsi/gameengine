@@ -8,20 +8,29 @@ import groovy.transform.ToString
 @ToString(includePackage = false, includeNames = true)
 class Material {
 
-    Texture texture
-    Vector3f color
-    float specularIntensity
-    float specularPower
+    HashMap<String, Texture> textures = new HashMap<>()
+    HashMap<String, Vector3f> vectors = new HashMap<>()
+    HashMap<String, Float> floats = new HashMap<>()
 
-    Material(Texture texture, Vector3f color, float specularIntensity = 2, float specularPower = 32) {
-        this.texture = texture
-        this.color = color
-        this.specularIntensity = specularIntensity
-        this.specularPower = specularPower
+    Texture getSafeTexture(String name) {
+        def r = textures[name]
+        if (r == null)
+            return Texture.loadTexture("test.png")
+        return r
     }
 
-    void bind() {
-        this.texture.bind()
+    Vector3f getSafeVector(String name) {
+        def r = vectors[name]
+        if (r == null)
+            return new Vector3f()
+        return r
+    }
+
+    float getSafeFloat(String name) {
+        def r = floats[name]
+        if (r == null)
+            return 0f
+        return r
     }
 
 }

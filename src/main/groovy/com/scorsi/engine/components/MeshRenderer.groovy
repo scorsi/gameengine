@@ -1,6 +1,7 @@
 package com.scorsi.engine.components
 
 import com.scorsi.engine.core.GameComponent
+import com.scorsi.engine.core.RenderingEngine
 import com.scorsi.engine.rendering.Material
 import com.scorsi.engine.rendering.Mesh
 import com.scorsi.engine.rendering.shaders.ShaderProgram
@@ -19,8 +20,8 @@ class MeshRenderer extends GameComponent {
         this.material = material
     }
 
-    void render(ShaderProgram shader) {
-        shader.use().updateUniforms(parent.transform, material)
+    void render(RenderingEngine renderingEngine, ShaderProgram shader) {
+        shader.use().updateUniforms(renderingEngine, parent.transform, material)
         mesh.draw()
     }
 
