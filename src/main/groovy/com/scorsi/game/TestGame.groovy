@@ -79,8 +79,17 @@ class TestGame extends Game {
 
         spotLightObject.transform.rotation = new Quaternion(new Vector3f(0, 1, 0), -90.0f)
 
-        addGameObjects(mainCamera, planeObject, testMesh1, directionalLightObject, pointLightObject, spotLightObject)
+        addGameObjects(mainCamera, planeObject, /*testMesh1, */directionalLightObject, pointLightObject, spotLightObject)
         testMesh1.addChildren(testMesh2)
+
+
+        def monkeyMesh = new Mesh("monkey3.obj")
+        def monkeyObj = new GameObject().addComponent(new MeshRenderer(monkeyMesh, material))
+
+        monkeyObj.transform.translation = new Vector3f(5, 5, 5)
+        monkeyObj.transform.rotate(new Vector3f(0, 1, 0), -70f)
+
+        addGameObjects(monkeyObj)
     }
 
     float angle = 0
