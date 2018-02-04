@@ -9,7 +9,7 @@ import java.nio.FloatBuffer
  * This class represents a (x,y)-Vector. GLSL equivalent to vec2.
  */
 @CompileStatic
-@ToString(includePackage = false, includeNames = true)
+@ToString(includePackage = false, includeNames = true, includes = ["x", "y"])
 class Vector2f {
 
     float x

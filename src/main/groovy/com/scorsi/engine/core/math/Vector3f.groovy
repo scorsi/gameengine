@@ -9,7 +9,7 @@ import java.nio.FloatBuffer
  * This class represents a (x,y,z)-Vector. GLSL equivalent to vec3.
  */
 @CompileStatic
-@ToString(includePackage = false, includeNames = true)
+@ToString(includePackage = false, includeNames = true, includes = ["x", "y", "z"])
 class Vector3f {
 
     float x
