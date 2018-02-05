@@ -36,12 +36,12 @@ class ForwardAmbientShader extends ShaderProgram {
         setUniform("modelViewMatrix", modelViewMatrix)
         setUniform("ambientIntensity", renderingEngine.ambientLight)
 
-        def texture = material.getTexture("diffuseTexture")
+        def texture = material.diffuseTexture
         if (texture != null) {
             texture.bind()
             setUniform("useColor", 0)
         } else {
-            setUniform("color", material.getSafeAttributeVector("diffuseColor"))
+            setUniform("color", material.diffuseColor)
             setUniform("useColor", 1)
         }
 

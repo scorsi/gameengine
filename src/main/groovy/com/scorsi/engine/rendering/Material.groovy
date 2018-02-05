@@ -9,41 +9,9 @@ import org.joml.Vector3f
 @ToString(includePackage = false, includeNames = true)
 class Material {
 
-    HashMap<String, Texture> textures = new HashMap<>()
-    HashMap<String, Vector3f> vectors = new HashMap<>()
-    HashMap<String, Float> floats = new HashMap<>()
-
-    Texture getSafeTexture(String name) {
-        def r = textures[name]
-        if (r == null)
-            return new Texture("test.png")
-        return r
-    }
-
-    Texture getTexture(String name) {
-        textures[name]
-    }
-
-    Vector3f getSafeAttributeVector(String name) {
-        def r = vectors[name]
-        if (r == null)
-            return new Vector3f()
-        return r
-    }
-
-    Vector3f getAttributeVector(String name) {
-        vectors[name]
-    }
-
-    Float getSafeAttributeFloat(String name) {
-        def r = floats[name]
-        if (r == null)
-            return 0f
-        return r
-    }
-
-    Float getAttributeFloat(String name) {
-        floats[name]
-    }
+    Texture diffuseTexture
+    Vector3f diffuseColor = new Vector3f(1, 1, 0)
+    float specularIntensity = 1f
+    float specularPower = 8f
 
 }
