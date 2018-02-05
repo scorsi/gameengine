@@ -4,9 +4,7 @@ import com.scorsi.engine.rendering.Window
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE
-import static org.lwjgl.glfw.GLFW.glfwInit
-import static org.lwjgl.glfw.GLFW.glfwTerminate
+import static org.lwjgl.glfw.GLFW.*
 
 @CompileStatic
 @ToString(includePackage = false, includeNames = true)

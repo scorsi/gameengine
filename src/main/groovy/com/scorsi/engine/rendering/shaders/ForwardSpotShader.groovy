@@ -1,12 +1,10 @@
 package com.scorsi.engine.rendering.shaders
 
-import com.scorsi.engine.components.SpotLight
 import com.scorsi.engine.core.RenderingEngine
 import com.scorsi.engine.rendering.Material
 import com.scorsi.engine.rendering.Transform
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
-import org.joml.Vector3f
 
 @CompileStatic
 @ToString(includePackage = false, includeNames = true)
