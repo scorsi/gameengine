@@ -7,6 +7,8 @@ import groovy.transform.ToString
 import java.nio.ByteBuffer
 
 import static org.lwjgl.opengl.GL11.*
+import static org.lwjgl.opengl.GL13.GL_TEXTURE0
+import static org.lwjgl.opengl.GL13.glActiveTexture
 import static org.lwjgl.opengl.GL30.glGenerateMipmap
 
 /**
@@ -27,6 +29,10 @@ class Texture {
     }
 
     void bind() {
+        // Activate firs texture bank
+        glActiveTexture(GL_TEXTURE0)
+
+        // Bind the texture
         glBindTexture(GL_TEXTURE_2D, id)
     }
 

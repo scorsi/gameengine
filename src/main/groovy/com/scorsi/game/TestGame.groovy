@@ -101,9 +101,10 @@ class TestGame extends Game {
                 // Back face
                 4, 6, 7, 5, 4, 7,]
 
-        def mesh = new Mesh(positions, textCoords, indices, new Texture("grassblock.png"))
+        def mesh = new Mesh(positions, textCoords, indices)
         def material = new Material()
-//        material.textures["diffuse"] = new Texture("grassblock.png")
+//        material.textures["diffuseTexture"] = new Texture("grassblock.png")
+        material.vectors["diffuseColor"] = new Vector3f(1, 0, 1)
         material.floats["specularIntensity"] = 1f
         material.floats["specularPower"] = 8f
 

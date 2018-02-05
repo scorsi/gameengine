@@ -2,6 +2,7 @@ package com.scorsi.engine.rendering
 
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
+import org.joml.Vector2f
 import org.joml.Vector3f
 
 @CompileStatic
@@ -19,18 +20,30 @@ class Material {
         return r
     }
 
-    Vector3f getSafeVector(String name) {
+    Texture getTexture(String name) {
+        textures[name]
+    }
+
+    Vector3f getSafeAttributeVector(String name) {
         def r = vectors[name]
         if (r == null)
             return new Vector3f()
         return r
     }
 
-    float getSafeFloat(String name) {
+    Vector3f getAttributeVector(String name) {
+        vectors[name]
+    }
+
+    Float getSafeAttributeFloat(String name) {
         def r = floats[name]
         if (r == null)
             return 0f
         return r
+    }
+
+    Float getAttributeFloat(String name) {
+        floats[name]
     }
 
 }

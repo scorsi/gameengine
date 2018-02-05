@@ -23,17 +23,27 @@ class ForwardAmbientShader extends ShaderProgram {
         addUniform("modelViewMatrix")
         addUniform("projectionMatrix")
         addUniform("ambientIntensity")
+        addUniform("color")
+        addUniform("useColor")
     }
 
     ShaderProgram updateUniforms(RenderingEngine renderingEngine, Transform transform, Material material) {
         def projectionMatrix = renderingEngine.transformation.getProjectionMatrix(Math.toRadians(60) as float, 800, 600, 0.01f, 1000)
         def viewMatrix = renderingEngine.transformation.getViewMatrix(renderingEngine.mainCamera.object.transform)
         def modelViewMatrix = renderingEngine.transformation.getModelViewMatrix(transform, viewMatrix)
-//        material.getSafeTexture("diffuse").bind()
 
         setUniform("projectionMatrix", projectionMatrix)
         setUniform("modelViewMatrix", modelViewMatrix)
         setUniform("ambientIntensity", renderingEngine.ambientLight)
+
+        def texture = material.getTexture("diffuseTexture")
+        if (texture != null) {
+            texture.bind()
+            setUniform("useColor", 0)
+        } else {
+            setUniform("color", material.getSafeAttributeVector("diffuseColor"))
+            setUniform("useColor", 1)
+        }
 
         return this
     }

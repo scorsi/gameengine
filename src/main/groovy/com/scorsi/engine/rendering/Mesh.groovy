@@ -24,14 +24,12 @@ class Mesh {
 
     private final int vertexCount
 
-    private final Texture texture
 
-    Mesh(float[] positions, float[] textCoords, int[] indices, Texture texture) {
+    Mesh(float[] positions, float[] textCoords, int[] indices) {
         FloatBuffer posBuffer = null
         FloatBuffer textCoordsBuffer = null
         IntBuffer indicesBuffer = null
         try {
-            this.texture = texture
             vertexCount = indices.length
             vboIdList = new ArrayList()
 
@@ -88,11 +86,6 @@ class Mesh {
     }
 
     void render() {
-        // Activate firs texture bank
-        glActiveTexture(GL_TEXTURE0)
-        // Bind the texture
-        glBindTexture(GL_TEXTURE_2D, texture.getId())
-
         // Draw the mesh
         glBindVertexArray(getVaoId())
         glEnableVertexAttribArray(0)
@@ -114,9 +107,6 @@ class Mesh {
         for (int vboId : vboIdList) {
             glDeleteBuffers(vboId)
         }
-
-        // Delete the texture
-        texture.cleanup()
 
         // Delete the VAO
         glBindVertexArray(0)
