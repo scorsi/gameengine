@@ -19,17 +19,16 @@ class Utils {
         return result
     }
 
-    static String[] removeEmptyStrings(String[] data) {
-        ArrayList<String> result = new ArrayList<String>()
-
-        for (int i = 0; i < data.length; i++)
-            if (!data[i].equals(""))
-                result.add(data[i])
-
-        String[] res = new String[result.size()]
-        result.toArray(res)
-
-        return res
+    static List<String> readAllLines(String fileName) throws Exception {
+        System.out.println("Loading: " + fileName)
+        def lines = new ArrayList<String>()
+        new BufferedReader(new InputStreamReader(Utils.class.getResourceAsStream(fileName))).withCloseable { reader ->
+            String line
+            while ((line = reader.readLine()) != null) {
+                lines.add(line)
+            }
+        }
+        return lines
     }
 
 }

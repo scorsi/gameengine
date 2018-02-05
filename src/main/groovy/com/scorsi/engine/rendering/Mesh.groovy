@@ -2,6 +2,7 @@ package com.scorsi.engine.rendering
 
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
+import org.joml.Vector3f
 import org.lwjgl.system.MemoryUtil
 
 import java.nio.FloatBuffer
@@ -24,10 +25,10 @@ class Mesh {
 
     private final int vertexCount
 
-
-    Mesh(float[] positions, float[] textCoords, int[] indices) {
+    Mesh(float[] positions, float[] textCoords, float[] normals, int[] indices) {
         FloatBuffer posBuffer = null
         FloatBuffer textCoordsBuffer = null
+        FloatBuffer vecNormalsBuffer = null
         IntBuffer indicesBuffer = null
         try {
             vertexCount = indices.length
@@ -54,6 +55,15 @@ class Mesh {
             glBufferData(GL_ARRAY_BUFFER, textCoordsBuffer, GL_STATIC_DRAW)
             glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, 0)
 
+            // Vertex normals VBO
+            vboId = glGenBuffers()
+            vboIdList.add(vboId)
+            vecNormalsBuffer = MemoryUtil.memAllocFloat(normals.length)
+            vecNormalsBuffer.put(normals).flip()
+            glBindBuffer(GL_ARRAY_BUFFER, vboId)
+            glBufferData(GL_ARRAY_BUFFER, vecNormalsBuffer, GL_STATIC_DRAW)
+            glVertexAttribPointer(2, 3, GL_FLOAT, false, 0, 0)
+
             // Index VBO
             vboId = glGenBuffers()
             vboIdList.add(vboId)
@@ -70,6 +80,9 @@ class Mesh {
             }
             if (textCoordsBuffer != null) {
                 MemoryUtil.memFree(textCoordsBuffer)
+            }
+            if (vecNormalsBuffer != null) {
+                MemoryUtil.memFree(vecNormalsBuffer)
             }
             if (indicesBuffer != null) {
                 MemoryUtil.memFree(indicesBuffer)
@@ -90,13 +103,16 @@ class Mesh {
         glBindVertexArray(getVaoId())
         glEnableVertexAttribArray(0)
         glEnableVertexAttribArray(1)
+        glEnableVertexAttribArray(2)
 
         glDrawElements(GL_TRIANGLES, getVertexCount(), GL_UNSIGNED_INT, 0)
 
         // Restore state
         glDisableVertexAttribArray(0)
         glDisableVertexAttribArray(1)
+        glDisableVertexAttribArray(2)
         glBindVertexArray(0)
+        glBindTexture(GL_TEXTURE_2D, 0)
     }
 
     void cleanUp() {
