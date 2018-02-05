@@ -1,9 +1,9 @@
 package com.scorsi.engine.components
 
-import com.scorsi.engine.core.math.Vector3f
 import com.scorsi.engine.rendering.shaders.ForwardPointShader
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
+import org.joml.Vector3f
 
 @CompileStatic
 @ToString(includePackage = false, includeNames = true)
@@ -31,7 +31,7 @@ class PointLight extends BaseLight {
     private void calculateRange() {
         float a = attenuation.z
         float b = attenuation.y
-        float c = attenuation.x - COLOR_DEPTH * intensity * color.max() as float
+        float c = attenuation.x - COLOR_DEPTH * intensity * (Math.max(color.x, Math.max(color.y, color.z))) as float
 
         range = (-b + Math.sqrt(b * b - 4 * a * c)) / (2 * a) as float
     }

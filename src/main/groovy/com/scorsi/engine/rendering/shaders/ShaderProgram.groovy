@@ -5,13 +5,13 @@ import com.scorsi.engine.components.DirectionalLight
 import com.scorsi.engine.components.PointLight
 import com.scorsi.engine.components.SpotLight
 import com.scorsi.engine.core.RenderingEngine
-import com.scorsi.engine.core.math.Matrix4f
-import com.scorsi.engine.core.math.Vector2f
-import com.scorsi.engine.core.math.Vector3f
 import com.scorsi.engine.rendering.Material
 import com.scorsi.engine.rendering.Transform
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
+import org.joml.Matrix4f
+import org.joml.Vector2f
+import org.joml.Vector3f
 import org.lwjgl.system.MemoryStack
 
 import java.nio.FloatBuffer
@@ -36,9 +36,9 @@ class ShaderProgram {
      */
     private final int id
 
-    private ArrayList<Shader> shaders
+    private ArrayList<Shader> shaders = new ArrayList<>()
 
-    private HashMap<String, Integer> uniforms
+    private HashMap<String, Integer> uniforms = new HashMap<>()
 
     /**
      * Creates a shader program.
@@ -50,9 +50,6 @@ class ShaderProgram {
             System.err.println("Shader creation failed: Could not find valid memory location in constructor")
             System.exit(1)
         }
-
-        shaders = new ArrayList<>()
-        uniforms = new HashMap<>()
     }
 
     /**
@@ -260,7 +257,7 @@ class ShaderProgram {
     ShaderProgram setUniform(String location, Vector2f value) {
         MemoryStack.stackPush().withCloseable { stack ->
             FloatBuffer buffer = stack.mallocFloat(2)
-            value.toBuffer(buffer)
+            value.get(buffer)
 
             glUniform2fv(uniforms[location], buffer)
         }
@@ -276,7 +273,7 @@ class ShaderProgram {
     ShaderProgram setUniform(String location, Vector3f value) {
         MemoryStack.stackPush().withCloseable { stack ->
             FloatBuffer buffer = stack.mallocFloat(3)
-            value.toBuffer(buffer)
+            value.get(buffer)
 
             glUniform3fv(uniforms[location], buffer)
         }
@@ -292,7 +289,7 @@ class ShaderProgram {
     ShaderProgram setUniform(String location, Matrix4f value) {
         MemoryStack.stackPush().withCloseable { stack ->
             FloatBuffer buffer = stack.mallocFloat(4 * 4)
-            value.toBuffer(buffer)
+            value.get(buffer)
 
             glUniformMatrix4fv(uniforms[location], false, buffer)
         }
@@ -334,7 +331,7 @@ class ShaderProgram {
                 .setUniform(location + ".atten.constant", pointLight.constant)
                 .setUniform(location + ".atten.linear", pointLight.linear)
                 .setUniform(location + ".atten.exponent", pointLight.exponent)
-                .setUniform(location + ".position", pointLight.parent.transform.translation)
+                .setUniform(location + ".position", pointLight.object.transform.position)
                 .setUniform(location + ".range", pointLight.range)
     }
 

@@ -1,9 +1,9 @@
 package com.scorsi.engine.components
 
-import com.scorsi.engine.core.math.Vector3f
 import com.scorsi.engine.rendering.shaders.ForwardSpotShader
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
+import org.joml.Vector3f
 
 @CompileStatic
 @ToString(includePackage = false, includeNames = true)
@@ -19,7 +19,7 @@ class SpotLight extends PointLight {
     }
 
     Vector3f getDirection() {
-        parent.transform.rotation.forward
+        new Vector3f(0, 0, 1)//.rotate(parent.transform.rotation)
     }
 
 }

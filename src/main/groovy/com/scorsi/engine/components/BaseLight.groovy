@@ -2,10 +2,10 @@ package com.scorsi.engine.components
 
 import com.scorsi.engine.core.GameComponent
 import com.scorsi.engine.core.RenderingEngine
-import com.scorsi.engine.core.math.Vector3f
 import com.scorsi.engine.rendering.shaders.ShaderProgram
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
+import org.joml.Vector3f
 
 @CompileStatic
 @ToString(includePackage = false, includeNames = true)

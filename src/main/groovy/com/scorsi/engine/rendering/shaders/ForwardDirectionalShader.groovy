@@ -6,6 +6,7 @@ import com.scorsi.engine.rendering.Material
 import com.scorsi.engine.rendering.Transform
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
+import org.joml.Vector3f
 
 @CompileStatic
 @ToString(includePackage = false, includeNames = true)
@@ -36,19 +37,20 @@ class ForwardDirectionalShader extends ShaderProgram {
     }
 
     ShaderProgram updateUniforms(RenderingEngine renderingEngine, Transform transform, Material material) {
-        def worldMatrix = transform.transformation
-        def projectedMatrix = renderingEngine.mainCamera.viewProjection * worldMatrix
-        material.getSafeTexture("diffuse").bind()
-
-        setUniform("model", worldMatrix)
-        setUniform("MVP", projectedMatrix)
-
-        setUniform("specularIntensity", material.getSafeFloat("specularIntensity"))
-        setUniform("specularPower", material.getSafeFloat("specularPower"))
-
-        setUniform("eyePos", renderingEngine.mainCamera.parent.transform.translation)
-        setUniform("directionalLight", renderingEngine.activeLight as DirectionalLight)
-
+//        // TODO: Change this to not recompute it
+//        def projectionMatrix = renderingEngine.transformation.getProjectionMatrix(Math.toRadians(60) as float, 800, 600, 0.01f, 1000)
+//        def worldMatrix = renderingEngine.transformation.getWorldMatrix(transform.position, transform.rotation, transform.scale)
+//        material.getSafeTexture("diffuse").bind()
+//
+//        setUniform("model", worldMatrix)
+//        setUniform("MVP", projectionMatrix)
+//
+//        setUniform("specularIntensity", material.getSafeFloat("specularIntensity"))
+//        setUniform("specularPower", material.getSafeFloat("specularPower"))
+//
+//        setUniform("eyePos", new Vector3f(0,0,0))
+//        setUniform("directionalLight", renderingEngine.activeLight as DirectionalLight)
+//
         return this
     }
 

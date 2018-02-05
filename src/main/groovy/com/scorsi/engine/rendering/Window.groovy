@@ -1,9 +1,8 @@
 package com.scorsi.engine.rendering
 
-import com.scorsi.engine.core.math.Vector2f
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
-import org.lwjgl.glfw.GLFWErrorCallback
+import org.joml.Vector2f
 import org.lwjgl.glfw.GLFWVidMode
 import org.lwjgl.opengl.GL
 
@@ -69,11 +68,10 @@ class Window {
         glfwDefaultWindowHints() // optional, the current window hints are already the default
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE) // the window will stay hidden after creation
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE) // the window will be resizable
-        // TODO: Set the context version
-//        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4)
-//        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4)
-//        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE)
-//        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE)
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3)
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3)
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE)
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE)
 
         /* Create window with specified OpenGL context */
         id = glfwCreateWindow(width, height, title, NULL, NULL)
@@ -97,13 +95,6 @@ class Window {
         if (vsync) {
             glfwSwapInterval(1)
         }
-
-        /* Set key callback */
-        glfwSetKeyCallback(id, { long window, key, _ignored, action, _ignored2 ->
-            if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
-                glfwSetWindowShouldClose(window, true)
-            }
-        })
 
         /* Set resize callback */
         glfwSetFramebufferSizeCallback(id, { window, float newWidth, float newHeight ->

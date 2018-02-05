@@ -1,59 +1,32 @@
 package com.scorsi.engine.components
 
 import com.scorsi.engine.core.Input
-import com.scorsi.engine.core.math.Quaternion
-import com.scorsi.engine.core.math.Vector2f
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
+
+import static org.lwjgl.glfw.GLFW.*
 
 @CompileStatic
 @ToString(includePackage = false, includeNames = true)
 class MovableCamera extends Camera {
 
-    boolean mouseLocked = false
-    Vector2f centerPosition = new Vector2f(400, 300)
+    static final float MOUSE_SENSITIVITY = 0.5f
 
-    MovableCamera(float fov, float aspect, float zNear, float zFar) {
-        super(fov, aspect, zNear, zFar)
-    }
-
+    @Override
     void input(float delta, Input input) {
-        float sensitivity = -0.25f
-        float movAmt = (float) (10 * delta)
-
-        if (input.isKeyDownRepeated(Input.KEY_ENTER)) {
-            input.setCursor(true)
-            mouseLocked = false
-        }
-        if (input.isMouseDownRepeated(Input.MOUSE_BUTTON_1)) {
-            input.setMousePosition(centerPosition)
-            input.setCursor(false)
-            mouseLocked = true
-        }
-
-        if (input.isKeyDownRepeated(Input.KEY_W))
-            move(parent.transform.rotation.forward, movAmt)
-        if (input.isKeyDownRepeated(Input.KEY_S))
-            move(parent.transform.rotation.forward, -movAmt)
-        if (input.isKeyDownRepeated(Input.KEY_A))
-            move(parent.transform.rotation.right, -movAmt)
-        if (input.isKeyDownRepeated(Input.KEY_D))
-            move(parent.transform.rotation.right, movAmt)
-
-        if (mouseLocked) {
-            Vector2f deltaPos = input.getMousePosition() - centerPosition
-
-            boolean rotY = deltaPos.x != 0
-            boolean rotX = deltaPos.y != 0
-
-            if (rotY)
-                parent.transform.rotate(yAxis, -deltaPos.x * sensitivity as float)
-            if (rotX)
-                parent.transform.rotate(parent.transform.rotation.right, -deltaPos.y * sensitivity as float)
-
-            if (rotY || rotX)
-                input.setMousePosition(centerPosition)
-        }
+        def moveDist = CAMERA_POS_STEP * delta as float
+        if (input.isKeyPressed(GLFW_KEY_W))
+            cameraInc.z -= moveDist
+        if (input.isKeyPressed(GLFW_KEY_S))
+            cameraInc.z += moveDist
+        if (input.isKeyPressed(GLFW_KEY_A))
+            cameraInc.x -= moveDist
+        if (input.isKeyPressed(GLFW_KEY_D))
+            cameraInc.x += moveDist
+        if (input.isKeyPressed(GLFW_KEY_Z))
+            cameraInc.y += moveDist
+        if (input.isKeyPressed(GLFW_KEY_X))
+            cameraInc.y -= moveDist
     }
 
 }

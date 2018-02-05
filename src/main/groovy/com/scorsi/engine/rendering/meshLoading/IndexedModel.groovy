@@ -1,10 +1,9 @@
 package com.scorsi.engine.rendering.meshLoading
 
-import com.scorsi.engine.core.math.Vector2f
-import com.scorsi.engine.core.math.Vector3f
-import com.scorsi.engine.core.math.Vertex
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
+import org.joml.Vector2f
+import org.joml.Vector3f
 
 @CompileStatic
 @ToString(includePackage = false, includeNames = true)
@@ -21,13 +20,13 @@ class IndexedModel {
             int i1 = indices[i + 1]
             int i2 = indices[i + 2]
 
-            def v1 = positions[i1] - positions[i0]
-            def v2 = positions[i2] - positions[i0]
+            def v1 = positions[i1].sub(positions[i0])
+            def v2 = positions[i2].sub(positions[i0])
 
             def normal = v1.cross(v2).normalize()
-            normals[i0] += normal
-            normals[i1] += normal
-            normals[i2] += normal
+            normals[i0] = normals[i0].add(normal)
+            normals[i1] = normals[i1].add(normal)
+            normals[i2] = normals[i2].add(normal)
         }
 
         normals.eachWithIndex { normal, i ->

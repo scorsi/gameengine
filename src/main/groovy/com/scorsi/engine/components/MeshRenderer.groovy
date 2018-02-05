@@ -21,8 +21,8 @@ class MeshRenderer extends GameComponent {
     }
 
     void render(RenderingEngine renderingEngine, ShaderProgram shader) {
-        shader.use().updateUniforms(renderingEngine, parent.transform, material)
-        mesh.draw()
+        shader.use().updateUniforms(renderingEngine, object.transform, material)
+        mesh.render()
     }
 
 }

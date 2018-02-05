@@ -5,11 +5,11 @@ import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
 @CompileStatic
-@ToString(includePackage = false, includeNames = true, excludes = "parent")
+@ToString(includePackage = false, includeNames = true, excludes = "object")
 // excludes fix recursive toString call
 abstract class GameComponent {
 
-    GameObject parent
+    GameObject object
 
     void input(float delta, Input input) {}
 

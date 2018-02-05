@@ -1,8 +1,8 @@
 package com.scorsi.engine.rendering
 
-import com.scorsi.engine.core.math.Vector3f
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
+import org.joml.Vector3f
 
 @CompileStatic
 @ToString(includePackage = false, includeNames = true)
@@ -15,7 +15,7 @@ class Material {
     Texture getSafeTexture(String name) {
         def r = textures[name]
         if (r == null)
-            return Texture.loadTexture("test.png")
+            return new Texture("test.png")
         return r
     }
 

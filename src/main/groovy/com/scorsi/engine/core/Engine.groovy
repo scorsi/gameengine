@@ -4,6 +4,7 @@ import com.scorsi.engine.rendering.Window
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE
 import static org.lwjgl.glfw.GLFW.glfwInit
 import static org.lwjgl.glfw.GLFW.glfwTerminate
 
@@ -85,7 +86,6 @@ class Engine {
 
                 unprocessedTime -= frametime
 
-                input.update()
                 game.input(frametime as float, input)
                 game.update(frametime as float)
             }
@@ -102,7 +102,7 @@ class Engine {
                 }
             }
 
-            if (window.isClosing()) stop()
+            if (window.isClosing() || input.isKeyPressed(GLFW_KEY_ESCAPE)) stop()
         }
     }
 

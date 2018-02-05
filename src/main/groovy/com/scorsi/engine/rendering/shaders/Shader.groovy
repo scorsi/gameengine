@@ -51,16 +51,8 @@ class Shader {
     void compile() {
         glCompileShader(id)
 
-        checkStatus()
-    }
-
-    /**
-     * Checks if the shader was compiled successfully.
-     */
-    private void checkStatus() {
-        int status = glGetShaderi(id, GL_COMPILE_STATUS)
-        if (status != GL_TRUE) {
-            throw new RuntimeException(glGetShaderInfoLog(id))
+        if (glGetShaderi(id, GL_COMPILE_STATUS) != GL_TRUE) {
+            throw new Exception("Error compiling Shader code: " + glGetShaderInfoLog(id, 1024))
         }
     }
 

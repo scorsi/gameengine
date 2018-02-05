@@ -55,7 +55,7 @@ class GameObject {
 
     GameObject addComponent(GameComponent component) {
         components.add(component)
-        component.parent = this
+        component.object = this
         return this
     }
 

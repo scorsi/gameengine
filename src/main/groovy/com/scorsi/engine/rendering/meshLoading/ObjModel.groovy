@@ -1,11 +1,11 @@
 package com.scorsi.engine.rendering.meshLoading
 
 import com.scorsi.engine.core.Utils
-import com.scorsi.engine.core.math.Vector2f
-import com.scorsi.engine.core.math.Vector3f
 import groovy.transform.CompileStatic
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import org.joml.Vector2f
+import org.joml.Vector3f
 
 @CompileStatic
 @ToString(includePackage = false, includeNames = true)
