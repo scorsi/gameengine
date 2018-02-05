@@ -3,7 +3,7 @@ package com.scorsi.engine.rendering
 import com.scorsi.engine.core.math.Vector2f
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
-import org.lwjgl.glfw.GLFWKeyCallback
+import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.glfw.GLFWVidMode
 import org.lwjgl.opengl.GL
 
@@ -20,20 +20,33 @@ class Window {
     /**
      * Stores the window handle.
      */
-    final long id
+    private final long id
 
-    /**
-     * Key callback for the window.
-     */
-    private final GLFWKeyCallback keyCallback
+    long getId() { id }
 
     /**
      * Shows if vsync is enabled.
      */
     private boolean vsync
 
-    float width
-    float height
+    boolean getVsync() { vsync }
+
+    /**
+     * The width and height of the window
+     */
+    private float width
+
+    float getWidth() { width }
+    private float height
+
+    float getHeight() { height }
+
+    /**
+     *
+     */
+    private boolean resized
+
+    boolean getResized() { resized }
 
     /**
      * Creates a GLFW window and its OpenGL context with the specified width,
@@ -49,17 +62,18 @@ class Window {
         this.height = height as float
         this.vsync = vsync
 
-        /* Creating a temporary window for getting the available OpenGL version */
-        glfwDefaultWindowHints()
-        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE)
-        long temp = glfwCreateWindow(1, 1, "", NULL, NULL)
-        glfwMakeContextCurrent(temp)
-        GL.createCapabilities()
-        glfwDestroyWindow(temp)
+        /* Show OpenGL errors */
+//        GLFWErrorCallback.createPrint(System.err).set()
 
-        /* Reset and set window hints */
-        glfwDefaultWindowHints()
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE)
+        /* Set options for our window */
+        glfwDefaultWindowHints() // optional, the current window hints are already the default
+        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE) // the window will stay hidden after creation
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE) // the window will be resizable
+        // TODO: Set the context version
+//        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4)
+//        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4)
+//        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE)
+//        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE)
 
         /* Create window with specified OpenGL context */
         id = glfwCreateWindow(width, height, title, NULL, NULL)
@@ -85,15 +99,21 @@ class Window {
         }
 
         /* Set key callback */
-        keyCallback = new GLFWKeyCallback() {
-            @Override
-            void invoke(long window, int key, int scancode, int action, int mods) {
-                if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
-                    glfwSetWindowShouldClose(window, true)
-                }
+        glfwSetKeyCallback(id, { long window, key, _ignored, action, _ignored2 ->
+            if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
+                glfwSetWindowShouldClose(window, true)
             }
-        }
-        glfwSetKeyCallback(id, keyCallback)
+        })
+
+        /* Set resize callback */
+        glfwSetFramebufferSizeCallback(id, { window, float newWidth, float newHeight ->
+            this.width = newWidth
+            this.height = newHeight
+            this.resized = true
+        })
+
+        /* Show the window */
+        glfwShowWindow(id)
     }
 
     /**
@@ -103,15 +123,6 @@ class Window {
      */
     boolean isClosing() {
         return glfwWindowShouldClose(id)
-    }
-
-    /**
-     * Sets the window title
-     *
-     * @param title New window title
-     */
-    void setTitle(CharSequence title) {
-        glfwSetWindowTitle(id, title)
     }
 
     /**
@@ -127,7 +138,6 @@ class Window {
      */
     void destroy() {
         glfwDestroyWindow(id)
-        keyCallback.free()
     }
 
     /**
@@ -135,7 +145,7 @@ class Window {
      *
      * @param vsync Set to true to enable v-sync
      */
-    void setVSync(boolean vsync) {
+    void setVsync(boolean vsync) {
         this.vsync = vsync
         if (vsync) {
             glfwSwapInterval(1)
@@ -145,14 +155,10 @@ class Window {
     }
 
     /**
-     * Check if v-sync is enabled.
+     * Get the center of the window.
      *
-     * @return true if v-sync is enabled
+     * @return
      */
-    boolean isVSyncEnabled() {
-        return this.vsync
-    }
-
     Vector2f getCenter() {
         return new Vector2f(width / 2f as float, height / 2 as float)
     }

@@ -10,9 +10,6 @@ import com.scorsi.engine.core.math.Vector2f
 import com.scorsi.engine.core.math.Vector3f
 import com.scorsi.engine.rendering.Material
 import com.scorsi.engine.rendering.Transform
-import deleted.Matrix2f
-import deleted.Matrix3f
-import deleted.Vector4f
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 import org.lwjgl.system.MemoryStack
@@ -282,54 +279,6 @@ class ShaderProgram {
             value.toBuffer(buffer)
 
             glUniform3fv(uniforms[location], buffer)
-        }
-        return this
-    }
-
-    /**
-     * Sets the uniform variable for specified location.
-     *
-     * @param location Uniform location
-     * @param value Value to set
-     */
-    ShaderProgram setUniform(String location, Vector4f value) {
-        MemoryStack.stackPush().withCloseable { stack ->
-            FloatBuffer buffer = stack.mallocFloat(4)
-            value.toBuffer(buffer)
-
-            glUniform4fv(uniforms[location], buffer)
-        }
-        return this
-    }
-
-    /**
-     * Sets the uniform variable for specified location.
-     *
-     * @param location Uniform location
-     * @param value Value to set
-     */
-    ShaderProgram setUniform(String location, Matrix2f value) {
-        MemoryStack.stackPush().withCloseable { stack ->
-            FloatBuffer buffer = stack.mallocFloat(2 * 2)
-            value.toBuffer(buffer)
-
-            glUniformMatrix2fv(uniforms[location], false, buffer)
-        }
-        return this
-    }
-
-    /**
-     * Sets the uniform variable for specified location.
-     *
-     * @param location Uniform location
-     * @param value Value to set
-     */
-    ShaderProgram setUniform(String location, Matrix3f value) {
-        MemoryStack.stackPush().withCloseable { stack ->
-            FloatBuffer buffer = stack.mallocFloat(3 * 3)
-            value.toBuffer(buffer)
-
-            glUniformMatrix3fv(uniforms[location], false, buffer)
         }
         return this
     }

@@ -1,6 +1,5 @@
 package com.scorsi.engine.core.math
 
-import deleted.Vector4f
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
@@ -23,36 +22,6 @@ class Matrix4f {
      */
     Matrix4f() {
         setIdentity()
-    }
-
-    /**
-     * Creates a 4x4 matrix with specified columns.
-     *
-     * @param col1 Vector with values of the first column
-     * @param col2 Vector with values of the second column
-     * @param col3 Vector with values of the third column
-     * @param col4 Vector with values of the fourth column
-     */
-    Matrix4f(Vector4f col1, Vector4f col2, Vector4f col3, Vector4f col4) {
-        m00 = col1.x
-        m10 = col1.y
-        m20 = col1.z
-        m30 = col1.w
-
-        m01 = col2.x
-        m11 = col2.y
-        m21 = col2.z
-        m31 = col2.w
-
-        m02 = col3.x
-        m12 = col3.y
-        m22 = col3.z
-        m32 = col3.w
-
-        m03 = col4.x
-        m13 = col4.y
-        m23 = col4.z
-        m33 = col4.w
     }
 
     /**
@@ -229,20 +198,6 @@ class Matrix4f {
         result.m33 = (this.m33 * scalar) as float
 
         return result
-    }
-
-    /**
-     * Multiplies this matrix to a vector.
-     *
-     * @param vector The vector
-     * @return Vector product of this * other
-     */
-    Vector4f multiply(Vector4f vector) {
-        def x = (this.m00 * vector.x + this.m01 * vector.y + this.m02 * vector.z + this.m03 * vector.w) as float
-        def y = (this.m10 * vector.x + this.m11 * vector.y + this.m12 * vector.z + this.m13 * vector.w) as float
-        def z = (this.m20 * vector.x + this.m21 * vector.y + this.m22 * vector.z + this.m23 * vector.w) as float
-        def w = (this.m30 * vector.x + this.m31 * vector.y + this.m32 * vector.z + this.m33 * vector.w) as float
-        return new Vector4f(x, y, z, w)
     }
 
     /**

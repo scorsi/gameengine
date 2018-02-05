@@ -1,6 +1,6 @@
 package com.scorsi.engine.rendering.meshLoading
 
-import com.scorsi.engine.core.Util
+import com.scorsi.engine.core.Utils
 import com.scorsi.engine.core.math.Vector2f
 import com.scorsi.engine.core.math.Vector3f
 import groovy.transform.CompileStatic
@@ -34,7 +34,7 @@ class ObjModel {
 
                 while ((line = meshReader.readLine()) != null) {
                     def tokens = line.split(" ")
-                    tokens = Util.removeEmptyStrings(tokens)
+                    tokens = Utils.removeEmptyStrings(tokens)
 
                     if (tokens.length == 0 || tokens[0] == "#")
                         continue

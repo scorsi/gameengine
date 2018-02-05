@@ -10,7 +10,19 @@ import java.nio.IntBuffer
 
 @CompileStatic
 @ToString(includePackage = false, includeNames = true)
-class Util {
+class Utils {
+
+    static String loadResource(String fileName) throws Exception {
+        System.out.println("Loading: " + fileName)
+        String result = ""
+        new BufferedReader(new InputStreamReader(Utils.class.getResourceAsStream(fileName))).withCloseable { reader ->
+            def line
+            while ((line = reader.readLine()) != null) {
+                result += line + "\n"
+            }
+        }
+        return result
+    }
 
     static FloatBuffer createFloatBuffer(int size) {
         return BufferUtils.createFloatBuffer(size)

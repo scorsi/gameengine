@@ -16,12 +16,12 @@ class ForwardSpotShader extends ShaderProgram {
     private ForwardSpotShader() {
         super()
 
-        attachShader(Shader.loadVertexShader("forward-spot.vert"))
-        attachShader(Shader.loadFragmentShader("forward-spot.frag"))
+        attachShader(Shader.loadVertexShader("forward-spot"))
+        attachShader(Shader.loadFragmentShader("forward-spot"))
 
-        bindAttributeLocation(0, "position")
-        bindAttributeLocation(1, "texCoord")
-        bindAttributeLocation(2, "normal")
+//        bindAttributeLocation(0, "position")
+//        bindAttributeLocation(1, "texCoord")
+//        bindAttributeLocation(2, "normal")
 
         compile()
 

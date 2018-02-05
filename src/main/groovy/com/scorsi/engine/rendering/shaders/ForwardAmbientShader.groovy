@@ -15,11 +15,11 @@ class ForwardAmbientShader extends ShaderProgram {
     private ForwardAmbientShader() {
         super()
 
-        attachShader(Shader.loadVertexShader("forward-ambient.vert"))
-        attachShader(Shader.loadFragmentShader("forward-ambient.frag"))
+        attachShader(Shader.loadVertexShader("forward-ambient"))
+        attachShader(Shader.loadFragmentShader("forward-ambient"))
 
-        bindAttributeLocation(0, "position")
-        bindAttributeLocation(1, "texCoord")
+//        bindAttributeLocation(0, "position")
+//        bindAttributeLocation(1, "texCoord")
 
         compile()
 

@@ -16,12 +16,12 @@ class ForwardDirectionalShader extends ShaderProgram {
     private ForwardDirectionalShader() {
         super()
 
-        attachShader(Shader.loadVertexShader("forward-directional.vert"))
-        attachShader(Shader.loadFragmentShader("forward-directional.frag"))
+        attachShader(Shader.loadVertexShader("forward-directional"))
+        attachShader(Shader.loadFragmentShader("forward-directional"))
 
-        bindAttributeLocation(0, "position")
-        bindAttributeLocation(1, "texCoord")
-        bindAttributeLocation(2, "normal")
+//        bindAttributeLocation(0, "position")
+//        bindAttributeLocation(1, "texCoord")
+//        bindAttributeLocation(2, "normal")
 
         compile()
 

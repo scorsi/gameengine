@@ -1,6 +1,6 @@
 package com.scorsi.engine.rendering
 
-import com.scorsi.engine.core.Util
+import com.scorsi.engine.core.Utils
 import com.scorsi.engine.core.math.Vertex
 import com.scorsi.engine.rendering.meshLoading.ObjModel
 import groovy.transform.CompileStatic
@@ -42,10 +42,10 @@ class Mesh {
         size = indices.length
 
         glBindBuffer(GL_ARRAY_BUFFER, vbo)
-        glBufferData(GL_ARRAY_BUFFER, Util.createFlippedBuffer(vertices), GL_STATIC_DRAW)
+        glBufferData(GL_ARRAY_BUFFER, Utils.createFlippedBuffer(vertices), GL_STATIC_DRAW)
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo)
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, Util.createFlippedBuffer(indices), GL_STATIC_DRAW)
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, Utils.createFlippedBuffer(indices), GL_STATIC_DRAW)
 
     }
 

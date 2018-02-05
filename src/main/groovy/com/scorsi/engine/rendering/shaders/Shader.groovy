@@ -1,5 +1,6 @@
 package com.scorsi.engine.rendering.shaders
 
+import com.scorsi.engine.core.Utils
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 
@@ -132,25 +133,7 @@ class Shader {
      * @return Compiled Shader from specified file
      */
     private static String loadShader(String path) {
-        def shaderSource = new StringBuilder()
-        def shaderReader
-
-        try {
-            shaderReader = new BufferedReader(new FileReader("./res/shaders/" + path))
-            def line
-
-            while ((line = shaderReader.readLine()) != null) {
-                shaderSource.append(line).append("\n")
-            }
-
-            shaderReader.close()
-        } catch (Exception e) {
-            e.printStackTrace()
-            System.exit(1)
-        }
-
-
-        return shaderSource.toString()
+        return Utils.loadResource("/shaders/" + path)
     }
 
     /**
@@ -160,7 +143,7 @@ class Shader {
      * @return Compiled Shader from specified file
      */
     static Shader loadVertexShader(String path) {
-        return createVertexShader(loadShader(path))
+        return createVertexShader(loadShader(path + ".vert"))
     }
 
     /**
@@ -170,7 +153,7 @@ class Shader {
      * @return Compiled Shader from specified file
      */
     static Shader loadFragmentShader(String path) {
-        return createFragmentShader(loadShader(path))
+        return createFragmentShader(loadShader(path + ".frag"))
     }
 
     /**
@@ -180,7 +163,7 @@ class Shader {
      * @return Compiled Shader from specified file
      */
     static Shader loadGeometryShader(String path) {
-        return createGeometryShader(loadShader(path))
+        return createGeometryShader(loadShader(path + ".geom"))
     }
 
 }

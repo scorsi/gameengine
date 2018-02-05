@@ -4,6 +4,7 @@ import com.scorsi.engine.core.math.Vector2f
 import groovy.transform.CompileStatic
 import groovy.transform.ToString
 import org.lwjgl.BufferUtils
+import org.lwjgl.glfw.GLFWErrorCallback
 
 import java.nio.DoubleBuffer
 
@@ -166,6 +167,7 @@ class Input {
     }
 
     void update() {
+        // TODO: Replace this whole shit by GLFW Callbacks !
         for (int i = 0; i < NUM_KEYCODES; i++) {
             boolean state = getKey(i)
 
