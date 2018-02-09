@@ -1,9 +1,11 @@
-# gameengine
+# Game Engine
 A 3D Game Engine
 
 ## TODO
 
-- Use JOML for Vector3 and Matrix (also for Camera maybe).
-- Use ASSIMP for 3D file.
+- Use ASSIMP for 3D file (as obj).
 - Use STB for textures, fonts, sounds...
-- Check out all dependencies to remove useless one.
+- Add Script Engine for Groovy [Groovy doc](http://groovy-lang.org/integrating.html).
+- Rewrite all the engine in Kotlin.
+- Rewrite shaders and lighting system.
+- Use OpenCL for some computations.
